@@ -6,7 +6,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var babelQuery = {
     presets: ['es2015', 'react', 'stage-0'],
-    plugins: ['add-module-exports', 'typecheck']
+    plugins: ['add-module-exports', 'typecheck', 'transform-runtime'],
+    comments: false
 };
 
 module.exports = {
