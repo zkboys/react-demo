@@ -12,7 +12,7 @@ var babelQuery = {
 
 module.exports = {
     entry: {
-        app: './src/main.jsx'
+        app: './src/index.jsx'
     },
     output: {
         path: config.build.assetsRoot,

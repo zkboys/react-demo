@@ -21,7 +21,7 @@ desktop.ini
 
 .idea
 public/upload/*
-assets/src/page/AllRoutes.js
+AllRoutes.js
 *.sublime-project
 *.sublime-workspace
 *.swp

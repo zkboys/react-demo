@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import './main.less';
+import './demo.less';
 
-class Main extends Component {
+export class LayoutComponent extends Component {
     state = {};
 
     static defaultProps = {
@@ -13,9 +12,12 @@ class Main extends Component {
 
     render() {
         return (
-            <div>热重载怎么搞？</div>
+            <div>我是demo</div>
         );
     }
 }
-
-ReactDOM.render(<Main />, document.getElementById('main'));
+export function mapStateToProps(state) {
+    return {
+        ...state,
+    };
+}
