@@ -26,13 +26,16 @@ export default function (state = initialState, action) {
         };
     }
     case types.GET_MENUS: {
-        const headerMenus = getHeaderMenus(payload);
+        let headerMenus = getHeaderMenus(payload);
         let headMenu = getCurrentHeaderMenuByUrl(headerMenus);
         let sideBarMenus = [];
         if (headMenu) {
             sideBarMenus = convertToTree(payload, headMenu);
         }
         const sideBarHidden = !sideBarMenus.length;
+        headerMenus = headerMenus.filter(menu => {
+            return menu.key !== 'system';
+        });
         return {
             ...state,
             headerMenus,

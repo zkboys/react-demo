@@ -3,7 +3,7 @@ var path = require('path')
 
 module.exports = {
     build: {
-        env: require('./prod.env'),
+        env: require('./prod.env.js'),
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
@@ -17,12 +17,12 @@ module.exports = {
         productionGzipExtensions: ['js', 'css']
     },
     dev: {
-        env: require('./dev.env'),
+        env: require('./dev.env.js'),
         port: 8080,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api/**': 'http://localhost:3001',
+            '/api/**': 'http://wangshubin.com',
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README
