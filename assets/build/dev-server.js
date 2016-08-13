@@ -38,6 +38,7 @@ Object.keys(proxyTable).forEach(function (context) {
     var options = proxyTable[context]
     if (typeof options === 'string') {
         options = {target: options}
+        options.changeOrigin = true;
     }
     app.use(proxyMiddleware(context, options))
 })
