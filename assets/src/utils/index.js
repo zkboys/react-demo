@@ -149,3 +149,21 @@ export function getCurrentHeaderMenuByUrl(headerMenus) {
     }
     return null;
 }
+
+export function getCurrentSidebarMenuByUrl(menusData) {
+    let currentPath = location.pathname;
+    let currentHeaderMenu = getCurrentHeaderMenuByUrl(getHeaderMenus(menusData));
+    let menusTree = convertToTree(menusData, currentHeaderMenu);
+    while (menusTree && menusTree.length) {
+        // 处理一个，头部弹出一个。
+        let node = menusTree.shift();
+        if (node.path === currentPath) {
+            return node;
+        }
+        if (node.children) {
+            node.children.forEach((v) => {
+                menusTree.push(v);
+            });
+        }
+    }
+}

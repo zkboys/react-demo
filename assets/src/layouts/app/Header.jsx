@@ -8,10 +8,22 @@ import UserAvatar from '../../components/UserAvatar';
 class Header extends Component {
     static defaultProps = {
         menus: [],
+        collapsed: false,
+        user: {
+            name: '未登录',
+        },
+        toggleSideBar() {
+        },
+        exit() {
+        },
     }
 
-    handleClick = () => {
-
+    static propsType = {
+        menus: React.PropTypes.array,
+        collapsed: React.PropTypes.bool,
+        user: React.PropTypes.object,
+        toggleSideBar: React.PropTypes.func,
+        exit: React.PropTypes.func,
     }
 
     handleExit = () => {
@@ -36,12 +48,13 @@ class Header extends Component {
         return (
             <div className="app-header">
                 <div className={`logo ${logoClass}`}>
-                    {logo}
+                    <Link to="/">
+                        {logo}
+                    </Link>
                 </div>
                 <a className="app-sidebar-toggle" onClick={this.props.toggleSideBar}><FAIcon type="fa-bars"/></a>
                 <div className="navigation">
                     <Menu
-                        onClick={this.handleClick}
                         selectedKeys={['alipay']}
                         mode="horizontal"
                     >

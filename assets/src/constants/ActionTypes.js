@@ -9,6 +9,7 @@ export const GET_STATE_TO_STORAGE = 'GET_STATE_TO_STORAGE';
 export const LOGOUT = 'LOGOUT';
 export const GET_MENUS = 'GET_MENUS';
 export const GET_USER = 'GET_USER';
+export const SET_SIDE_BAR_STATUS = 'SET_SIDE_BAR_STATUS';
 
 // setting
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';

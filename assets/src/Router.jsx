@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Router, browserHistory} from 'react-router';
 import pageRouts from './AllRoutes';
 import * as Index from './layouts/app/App';
@@ -36,12 +36,33 @@ pageRouts.push(
      }*/
 );
 
-export default function () {
-    return (
-        <Router
-            routes={routes}
-            history={browserHistory}
-        />
-    );
+export class LayoutComponent extends Component {
+
+    componentDidMount() {
+        const {actions} = this.props;
+        /*
+         * 监听地址栏改变，通过左侧菜单状态
+         * */
+        browserHistory.listen(() => {
+            actions.setSideBarStatus();
+            actions.getMenus();
+        });
+    }
+
+    render() {
+        return (
+            <Router
+                routes={routes}
+                history={browserHistory}
+            />
+        );
+    }
 }
 
+
+export function mapStateToProps(state) {
+    return {
+        ...state.app,
+        ...state.setting,
+    };
+}

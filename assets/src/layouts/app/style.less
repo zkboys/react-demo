@@ -1,5 +1,5 @@
 @import '../variables.less';
-
+/*头部样式*/
 .app-header {
     width: 100%;
     height: @headerHeight;
@@ -15,8 +15,12 @@
         font-size: 20px;
         text-align: center;
         transition: 300ms;
+        overflow: hidden;
         &.collapsed {
             width: @sideBarMinWidth;
+        }
+        a {
+            color: #fff;
         }
     }
     /*收起展开菜单按钮*/
@@ -90,7 +94,7 @@
         }
     }
 }
-
+/*侧边栏菜单*/
 .app-sidebar {
     position: fixed;
     z-index: 100;
@@ -118,7 +122,7 @@
         }
     }
     &.hidden {
-        width: 0;
+        width: 0 !important;
         overflow: hidden;
     }
     .app-sidebar-inner {
@@ -203,14 +207,18 @@
         }
     }
 }
-
+/*主体内容容器*/
 .app-content {
     position: absolute;
     left: @sideBarMaxWidth;
     top: @headerHeight;
     right: 0;
-    transition: 300ms;
+    padding: 8px;
+    transition: left 300ms;
     &.collapsed {
         left: @sideBarMinWidth;
+    }
+    &.full {
+        left: 0;
     }
 }

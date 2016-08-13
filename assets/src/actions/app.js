@@ -13,3 +13,7 @@ export const getMenus = createAction(types.GET_MENUS, () => {
 export const getUser = createAction(types.GET_USER, () => {
     return appService.getUser();
 });
+
+export const setSideBarStatus = createAction(types.SET_SIDE_BAR_STATUS, () => {
+    return appService.getMenus();
+});
