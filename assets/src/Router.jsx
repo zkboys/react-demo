@@ -5,9 +5,6 @@ import * as Index from './layouts/app/App';
 import * as Home from './layouts/home/Home';
 import connectComponent from './utils/connectComponent.js';
 
-/*
- * 根据菜单数据，初始化路由
- * */
 const routes = {
     path: '/',
     component: connectComponent(Index),
@@ -17,32 +14,11 @@ const routes = {
     childRoutes: pageRouts,
 };
 
-pageRouts.push(
-    /*{
-     path: '/system/settings',
-     getComponent: (location, cb) => {
-     require.ensure([], (require) => {
-     cb(null, require('./settings/SettingsPage'));
-     });
-     },
-     },
-     {
-     path: '*',
-     getComponent: (location, cb) => {
-     require.ensure([], (require) => {
-     cb(null, require('../page/error/Error404'));
-     });
-     },
-     }*/
-);
-
 export class LayoutComponent extends Component {
 
     componentDidMount() {
         const {actions} = this.props;
-        /*
-         * 监听地址栏改变，通过左侧菜单状态
-         * */
+
         browserHistory.listen(() => {
             actions.setSideBarStatus();
             actions.setHeaderMenuStatus();

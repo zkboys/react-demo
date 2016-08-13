@@ -77,14 +77,12 @@ class NavBar extends Component {
     }
 
     render() {
-        const collapsed = this.props.collapsed;
+        let {collapsed, openKeys, selectedKeys, hidden} = this.props;
         const width = collapsed ? 60 : 200;
         const innerWidth = collapsed ? 60 : width + getScrollBarWidth();
         let collapsedClass = collapsed ? 'collapsed' : '';
         const sidebarMode = collapsed ? 'vertical' : 'inline';
-        let openKeys = this.props.openKeys;
-        const selectedKeys = this.props.selectedKeys;
-        const hidden = this.props.hidden;
+
         if (this.state.openKeys && this.state.openKeys.length) {
             openKeys = this.state.openKeys;
         }

@@ -4,15 +4,7 @@ import './style.less';
 import NavBar from './SideBar';
 import Header from './Header';
 
-class Index extends Component {
-    state = {};
-
-    static defaultProps = {
-        loading: false,
-    };
-
-    static propTypes = {};
-
+export class LayoutComponent extends Component {
     componentDidMount() {
         const {actions} = this.props;
         actions.getMenus();
@@ -63,7 +55,6 @@ class Index extends Component {
         );
     }
 }
-export const LayoutComponent = Index;
 
 export function mapStateToProps(state) {
     return {
