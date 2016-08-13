@@ -31,6 +31,7 @@ module.exports =
         "react/jsx-closing-bracket-location": 0,
         "react/jsx-first-prop-new-line": 0,
         "import/no-unresolved": 0,
+        "import/prefer-default-export": 0,
         "no-param-reassign": 0,
         "no-return-assign": 0,
         "max-len": 0,

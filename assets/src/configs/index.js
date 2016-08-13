@@ -2,7 +2,8 @@ import packageJson from '../../package.json';
 
 export default {
     domain: 'https://cnodejs.org',
-    apiPath: '/api/v1',
+    apiPath: '/api',
+    signInPath: process.env.NODE_ENV === 'production' ? '/signin' : '/signin.html',
     bgImgUri: 'http://7lrzfj.com1.z0.glb.clouddn.com/soliury213H.png',
     replySuffix: '\nFrom [Noder](https://github.com/soliury/noder-react-native)',
     sourceInGithub: 'https://github.com/soliury/noder-react-native',

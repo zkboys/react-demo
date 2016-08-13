@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
-import demo from './demo';
+import app from './app';
+import setting from './setting';
 
 export default combineReducers({
-    demo,
+    app,
+    setting,
 });

@@ -12,7 +12,8 @@ var babelQuery = {
 
 module.exports = {
     entry: {
-        app: './src/index.jsx'
+        app: './src/index.jsx',
+        signIn: './src/layouts/sign-in/sign-in.js'
     },
     output: {
         path: config.build.assetsRoot,

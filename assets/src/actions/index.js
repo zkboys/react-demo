@@ -1,7 +1,9 @@
-import * as demo from './demo';
 import * as utils from './utils';
+import * as app from './app';
+import * as setting from './setting';
 
 export default {
-    ...demo,
+    ...app,
+    ...setting,
     ...utils,
 };
