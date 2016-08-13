@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var babelQuery = {
     presets: ['es2015', 'react', 'stage-0'],
-    plugins: ['add-module-exports', 'typecheck', 'transform-runtime'],
+    plugins: ['add-module-exports', 'typecheck', 'transform-runtime', ["antd", [{ "libraryName": "antd", "style": true }]]],
     comments: false
 };
 

@@ -11,6 +11,7 @@ let initialState = {
     },
     selectedKeys: '',
     openKeys: [],
+    currentHeaderKey: '',
 };
 
 export default function (state = initialState, action) {
@@ -45,6 +46,13 @@ export default function (state = initialState, action) {
             ...state,
             openKeys,
             selectedKeys,
+        };
+    }
+    case types.SET_HEADER_MENU_STATUS: {
+        const {key: currentHeaderKey} = getCurrentHeaderMenuByUrl(payload) || state;
+        return {
+            ...state,
+            currentHeaderKey,
         };
     }
     default:

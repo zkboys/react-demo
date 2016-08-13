@@ -45,6 +45,7 @@ export class LayoutComponent extends Component {
          * */
         browserHistory.listen(() => {
             actions.setSideBarStatus();
+            actions.setHeaderMenuStatus();
             actions.getMenus();
         });
     }
@@ -57,12 +58,4 @@ export class LayoutComponent extends Component {
             />
         );
     }
-}
-
-
-export function mapStateToProps(state) {
-    return {
-        ...state.app,
-        ...state.setting,
-    };
 }

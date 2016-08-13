@@ -12,7 +12,7 @@ export class LayoutComponent extends Component {
 
     render() {
         return (
-            <div>Home</div>
+            <div>首页内容有待于填充</div>
         );
     }
 }

@@ -17,3 +17,7 @@ export const getUser = createAction(types.GET_USER, () => {
 export const setSideBarStatus = createAction(types.SET_SIDE_BAR_STATUS, () => {
     return appService.getMenus();
 });
+
+export const setHeaderMenuStatus = createAction(types.SET_HEADER_MENU_STATUS, () => {
+    return appService.getMenus();
+});

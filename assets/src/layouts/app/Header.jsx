@@ -30,9 +30,9 @@ class Header extends Component {
         this.props.exit();
     }
     renderMenus = () => {
-        return this.props.menus.map((menu, key) => {
+        return this.props.menus.map((menu) => {
             return (
-                <Menu.Item key={`menu-${key}`}>
+                <Menu.Item key={menu.key}>
                     <Link to={menu.path}>
                         <FAIcon type={menu.icon}/><span>{menu.text}</span>
                     </Link>
@@ -42,7 +42,8 @@ class Header extends Component {
     }
 
     render() {
-        const collapsed = this.props.collapsed;
+        const {collapsed, toggleSideBar, user, current} = this.props;
+        const handleExit = this.handleExit;
         const logoClass = collapsed ? 'collapsed' : '';
         const logo = collapsed ? 'super' : '人员管理系统';
         return (
@@ -52,10 +53,10 @@ class Header extends Component {
                         {logo}
                     </Link>
                 </div>
-                <a className="app-sidebar-toggle" onClick={this.props.toggleSideBar}><FAIcon type="fa-bars"/></a>
+                <a className="app-sidebar-toggle" onClick={toggleSideBar}><FAIcon type="fa-bars"/></a>
                 <div className="navigation">
                     <Menu
-                        selectedKeys={['alipay']}
+                        selectedKeys={[current]}
                         mode="horizontal"
                     >
                         {this.renderMenus()}
@@ -64,12 +65,12 @@ class Header extends Component {
                 <ul className="menu">
                     <li>
                         <Link to="/system/profile/message">
-                            <UserAvatar className="user-avatar" user={this.props.user}/>
-                            <span>{this.props.user.name}</span>
+                            <UserAvatar className="user-avatar" user={user}/>
+                            <span>{user.name}</span>
                         </Link>
                     </li>
                     <li>
-                        <Popconfirm placement="bottomRight" title="您确定要退出系统吗？" onConfirm={this.handleExit}>
+                        <Popconfirm placement="bottomRight" title="您确定要退出系统吗？" onConfirm={handleExit}>
                             <a>
                                 <FAIcon type="fa-sign-out"/>
                                 <span>退出系统</span>

@@ -21,28 +21,43 @@ class Index extends Component {
     }
 
     render() {
-        const isSidebarCollapsed = this.props.isSidebarCollapsed;
+        const {
+            isSidebarCollapsed,
+            currentHeaderKey,
+            sideBarHidden,
+            headerMenus,
+            user,
+            sideBarMenus,
+            openKeys,
+            selectedKeys,
+            children,
+        } = this.props;
+        const {
+            logout,
+            toggleSideBar,
+        } = this.props.actions;
         const collapsedClass = isSidebarCollapsed ? 'collapsed' : '';
-        const sideBarHidden = this.props.sideBarHidden;
         const contentClass = sideBarHidden ? 'full' : '';
+
         return (
             <div>
                 <Header
                     collapsed={isSidebarCollapsed}
-                    exit={this.props.actions.logout}
-                    menus={this.props.headerMenus}
-                    user={this.props.user}
-                    toggleSideBar={this.props.actions.toggleSideBar}
+                    exit={logout}
+                    menus={headerMenus}
+                    current={currentHeaderKey}
+                    user={user}
+                    toggleSideBar={toggleSideBar}
                 />
                 <NavBar
-                    menus={this.props.sideBarMenus}
+                    menus={sideBarMenus}
                     collapsed={isSidebarCollapsed}
-                    openKeys={this.props.openKeys}
-                    selectedKeys={this.props.selectedKeys}
+                    openKeys={openKeys}
+                    selectedKeys={selectedKeys}
                     hidden={sideBarHidden}
                 />
                 <div className={`app-content ${collapsedClass} ${contentClass}`}>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
