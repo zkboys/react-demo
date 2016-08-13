@@ -15,3 +15,6 @@ npm run dev
 npm run build
 
 ```
+## 文件命名规范
+jax文件名首字母大写
+js文件名首字母小写

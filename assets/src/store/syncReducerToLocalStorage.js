@@ -1,5 +1,5 @@
 import {isFSA} from 'flux-standard-action';
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/actionTypes';
 import * as storage from '../utils/storage';
 
 export default ({dispatch, getState}) => next => action => {

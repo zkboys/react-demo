@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions';
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/actionTypes';
 import * as Storage from '../utils/storage';
 
 export const toast = createAction(types.TOAST, (text, timeout) => {

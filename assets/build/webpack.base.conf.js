@@ -12,7 +12,7 @@ var babelQuery = {
 
 module.exports = {
     entry: {
-        app: './src/index.jsx',
+        app: './src/Index.jsx',
         signIn: './src/layouts/sign-in/sign-in.js'
     },
     output: {

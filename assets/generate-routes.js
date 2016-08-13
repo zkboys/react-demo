@@ -1,13 +1,13 @@
 /* eslint-disable */
 /*
  * 递归同步抓取src/page下所有routes.js文件
- * 最终生成src/page/AllRoutes.js文件
+ * 最终生成src/page/allRoutes.js文件
  * */
 // TODO windows 下兼容性问题
 var fs = require('fs');
 var path = require('path');
 var pagePath = path.join(__dirname, './src');
-var allRoutesPath = path.join(__dirname, './src/AllRoutes.js');
+var allRoutesPath = path.join(__dirname, './src/allRoutes.js');
 var routesFileName = 'routes.js';
 var result = getRoutes(pagePath);
 var imports = result.imports;
@@ -21,7 +21,7 @@ fileString += '\n);\n';
 fs.writeFileSync(allRoutesPath, fileString);
 
 /**
- * 递归获取要生成得AllRoutes.js文件所需内容
+ * 递归获取要生成得allRoutes.js文件所需内容
  * @param filePath
  * @param fileName
  * @returns {{imports: Array, routesNames: Array}}

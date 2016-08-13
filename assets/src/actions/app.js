@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions';
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/actionTypes';
 import * as appService from '../services/app';
 
 export const logout = createAction(types.LOGOUT, async() => {
