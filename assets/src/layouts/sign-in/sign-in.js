@@ -44,7 +44,7 @@ function showFirstLogin() {
     isFirstLogin = true;
 }
 
-function showError(error) {
+function showError(error = '未知系统错误') {
     if (isFirstLogin) {
         const resetPassErrorEle = document.getElementById('reset-pass-error');
         resetPassErrorEle.innerHTML = error;
@@ -85,24 +85,26 @@ function handleLogin() {
     showLoading();
     requestService.post('/signin', params)
         .then((res) => {
-            if (res.user.is_first_login) {
+            const currentLoginUser = res.user;
+            if (currentLoginUser.is_first_login) {
                 hideLoading();
                 showFirstLogin();
                 return false;
             }
+
             const refer = res.refer || '/';
             const menus = res.menus || [];
-            const currentLoginUser = res.user;
-            if (currentLoginUser.is_first_login) {
-                location.href = '/first_login';
-            } else {
-                Storage.session.setItem('currentLoginUser', currentLoginUser);
-                Storage.session.setItem('menus', menus);
-                location.href = refer;
-            }
+
+            Storage.session.setItem('currentLoginUser', currentLoginUser);
+            Storage.session.setItem('menus', menus);
+            location.href = refer;
         })
         .catch((err) => {
-            showError(err.body.message);
+            if (err && err.body) {
+                showError(err.body.message);
+            } else {
+                showError();
+            }
             // 出错清除loading状态，成功之后不清除状态，等待跳转。
             hideLoading();
         });
@@ -140,8 +142,11 @@ function handleResetPass() {
             location.href = refer;
         })
         .catch((err) => {
-            const res = err.res;
-            showError(res.message);
+            if (err && err.body) {
+                showError(err.body.message);
+            } else {
+                showError();
+            }
             // 出错清除loading状态，成功之后不清除状态，等待跳转。
             hideLoading();
         });
