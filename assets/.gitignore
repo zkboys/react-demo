@@ -1,6 +1,7 @@
 output
 .cov
-coverage
+test/unit/coverage
+test/e2e/reports
 node_modules
 dist
 .naeindex
