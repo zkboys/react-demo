@@ -5,12 +5,14 @@ var projectRoot = path.resolve(__dirname, '../')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var babelQuery = {
+    cacheDirectory: true,
     presets: ['es2015', 'react', 'stage-0'],
     plugins: ['add-module-exports', 'typecheck', 'transform-runtime', ["antd", [{ "libraryName": "antd", "style": true }]]],
     comments: false
 };
 
 module.exports = {
+    cache: true,
     entry: {
         app: './src/Index.jsx',
         signIn: './src/layouts/sign-in/sign-in.js'
