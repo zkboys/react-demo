@@ -26,6 +26,12 @@ export default function (state = initialState, action) {
         };
     }
     case types.GET_MENUS: {
+        if (!payload || !payload.length) {
+            return {
+                ...state,
+            };
+        }
+
         let headerMenus = getHeaderMenus(payload);
         let headMenu = getCurrentHeaderMenuByUrl(headerMenus);
         let sideBarMenus = [];

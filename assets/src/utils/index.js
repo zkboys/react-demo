@@ -136,7 +136,7 @@ export function getHeaderMenus(menusData) {
  * @param headerMenus
  * @returns {*}
  */
-export function getCurrentHeaderMenuByUrl(headerMenus) {
+export function getCurrentHeaderMenuByUrl(headerMenus = []) {
     let pathNames = location.pathname.split('/');
     let headerMenuCurrent = null;
     if (pathNames && pathNames.length > 0) {
@@ -150,7 +150,7 @@ export function getCurrentHeaderMenuByUrl(headerMenus) {
     return null;
 }
 
-export function getCurrentSidebarMenuByUrl(menusData) {
+export function getCurrentSidebarMenuByUrl(menusData = []) {
     let currentPath = location.pathname;
     let currentHeaderMenu = getCurrentHeaderMenuByUrl(getHeaderMenus(menusData));
     let menusTree = convertToTree(menusData, currentHeaderMenu);
