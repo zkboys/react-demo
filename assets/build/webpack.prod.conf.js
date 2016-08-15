@@ -52,7 +52,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         new HtmlWebpackPlugin({
             chunks: ['signIn'],
             filename: process.env.NODE_ENV === 'testing'
-                ? 'index.html'
+                ? 'signin.html'
                 : config.build.sigin,
             template: 'signin.html',
             inject: true,
