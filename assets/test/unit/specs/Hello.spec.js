@@ -1,12 +1,14 @@
-import Vue from 'vue'
-import Hello from 'src/components/hello/Hello'
+import React from 'react';
+import ReactTestUtils from 'react/lib/ReactTestUtils';
+import * as Demo from '../../../src/layouts/demo/Demo.jsx'
 
-describe('Hello.vue', () => {
-  it('should render correct contents', () => {
-    const vm = new Vue({
-      template: '<div><hello></hello></div>',
-      components: { Hello }
-    }).$mount()
-    expect(vm.$el.querySelector('.hello h1').textContent).to.contain('Hello World!')
-  })
-})
+const DemoComponent = Demo.LayoutComponent;
+
+describe('Demo.jsx', () => {
+    it('往页面插入一段带有strong标签的组件', () => {
+        let instance = ReactTestUtils.renderIntoDocument(
+            <DemoComponent/>
+        );
+        assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'strong'));
+    });
+});

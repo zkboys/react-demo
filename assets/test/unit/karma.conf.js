@@ -2,35 +2,26 @@
 //   http://karma-runner.github.io/0.13/config/configuration-file.html
 // we are also using it with karma-webpack
 //   https://github.com/webpack/karma-webpack
-
+process.env.NODE_ENV = 'testing'
 var path = require('path')
 var merge = require('webpack-merge')
-var baseConfig = require('../../build/webpack.base.conf')
+var baseConfig = require('../../build/webpack.dev.conf')
 var utils = require('../../build/utils')
 var webpack = require('webpack')
 var projectRoot = path.resolve(__dirname, '../../')
 
 var webpackConfig = merge(baseConfig, {
-  // use inline sourcemap for karma-sourcemap-loader
-  module: {
-    loaders: utils.styleLoaders()
-  },
   devtool: '#inline-source-map',
-  vue: {
-    loaders: {
-      js: 'isparta'
-    }
-  },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../../config/test.env')
+      'process.env': require('../../build/config/test.env')
     })
   ]
 })
 
 // no need for app entry during tests
 delete webpackConfig.entry
-
+/*
 // make sure isparta loader is applied before eslint
 webpackConfig.module.preLoaders = webpackConfig.module.preLoaders || []
 webpackConfig.module.preLoaders.unshift({
@@ -45,7 +36,7 @@ webpackConfig.module.loaders.some(function (loader, i) {
     loader.include = path.resolve(projectRoot, 'test/unit')
     return true
   }
-})
+})*/
 
 module.exports = function (config) {
   config.set({
