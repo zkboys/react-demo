@@ -12,7 +12,7 @@ export class LayoutComponent extends Component {
 
     render() {
         return (
-            <div>我是demo</div>
+            <div className="demo">我是demo</div>
         );
     }
 }

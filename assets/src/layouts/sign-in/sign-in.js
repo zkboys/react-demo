@@ -9,8 +9,8 @@ const nameEle = document.getElementById('name');
 const passEle = document.getElementById('pass');
 const newPassEle = document.getElementById('new-pass');
 const reNewPassEle = document.getElementById('re-new-pass');
-const _csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+let _csrf = csrfMeta ? csrfMeta.getAttribute('content') : '';
 
 function showLoading() {
     if (isFirstLogin) {
@@ -163,6 +163,7 @@ function handleKeyDown(e) {
 }
 
 function addHandler(element, type, handler) {
+    if (!element) return;
     if (element.addEventListener) {
         element.addEventListener(type, handler, false);
     } else if (element.attachEvent) {
