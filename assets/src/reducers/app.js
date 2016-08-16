@@ -12,6 +12,7 @@ let initialState = {
     selectedKeys: '',
     openKeys: [],
     currentHeaderKey: '',
+    pageHeader: {},
 };
 
 export default function (state = initialState, action) {
@@ -64,8 +65,34 @@ export default function (state = initialState, action) {
             currentHeaderKey,
         };
     }
+    case types.SET_PAGE_HEADER_STATUS: {
+        const {parentNodes, text, icon} = getCurrentSidebarMenuByUrl(payload) || {};
+        let breadcrumb = [];
+
+        if (parentNodes && parentNodes.length) {
+            parentNodes.forEach(node => {
+                breadcrumb.push({
+                    icon: node.icon,
+                    text: node.text,
+                    path: node.path,
+                });
+            });
+        }
+
+        breadcrumb.push({
+            icon,
+            text,
+        });
+
+        return {
+            ...state,
+            pageHeader: {
+                title: text,
+                breadcrumb,
+            },
+        };
+    }
     default:
         return state;
     }
 }
-

@@ -95,11 +95,17 @@ export function convertToTree(rows, parentNode) {
                     parentKeys = node.parentKeys.concat(node.key);
                 }
                 child.parentKeys = parentKeys;
-                let parentText = [node.text];
-                if (node.parentText) {
-                    parentText = node.parentText.concat(node.text);
+                let parentTexts = [node.text];
+                if (node.parentTexts) {
+                    parentTexts = node.parentTexts.concat(node.text);
                 }
-                child.parentText = parentText;
+                child.parentTexts = parentTexts;
+
+                let parentNodes = [{...node}];
+                if (node.parentNodes) {
+                    parentNodes = node.parentNodes.concat(parentNodes);
+                }
+                child.parentNodes = parentNodes;
 
                 if (node.children) {
                     node.children.push(child);

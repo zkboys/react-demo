@@ -2,26 +2,26 @@ import connectComponent from '../../utils/connectComponent.js';
 
 export default [
     {
-        path: '/organization/users',
+        path: '/system/profile/pass',
         getComponent: (location, cb) => {
             require.ensure([], (require) => {
-                cb(null, connectComponent(require('./user/User')));
+                cb(null, connectComponent(require('./profile/Pass')));
             });
         },
     },
     {
-        path: '/organization/organizations',
+        path: '/system/profile/message',
         getComponent: (location, cb) => {
             require.ensure([], (require) => {
-                cb(null, connectComponent(require('./org/Organization')));
+                cb(null, connectComponent(require('./profile/Message')));
             });
         },
     },
     {
-        path: '/organization/roles',
+        path: '/system/settings',
         getComponent: (location, cb) => {
             require.ensure([], (require) => {
-                cb(null, connectComponent(require('./role/Role')));
+                cb(null, connectComponent(require('./setting/Setting')));
             });
         },
     },

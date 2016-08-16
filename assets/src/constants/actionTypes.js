@@ -11,6 +11,7 @@ export const GET_MENUS = 'GET_MENUS';
 export const GET_USER = 'GET_USER';
 export const SET_SIDE_BAR_STATUS = 'SET_SIDE_BAR_STATUS';
 export const SET_HEADER_MENU_STATUS = 'SET_HEADER_MENU_STATUS';
+export const SET_PAGE_HEADER_STATUS = 'SET_PAGE_HEADER_STATUS';
 
 // setting
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';

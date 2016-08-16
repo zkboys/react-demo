@@ -22,6 +22,7 @@ export class LayoutComponent extends Component {
         browserHistory.listen(() => {
             actions.setSideBarStatus();
             actions.setHeaderMenuStatus();
+            actions.setPageHeaderStatus();
             actions.getMenus();
         });
     }

@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import './font-awesome.css';
-import './style.css';
 
 class FAIcon extends Component {
     static propsType = {
-        type: React.PropTypes.string,
+        type: React.PropTypes.string.isRequired,
+        className: React.PropTypes.string,
     }
 
     render() {
-        const type = this.props.type;
-        let className = ['fa', type].join(' ');
+        let {type, className} = this.props;
+        className += ` fa ${type}`;
         return <i className={className}/>;
     }
 }

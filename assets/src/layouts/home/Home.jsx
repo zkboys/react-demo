@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './home.less';
+import './style.less';
 
 export class LayoutComponent extends Component {
     state = {};

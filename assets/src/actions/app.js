@@ -21,3 +21,6 @@ export const setSideBarStatus = createAction(types.SET_SIDE_BAR_STATUS, () => {
 export const setHeaderMenuStatus = createAction(types.SET_HEADER_MENU_STATUS, () => {
     return appService.getMenus();
 });
+export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS, () => {
+    return appService.getMenus();
+});

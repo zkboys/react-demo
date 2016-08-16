@@ -1,6 +1,8 @@
-@import '../variables.less';
+@import '../../variables.less';
 /*头部样式*/
 .app-header {
+    position: fixed;
+    z-index: 9999;
     width: 100%;
     height: @headerHeight;
     background-color: @primaryColor;
@@ -218,7 +220,7 @@
     left: @sideBarMaxWidth;
     top: @headerHeight;
     right: 0;
-    padding: 8px;
+    padding: 16px;
     transition: left 300ms;
     &.collapsed {
         left: @sideBarMinWidth;

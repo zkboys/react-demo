@@ -1,0 +1,32 @@
+@import '../../variables.less';
+
+.page-header {
+  border-bottom: 1px solid @borderColor;
+  padding-bottom: 8px;
+  .header-title {
+    font-weight: normal;
+    display: inline-block;
+  }
+  .back-button {
+    margin-right: 8px;
+  }
+  .ant-breadcrumb {
+    float: right;
+    margin-top: 4px;
+    & > span {
+      color: #999;
+      a {
+        color: #999;
+        &:hover{
+          color: #57c5f7;
+        }
+      }
+      &:last-child {
+        color: #666;
+      }
+    }
+  }
+  .breadcrumb-icon {
+    margin-right: 4px;
+  }
+}

@@ -21,7 +21,10 @@ module.exports = merge(baseWebpackConfig, {
         // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin('[name].css', {
+            disable: false,
+            allChunks: true // 不设置成true，webpack异步方式加载的组件 样式无法引入 坑！！！
+        }),
         new webpack.NoErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
