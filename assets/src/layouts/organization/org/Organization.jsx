@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './style.less';
-import PageHeader from '../../../components/page-header/PageHeader';
 
 export class LayoutComponent extends Component {
     state = {};
@@ -11,11 +10,17 @@ export class LayoutComponent extends Component {
 
     static propTypes = {};
 
+    componentWillMount() {
+        const {actions} = this.props;
+        actions.setPageHeaderStatus({
+            hidden: true,
+            title: '组织架构-自定义title',
+        });
+    }
+
     render() {
-        const {pageHeader} = this.props;
         return (
             <div className="organization-org">
-                <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}/>
                 <div style={{height: 1000}}>我是组织建构管理页面</div>
             </div>
         );

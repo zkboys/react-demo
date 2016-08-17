@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './style.less';
-import PageHeader from '../../../components/page-header/PageHeader';
 
 export class LayoutComponent extends Component {
     state = {};
@@ -12,10 +11,8 @@ export class LayoutComponent extends Component {
     static propTypes = {};
 
     render() {
-        const {pageHeader} = this.props;
         return (
             <div className="organization-role">
-                <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}/>
                 <div style={{height: 1000}}>我是角色管理页面</div>
             </div>
         );

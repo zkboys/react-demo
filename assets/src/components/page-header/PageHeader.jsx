@@ -8,10 +8,12 @@ class PageHeader extends Component {
     static defaultProps = {
         title: '',
         breadcrumb: [],
+        hidden: false,
     }
     static propsType = {
         title: React.PropTypes.string,
         breadcrumb: React.PropTypes.array,
+        hidden: React.PropTypes.bool,
     }
 
     renderBreadcrumb = () => {
@@ -51,19 +53,21 @@ class PageHeader extends Component {
 
             breadcrumbJsx.unshift(home);
 
-            return breadcrumbJsx;
+            return (
+                <Breadcrumb>
+                    {breadcrumbJsx}
+                </Breadcrumb>
+            );
         }
-        return '';
+        return null;
     }
 
     render() {
-        const {title} = this.props;
+        const {title, hidden} = this.props;
         return (
-            <div className="page-header">
+            <div className={`page-header ${hidden ? 'hidden' : ''}`}>
                 <h2 className="header-title">{title}</h2>
-                <Breadcrumb>
-                    {this.renderBreadcrumb()}
-                </Breadcrumb>
+                {this.renderBreadcrumb()}
             </div>
         );
     }
