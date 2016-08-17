@@ -14,13 +14,16 @@ export const getUser = createAction(types.GET_USER, () => {
     return appService.getUser();
 });
 
-export const setSideBarStatus = createAction(types.SET_SIDE_BAR_STATUS, () => {
+export const autoSetSideBarStatus = createAction(types.AUTO_SET_SIDE_BAR_STATUS, () => {
     return appService.getMenus();
 });
 
-export const setHeaderMenuStatus = createAction(types.SET_HEADER_MENU_STATUS, () => {
+export const autoSetHeaderMenuStatus = createAction(types.AUTO_SET_HEADER_MENU_STATUS, () => {
     return appService.getMenus();
 });
-export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS, () => {
+
+export const autoSetPageHeaderStatus = createAction(types.AUTO_SET_PAGE_HEADER_STATUS, () => {
     return appService.getMenus();
 });
+
+export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS);

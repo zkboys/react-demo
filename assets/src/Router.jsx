@@ -20,9 +20,9 @@ export class LayoutComponent extends Component {
         const {actions} = this.props;
 
         browserHistory.listen(() => {
-            actions.setSideBarStatus();
-            actions.setHeaderMenuStatus();
-            actions.setPageHeaderStatus();
+            actions.autoSetSideBarStatus();
+            actions.autoSetHeaderMenuStatus();
+            actions.autoSetPageHeaderStatus();
             actions.getMenus();
         });
     }

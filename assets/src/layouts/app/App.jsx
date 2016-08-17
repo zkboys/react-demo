@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import './style.less';
 import NavBar from './SideBar';
 import Header from './Header';
+import PageHeader from '../../components/page-header/PageHeader';
 
 export class LayoutComponent extends Component {
     componentDidMount() {
@@ -23,6 +24,7 @@ export class LayoutComponent extends Component {
             openKeys,
             selectedKeys,
             children,
+            pageHeader,
         } = this.props;
         const {
             logout,
@@ -49,6 +51,7 @@ export class LayoutComponent extends Component {
                     hidden={sideBarHidden}
                 />
                 <div className={`app-content ${collapsedClass} ${contentClass}`}>
+                    <PageHeader hidden={pageHeader.hidden} title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}/>
                     {children}
                 </div>
             </div>

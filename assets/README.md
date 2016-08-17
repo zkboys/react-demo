@@ -25,6 +25,43 @@ npm run build
 jax文件名首字母大写
 js文件名首字母小写
 
+## 页面头部设置
+默认根据菜单状态自动设置头部
+```
+// src/Router.jsx 中代码片段
+...
+componentDidMount() {
+    const {actions} = this.props;
+
+    browserHistory.listen(() => {
+        ...
+        actions.autoSetPageHeaderStatus();
+        ...
+    });
+}
+...
+```
+各个页面可以自定义头部
+```
+componentWillMount() {
+    const {actions} = this.props;
+    actions.setPageHeaderStatus({
+        hidden: true,
+        title: '自定义title', // 缺省不显示
+        breadcrumb:[ // 缺省不显示
+            {
+                icon: '',
+                text: '',
+                path: '',
+            }
+        ],
+    });
+}
+
+```
+
+
+
 ## 坑
 webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
 ```

@@ -50,7 +50,7 @@ export default function (state = initialState, action) {
             sideBarHidden,
         };
     }
-    case types.SET_SIDE_BAR_STATUS: {
+    case types.AUTO_SET_SIDE_BAR_STATUS: {
         const {parentKeys: openKeys, key: selectedKeys} = getCurrentSidebarMenuByUrl(payload) || state;
         return {
             ...state,
@@ -58,16 +58,16 @@ export default function (state = initialState, action) {
             selectedKeys,
         };
     }
-    case types.SET_HEADER_MENU_STATUS: {
+    case types.AUTO_SET_HEADER_MENU_STATUS: {
         const {key: currentHeaderKey} = getCurrentHeaderMenuByUrl(payload) || state;
         return {
             ...state,
             currentHeaderKey,
         };
     }
-    case types.SET_PAGE_HEADER_STATUS: {
+    case types.AUTO_SET_PAGE_HEADER_STATUS: {
         const {parentNodes, text, icon} = getCurrentSidebarMenuByUrl(payload) || {};
-        let breadcrumb = [];
+        const breadcrumb = [];
 
         if (parentNodes && parentNodes.length) {
             parentNodes.forEach(node => {
@@ -90,6 +90,12 @@ export default function (state = initialState, action) {
                 title: text,
                 breadcrumb,
             },
+        };
+    }
+    case types.SET_PAGE_HEADER_STATUS: {
+        return {
+            ...state,
+            pageHeader: {...payload},
         };
     }
     default:
