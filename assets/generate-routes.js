@@ -3,7 +3,6 @@
  * 递归同步抓取src/page下所有routes.js文件
  * 最终生成src/page/allRoutes.js文件
  * */
-// TODO windows 下兼容性问题
 var fs = require('fs');
 var path = require('path');
 var pagePath = path.join(__dirname, './src');
@@ -43,6 +42,9 @@ function getRoutes(filePath, fileName, _imports, _routesNames) {
         if (fileName === routesFileName) {
             var pathName = filePath.replace(pagePath, '');
             var routesPath = '.' + pathName;
+            if (process.platform.indexOf('win') >= 0) {
+                routesPath = routesPath.replace(/\\/g, "\/");
+            }
             pathName = pathName.replace('.js', '');
             pathName = pathName.split('/');
             var pName = '';
