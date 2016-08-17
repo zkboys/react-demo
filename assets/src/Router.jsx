@@ -27,7 +27,7 @@ const routes = {
 
 export class LayoutComponent extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         const {actions} = this.props;
 
         browserHistory.listen(() => {
@@ -36,6 +36,18 @@ export class LayoutComponent extends Component {
             actions.autoSetPageHeaderStatus();
             actions.getMenus();
         });
+
+        /*
+         pageRouts.forEach((r) => {
+         r.onEnter = (nextState, replace, callback) => {
+         console.log('enter');
+         callback();
+         };
+         r.onLeave = () => {
+         console.log('leave');
+         };
+         });
+         * */
     }
 
     render() {
