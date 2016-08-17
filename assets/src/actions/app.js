@@ -26,4 +26,8 @@ export const autoSetPageHeaderStatus = createAction(types.AUTO_SET_PAGE_HEADER_S
     return appService.getMenus();
 });
 
-export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS);
+export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS, (options) => {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(options), 0);
+    });
+});

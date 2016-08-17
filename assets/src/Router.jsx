@@ -5,6 +5,17 @@ import * as Index from './layouts/app/App';
 import * as Home from './layouts/home/Home';
 import connectComponent from './utils/connectComponent.js';
 
+pageRouts.push(
+    {
+        path: '*',
+        getComponent: (location, cb) => {
+            require.ensure([], (require) => {
+                cb(null, connectComponent(require('./layouts/error/Error404')));
+            });
+        },
+    }
+);
+
 const routes = {
     path: '/',
     component: connectComponent(Index),
