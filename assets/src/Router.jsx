@@ -49,12 +49,19 @@ export class LayoutComponent extends Component {
          });
          * */
     }
+    // 这里可以注入通用props
+    createElement = (RouteComponent, props) => {
+        return (
+            <RouteComponent {...props}/>
+        );
+    }
 
     render() {
         return (
             <Router
                 routes={routes}
                 history={browserHistory}
+                createElement={this.createElement}
             />
         );
     }
