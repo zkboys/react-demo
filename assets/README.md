@@ -110,6 +110,13 @@ render() {
 
 ```
 
+## React context与props区别
+[官网介绍context](https://facebook.github.io/react/docs/context.html)
+- props，给直接子组件传递数据，如果多层，要一层一层显示的传递
+- context， 给后代组件传递数据，子组件只要声明contextTypes，就可以获取组件树context中的数据,相当于整个组件树中的全局变量。
+- 尽量不要使用context，会使组件结构变得复杂。
+
+
 ## 项目结构
 ```
 src
@@ -135,31 +142,29 @@ src
 - 各个页面（组件）通过`const {actions} = this.props`获取actions对象，然后调用`actions.xxx()` 触发action；
 - 各个页面（组件）要export出两个变量`LayoutComponent`和`mapStateToProps`；使用`src/utils/connectComponent.js`使组件与redux做链接时会用到；
 - `mapStateToProps` 用于指定redux的state中哪部分数据用于当前组件，由于reducer的`combineReducers`方法包装之后，将各个reducer的state存放在对应的key中，key指的是combineReducers包装时指定的key，比如：
-```
-// src/reducers/index.js
-export default combineReducers({
-    home, // 这个home就是key，es6写法
-    utils,
-});
-
-src/layout/home.js
-export function mapStateToProps(state) {
-    return {
-        ...state.home // 这个home指的就是 combineReducers中的key
-    };
-}
-
-```
-
+    
+    ```
+    // src/reducers/index.js
+    export default combineReducers({
+        home, // 这个home就是key，es6写法
+        utils,
+    });
+    
+    src/layout/home.js
+    export function mapStateToProps(state) {
+        return {
+            ...state.home // 这个home指的就是 combineReducers中的key
+        };
+    }
+    
+    ```
 - action负责准备数据，一般是调用action方法时传入的参数和action内部调用service异步请求获得的数据
 - reducer为纯函数，负责处理数据，不会涉及异步，不要调用services中方法，获取action的数据之后，做进一步处理。
 - store负责将数据以pros形式传递给component，以及通过中间件对数据统一处理。
 
 ### action：
 action 使用的是`redux-actions`模块构建的 `Flux Standard Action`
-```
-createAction(type, payloadCreator = Identity, ?metaCreator)
-```
+> createAction(type, payloadCreator = Identity, ?metaCreator)
 
 ### 回调处理
 调用actions方法时，给actions方法传入一个回调参数，这个回调参数，最终是由 `createAction` 的 `metaCreator` 参数处理的，项目中做了封装
@@ -432,6 +437,9 @@ componentWillMount() {
 }
 
 ```
+
+## 页面过场动画
+在`src/Router.jsx`中，为每个route添加了onEnter和onLeave方法（没找到统一方法，只能为每个route添加），通过action，为页面容器app-content设置entered和leaving两个class，通过class使用css3添加过场动画。
 
 ## 坑
 webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！

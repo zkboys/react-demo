@@ -25,6 +25,7 @@ export class LayoutComponent extends Component {
             selectedKeys,
             children,
             pageHeader,
+            pageStatus,
         } = this.props;
         const {
             logout,
@@ -50,7 +51,7 @@ export class LayoutComponent extends Component {
                     selectedKeys={selectedKeys}
                     hidden={sideBarHidden}
                 />
-                <div className={`app-content ${collapsedClass} ${contentClass}`}>
+                <div className={`app-content ${collapsedClass} ${contentClass} ${pageStatus}`}>
                     <PageHeader hidden={pageHeader.hidden} title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}/>
                     {children}
                 </div>

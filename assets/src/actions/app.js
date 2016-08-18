@@ -31,3 +31,5 @@ export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS, (o
         setTimeout(() => resolve(options), 0);
     });
 });
+
+export const setPageStatus = createAction(types.SET_PAGE_STATUS);

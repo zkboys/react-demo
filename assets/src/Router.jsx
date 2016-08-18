@@ -29,12 +29,44 @@ export class LayoutComponent extends Component {
 
     componentWillMount() {
         const {actions} = this.props;
+        const usePageWitchAnimation = true;
+        const witchDuring = 150;
 
         browserHistory.listen(() => {
             actions.autoSetSideBarStatus();
             actions.autoSetHeaderMenuStatus();
-            actions.autoSetPageHeaderStatus();
             actions.getMenus();
+            if (!usePageWitchAnimation) {
+                actions.autoSetPageHeaderStatus();
+            }
+        });
+
+        // 没找到统一的enter 和 leave回调，这里只能为每个route都添加
+        pageRouts.forEach(r => {
+            const oriOnEnter = r.onEnter;
+            const oriOnLeave = r.onLeave;
+            r.onEnter = (nextState, replace, callback) => {
+                if (usePageWitchAnimation) {
+                    setTimeout(() => {
+                        actions.autoSetPageHeaderStatus();
+                        actions.setPageStatus('entered');
+
+                        if (oriOnEnter) {
+                            oriOnEnter(nextState, replace, callback);
+                        } else {
+                            callback();
+                        }
+                    }, witchDuring);
+                }
+            };
+            r.onLeave = (prevState) => {
+                if (usePageWitchAnimation) {
+                    actions.setPageStatus('leaving');
+                }
+                if (oriOnLeave) {
+                    oriOnLeave(prevState);
+                }
+            };
         });
     }
 

@@ -13,6 +13,7 @@ let initialState = {
     openKeys: [],
     currentHeaderKey: '',
     pageHeader: {},
+    pageStatus: 'entered',
 };
 
 export default function (state = initialState, action) {
@@ -96,6 +97,12 @@ export default function (state = initialState, action) {
         return {
             ...state,
             pageHeader: {...payload},
+        };
+    }
+    case types.SET_PAGE_STATUS: {
+        return {
+            ...state,
+            pageStatus: payload,
         };
     }
     default:
