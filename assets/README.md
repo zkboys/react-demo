@@ -158,7 +158,11 @@ src
     }
     
     ```
-- action负责准备数据，一般是调用action方法时传入的参数和action内部调用service异步请求获得的数据
+- action负责准备数据，数据来源：
+    - 调用action方法时传入的参数
+    - action内部调用service异步请求获得的数据
+    - storage中获取数据
+    - 其他数据来源
 - reducer为纯函数，负责处理数据，不会涉及异步，不要调用services中方法，获取action的数据之后，做进一步处理。
 - store负责将数据以pros形式传递给component，以及通过中间件对数据统一处理。
 
