@@ -9,7 +9,7 @@ testsContext.keys().forEach(testsContext)
 // require all src files except Index.jsx for coverage.
 // you can also change this to match only the subset of files that
 // you want coverage for.
-var srcContext = require.context('../../src', true, /^\.\/(?!Index(\.jsx)?$)/)
+var srcContext = require.context('../../src', true, /^\.\/(?!App(\.jsx)?$)/)
 srcContext.keys().forEach(srcContext)
 
 /*
