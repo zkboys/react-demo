@@ -17,6 +17,16 @@ var webpackConfig = merge(baseWebpackConfig, {
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
+    loaders: [
+        {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract('css?sourceMap&-restructuring!' + 'postcss-loader')
+        },
+        {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract('css?sourceMap!' + 'postcss-loader!' + 'less?{"sourceMap":true,"modifyVars":{}}')
+        },
+    ],
     plugins: [
         new webpack.DefinePlugin({
             'process.env': env

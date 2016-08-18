@@ -5,7 +5,7 @@
 
 var path = require('path')
 var merge = require('webpack-merge')
-var baseConfig = require('../../build/webpack.base.conf')
+var baseConfig = require('../../build/webpack.test.conf')
 var utils = require('../../build/utils')
 var webpack = require('webpack')
 var projectRoot = path.resolve(__dirname, '../../')
@@ -39,15 +39,15 @@ delete webpackConfig.entry
  loader: 'isparta',
  include: path.resolve(projectRoot, 'src')
  })
- */
-// only apply babel for test files when using isparta
-webpackConfig.module.loaders.some(function (loader, i) {
-    if (loader.loader === 'babel') {
-        loader.include = path.resolve(projectRoot, 'test/unit')
-        return true
-    }
-})
 
+ // only apply babel for test files when using isparta
+ webpackConfig.module.loaders.some(function (loader, i) {
+ if (loader.loader === 'babel') {
+ loader.include = path.resolve(projectRoot, 'test/unit')
+ return true
+ }
+ })
+ */
 
 module.exports = function (config) {
     config.set({

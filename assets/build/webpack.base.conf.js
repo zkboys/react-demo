@@ -57,14 +57,6 @@ module.exports = {
                 loader: 'json'
             },
             {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('css?sourceMap&-restructuring!' + 'postcss-loader')
-            },
-            {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract('css?sourceMap!' + 'postcss-loader!' + 'less?{"sourceMap":true,"modifyVars":{}}')
-            },
-            {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url',
                 query: {
