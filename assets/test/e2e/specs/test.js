@@ -1,14 +1,15 @@
 // For authoring Nightwatch tests, see
 // http://nightwatchjs.org/guide#usage
-var config = require('../../../build/config')
+var config = require('../../../build/config/index');
+var port = config.dev.port;
 module.exports = {
-  'default e2e tests': function (browser) {
-    browser
-    .url('http://localhost:'+config.dev.port)
-      .waitForElementVisible('#main', 5000)
-      .assert.elementPresent('.logo')
-      .assert.containsText('.logo', '人员管理系统')
-      .assert.elementCount('div', 9)
-      .end()
-  }
+    'default e2e tests': function (browser) {
+        browser
+            .url('http://localhost:' + port + '/signin.html')
+            .waitForElementVisible('#framework', 5000)
+            .assert.elementPresent('.login-wrap')
+            .assert.containsText('h1', '用户登录')
+            // .assert.elementCount('p', 3)
+            .end()
+    }
 }
