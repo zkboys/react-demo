@@ -27,6 +27,7 @@ export class LayoutComponent extends Component {
         pageRouts.forEach(r => {
             const oriOnEnter = r.onEnter;
             const oriOnLeave = r.onLeave;
+
             r.onEnter = (nextState, replace, callback) => {
                 this.onEnter(nextState, replace, callback, oriOnEnter);
             };
