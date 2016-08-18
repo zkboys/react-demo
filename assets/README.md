@@ -456,6 +456,9 @@ new ExtractTextPlugin('[name].css', {
 }),
 ```
 
+npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
+
+
 ## 文档链接
 - [react](http://reactjs.cn/)
 - [react-native](http://reactnative.cn/)
