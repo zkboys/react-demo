@@ -36,19 +36,8 @@ export class LayoutComponent extends Component {
             actions.autoSetPageHeaderStatus();
             actions.getMenus();
         });
-
-        /*
-         pageRouts.forEach((r) => {
-         r.onEnter = (nextState, replace, callback) => {
-         console.log('enter');
-         callback();
-         };
-         r.onLeave = () => {
-         console.log('leave');
-         };
-         });
-         * */
     }
+
     // 这里可以注入通用props
     createElement = (RouteComponent, props) => {
         return (
