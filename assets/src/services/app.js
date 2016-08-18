@@ -10,6 +10,6 @@ export function getMenus() {
     return session.getItem('menus');
 }
 
-export function getUser() {
+export function getCurrentUser() {
     return session.getItem('currentLoginUser');
 }

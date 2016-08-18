@@ -10,8 +10,8 @@ export const getMenus = createAction(types.GET_MENUS, () => {
     return appService.getMenus();
 });
 
-export const getUser = createAction(types.GET_USER, () => {
-    return appService.getUser();
+export const getCurrentUser = createAction(types.GET_CURRNET_USER, () => {
+    return appService.getCurrentUser();
 });
 
 export const autoSetSideBarStatus = createAction(types.AUTO_SET_SIDE_BAR_STATUS, () => {

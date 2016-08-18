@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
     switch (type) {
     case types.LOGOUT:
         return location.href = config.signInPath;
-    case types.GET_USER: {
+    case types.GET_CURRNET_USER: {
         return {
             ...state,
             user: payload,

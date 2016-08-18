@@ -9,7 +9,7 @@ export class LayoutComponent extends Component {
     componentDidMount() {
         const {actions} = this.props;
         actions.getMenus();
-        actions.getUser();
+        actions.getCurrentUser();
         actions.getStateFromStorage();
     }
 
