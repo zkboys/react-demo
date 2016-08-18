@@ -1,4 +1,5 @@
 var path = require('path')
+var webpack = require('webpack')
 var config = require('./config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
@@ -83,5 +84,12 @@ module.exports = {
     },
     eslint: {
         formatter: require('eslint-friendly-formatter')
-    }
+    },
+    // // TODO 文件大小有改变，但是速度并没有提升
+    /*plugins: [
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./dll/manifest.json'),
+        }),
+    ],*/
 }

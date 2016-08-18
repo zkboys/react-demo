@@ -5,6 +5,7 @@
   "author": "wangshubin",
   "private": true,
   "scripts": {
+    "dll": "node build/build-dll.js",
     "route": "node generate-routes.js",
     "dev": "npm run route && node build/dev-server.js",
     "build": "npm run route &&  node build/build.js",
