@@ -139,6 +139,8 @@ src
 
 
 ## 关于redux
+项目分了很多层次，可以提高代码复用，actions可以被各个页面组件和reducers复用，services可以被actions复用
+
 - 各个页面（组件）通过`const {actions} = this.props`获取actions对象，然后调用`actions.xxx()` 触发action；
 - 各个页面（组件）要export出两个变量`LayoutComponent`和`mapStateToProps`；使用`src/utils/connectComponent.js`使组件与redux做链接时会用到；
 - `mapStateToProps` 用于指定redux的state中哪部分数据用于当前组件，由于reducer的`combineReducers`方法包装之后，将各个reducer的state存放在对应的key中，key指的是combineReducers包装时指定的key，比如：
