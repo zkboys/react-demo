@@ -3,7 +3,7 @@ export const TOAST = 'TOAST';
 
 // middleware
 export const SYNC_STATE_TO_STORAGE = 'SYNC_STATE_TO_STORAGE';
-export const GET_STATE_TO_STORAGE = 'GET_STATE_TO_STORAGE';
+export const GET_STATE_FROM_STORAGE = 'GET_STATE_FROM_STORAGE';
 
 // app
 export const LOGOUT = 'LOGOUT';
@@ -17,6 +17,7 @@ export const SET_PAGE_STATUS = 'SET_PAGE_STATUS';
 
 // setting
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
+export const SET_SETING = 'SET_SETING';
 
 // demo
 export const GET_UNREAD_MESSAGE_COUNT = 'GET_UNREAD_MESSAGE_COUNT';

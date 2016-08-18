@@ -10,7 +10,7 @@ export const toast = createAction(types.TOAST, (text, timeout) => {
     };
 });
 
-export const getStateFromStorage = createAction(types.GET_STATE_TO_STORAGE, () => {
+export const getStateFromStorage = createAction(types.GET_STATE_FROM_STORAGE, () => {
     return Storage.multiGet(['setting']);
 }, (resolved, rejected) => {
     return {

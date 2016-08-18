@@ -29,13 +29,14 @@ export class LayoutComponent extends Component {
 
     componentWillMount() {
         const {actions} = this.props;
-        const usePageWitchAnimation = true;
-        const witchDuring = 150;
 
         browserHistory.listen(() => {
+            const {usePageWitchAnimation} = this.props.setting;
+
             actions.autoSetSideBarStatus();
             actions.autoSetHeaderMenuStatus();
             actions.getMenus();
+
             if (!usePageWitchAnimation) {
                 actions.autoSetPageHeaderStatus();
             }
@@ -46,6 +47,8 @@ export class LayoutComponent extends Component {
             const oriOnEnter = r.onEnter;
             const oriOnLeave = r.onLeave;
             r.onEnter = (nextState, replace, callback) => {
+                const {usePageWitchAnimation} = this.props.setting;
+                const witchDuring = 150;
                 if (usePageWitchAnimation) {
                     setTimeout(() => {
                         actions.autoSetPageHeaderStatus();
@@ -57,9 +60,12 @@ export class LayoutComponent extends Component {
                             callback();
                         }
                     }, witchDuring);
+                } else {
+                    callback();
                 }
             };
             r.onLeave = (prevState) => {
+                const {usePageWitchAnimation} = this.props.setting;
                 if (usePageWitchAnimation) {
                     actions.setPageStatus('leaving');
                 }

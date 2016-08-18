@@ -44,7 +44,8 @@ module.exports =
         "react/jsx-indent-props": [2, 4],
         "react/jsx-space-before-closing": 0, // <FIcon /> 空格
         // allow debugger during development
-        "no-debugger": process.env.NODE_ENV === 'production' ? 2 : 0
+        "no-debugger": process.env.NODE_ENV === 'production' ? 2 : 0,
+        "jsx-a11y/label-has-for": 0
     }
 }
 

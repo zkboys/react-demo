@@ -9,7 +9,7 @@ const options = {
 
 
 export default function connectComponent({
-    mapStateToProps = () => ({}),
+    mapStateToProps = (state) => ({...state}),
     mapDispatchToProps = (dispatch) => ({actions: bindActionCreators(actions, dispatch)}),
     mergeProps,
     LayoutComponent,
