@@ -14,7 +14,7 @@ var babelQuery = {
 module.exports = {
     cache: true,
     entry: {
-        app: './src/Index.jsx',
+        app: './src/App.jsx',
         signIn: './src/layouts/sign-in/sign-in.js'
     },
     output: {
