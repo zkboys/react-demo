@@ -88,7 +88,7 @@ export default function (state = initialState, action) {
         return {
             ...state,
             pageHeader: {
-                ...state.pageHeader,
+                hidden: false,
                 title: text,
                 breadcrumb,
             },
