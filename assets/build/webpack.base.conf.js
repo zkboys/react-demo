@@ -3,12 +3,16 @@ var webpack = require('webpack')
 var config = require('./config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["antd", [{"libraryName": "antd", "style": true}]]];
+if (process.env.NODE_ENV === 'testing') {
+    babelPlugins.unshift('__coverage__');
+}
 
 var babelQuery = {
     cacheDirectory: true,
     presets: ['es2015', 'react', 'stage-0'],
-    plugins: ['add-module-exports', 'typecheck', 'transform-runtime', ["antd", [{ "libraryName": "antd", "style": true }]]],
+    plugins: babelPlugins,
     comments: false
 };
 
@@ -79,9 +83,9 @@ module.exports = {
     },
     // // TODO 文件大小有改变，但是速度并没有提升
     /*plugins: [
-        new webpack.DllReferencePlugin({
-            context: __dirname,
-            manifest: require('./dll/manifest.json'),
-        }),
-    ],*/
+     new webpack.DllReferencePlugin({
+     context: __dirname,
+     manifest: require('./dll/manifest.json'),
+     }),
+     ],*/
 }
