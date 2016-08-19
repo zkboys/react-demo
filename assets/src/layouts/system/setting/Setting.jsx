@@ -15,10 +15,11 @@ export class LayoutComponent extends Component {
         const pageHeaderFixed = e.target.checked;
 
         actions.setSeting({pageHeaderFixed});
-        // TODO 页面头部背景添加动画效果，提示用户改变的部分
+
+        // 页面头部背景添加动画效果，提示用户改变的部分
         setTimeout(() => {
             document.querySelector('.page-header').style.backgroundColor = '#fffdcb';
-        }, 100);
+        }, 0);
         setTimeout(() => {
             document.querySelector('.page-header').style.backgroundColor = '#fff';
         }, 1300);
@@ -30,7 +31,7 @@ export class LayoutComponent extends Component {
             <div className="system-setting">
                 <label>
                     <Checkbox
-                        defaultChecked={usePageWitchAnimation}
+                        checked={usePageWitchAnimation}
                         onChange={this.handlePageWitchAnimationChange}
                     />
                     <span className="check-box-label">启用页面过场动画</span>
@@ -38,7 +39,7 @@ export class LayoutComponent extends Component {
 
                 <label>
                     <Checkbox
-                        defaultChecked={pageHeaderFixed}
+                        checked={pageHeaderFixed}
                         onChange={this.handleFixedPageHeaderChange}
                     />
                     <span className="check-box-label">页面头部固定</span>

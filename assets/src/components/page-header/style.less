@@ -9,10 +9,13 @@
   &.fixed {
     position: fixed;
     top: @headerHeight;
-    right: @contentPadding;
-    left: @sideBarMaxWidth + @contentPadding;
+    right: 0;
+    left: @sideBarMaxWidth;
+    padding-left: @contentPadding;
+    padding-right: @contentPadding;
     z-index: 8888;
     background-color: #fff;
+    box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.1);
   }
   &.collapsed {
     left: @sideBarMinWidth + @contentPadding;
