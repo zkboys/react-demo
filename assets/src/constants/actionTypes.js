@@ -19,5 +19,5 @@ export const SET_PAGE_STATUS = 'SET_PAGE_STATUS';
 export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
 export const SET_SETING = 'SET_SETING';
 
-// demo
-export const GET_UNREAD_MESSAGE_COUNT = 'GET_UNREAD_MESSAGE_COUNT';
+// profile
+export const SAVE_USER_MESSAGE = 'SAVE_USER_MESSAGE';

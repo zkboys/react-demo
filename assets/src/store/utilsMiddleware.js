@@ -10,7 +10,7 @@ export default function utilsMiddleware({dispatch}) {
 
         // error handle
         if (error && payload.type === 'http') {
-            dispatchToast(`网络连接错误【${payload.res.status}】`);
+            dispatchToast(`${payload.body.message || '未知系统错误'}`);
         }
         next(action);
     };
