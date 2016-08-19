@@ -3,8 +3,33 @@
 .page-header {
   border-bottom: 1px solid @borderColor;
   padding-bottom: 8px;
+  margin-bottom: @contentPadding;
+  transition: left 300ms, opacity 150ms, transform 150ms;
+  &.fixed {
+    position: fixed;
+    top: @headerHeight;
+    right: @contentPadding;
+    left: @sideBarMaxWidth + @contentPadding;
+    z-index: 8888;
+    padding-top: 16px;
+    background: #fff;
+  }
+  &.collapsed {
+    left: @sideBarMinWidth + @contentPadding;
+  }
+  &.full {
+    left: @contentPadding;
+  }
   &.hidden {
     display: none;
+  }
+  &.leaving {
+    opacity: 0;
+    transform: translate(0, 20px);
+  }
+  &.entered {
+    opacity: 1;
+    transform: translate(0, 0);
   }
   .header-title {
     font-weight: normal;

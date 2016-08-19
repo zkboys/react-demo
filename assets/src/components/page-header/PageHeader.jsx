@@ -9,6 +9,7 @@ class PageHeader extends Component {
         title: '',
         breadcrumb: [],
         hidden: false,
+        className: '',
     }
     static propsType = {
         title: React.PropTypes.string,
@@ -63,9 +64,9 @@ class PageHeader extends Component {
     }
 
     render() {
-        const {title, hidden} = this.props;
+        const {title, hidden, className} = this.props;
         return (
-            <div className={`page-header ${hidden ? 'hidden' : ''}`}>
+            <div className={`page-header ${hidden ? 'hidden' : ''} ${className}`}>
                 <h2 className="header-title">{title}</h2>
                 {this.renderBreadcrumb()}
             </div>

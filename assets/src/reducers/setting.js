@@ -3,6 +3,7 @@ import * as types from '../constants/actionTypes';
 let initialState = {
     isSidebarCollapsed: false,
     usePageWitchAnimation: true,
+    pageHeaderFixed: true,
 };
 
 export default function (state = initialState, action) {

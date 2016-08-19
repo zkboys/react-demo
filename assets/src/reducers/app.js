@@ -88,6 +88,7 @@ export default function (state = initialState, action) {
         return {
             ...state,
             pageHeader: {
+                ...state.pageHeader,
                 title: text,
                 breadcrumb,
             },
@@ -96,7 +97,7 @@ export default function (state = initialState, action) {
     case types.SET_PAGE_HEADER_STATUS: {
         return {
             ...state,
-            pageHeader: {...payload},
+            pageHeader: {...state.pageHeader, ...payload},
         };
     }
     case types.SET_PAGE_STATUS: {

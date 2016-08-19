@@ -25,6 +25,7 @@ export class LayoutComponent extends Component {
             selectedKeys,
             children,
             pageHeader,
+            pageHeaderFixed,
             pageStatus,
         } = this.props;
         const {
@@ -32,7 +33,9 @@ export class LayoutComponent extends Component {
             toggleSideBar,
         } = this.props.actions;
         const collapsedClass = isSidebarCollapsed ? 'collapsed' : '';
-        const contentClass = sideBarHidden ? 'full' : '';
+        const fullClass = sideBarHidden ? 'full' : '';
+        const pageHeaderFixedClass = pageHeaderFixed ? 'page-header-fixed' : '';
+        const pageHeaderHiddenClass = pageHeader.hidden ? 'page-header-hidden' : '';
 
         return (
             <div>
@@ -51,8 +54,29 @@ export class LayoutComponent extends Component {
                     selectedKeys={selectedKeys}
                     hidden={sideBarHidden}
                 />
-                <div className={`app-content ${collapsedClass} ${contentClass} ${pageStatus}`}>
-                    <PageHeader hidden={pageHeader.hidden} title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}/>
+                {
+                    pageHeaderFixed ?
+                        <PageHeader
+                            className={`fixed ${collapsedClass} ${fullClass} ${pageStatus}`}
+                            hidden={pageHeader.hidden}
+                            title={pageHeader.title}
+                            breadcrumb={pageHeader.breadcrumb}
+                        />
+                        :
+                        null
+                }
+
+                <div className={`app-content ${collapsedClass} ${fullClass} ${pageStatus} ${pageHeaderFixedClass} ${pageHeaderHiddenClass}`}>
+                    {
+                        !pageHeaderFixed ?
+                            <PageHeader
+                                hidden={pageHeader.hidden}
+                                title={pageHeader.title}
+                                breadcrumb={pageHeader.breadcrumb}
+                            />
+                            :
+                            null
+                    }
                     {children}
                 </div>
             </div>

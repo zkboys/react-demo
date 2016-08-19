@@ -116,28 +116,6 @@ render() {
 - context， 给后代组件传递数据，子组件只要声明contextTypes，就可以获取组件树context中的数据,相当于整个组件树中的全局变量。
 - 尽量不要使用context，会使组件结构变得复杂。
 
-
-## 项目结构
-```
-src
-├── actions
-├── allRoutes.js
-├── components
-├── configs
-├── constants
-├── Index.jsx
-├── layouts
-├── reducers
-├── Router.jsx
-├── routes.js
-├── services
-├── store
-├── utils
-└── variables.less
-
-```
-
-
 ## 关于redux
 项目分了很多层次，可以提高代码复用，actions可以被各个页面组件和reducers复用，services可以被actions复用
 
@@ -448,15 +426,15 @@ componentWillMount() {
 在`src/Router.jsx`中，为每个route添加了onEnter和onLeave方法（没找到统一方法，只能为每个route添加），通过action，为页面容器app-content设置entered和leaving两个class，通过class使用css3添加过场动画。
 
 ## 坑
-webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
-```
-new ExtractTextPlugin('[name].css', {
-    disable: false,
-    allChunks: true // 不设置成true，webpack异步方式加载的组件 样式无法引入 坑！！！
-}),
-```
+- webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
+    ```
+    new ExtractTextPlugin('[name].css', {
+        disable: false,
+        allChunks: true // 不设置成true，webpack异步方式加载的组件 样式无法引入 坑！！！
+    }),
+    ```
 
-npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
+- npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
 
 
 ## 文档链接
@@ -466,9 +444,17 @@ npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因�
 - [redux-actions](https://github.com/acdlite/redux-actions)
 - [redux-promise](https://github.com/acdlite/redux-promise)
 - [redux-thunk](https://github.com/gaearon/redux-thunk)
-- [react-native-code-push](https://github.com/Microsoft/react-native-code-push)
+- [react-router](https://github.com/reactjs/react-router)
+- [nightwatchjs(端对端测试)](http://nightwatchjs.org/guide#usage)
+- [mochajs(单元测试)](http://mochajs.org/)
+- [react-test-utils](http://reactjs.cn/react/docs/test-utils.html)
+- [karma-runner](http://karma-runner.github.io/0.13/config/configuration-file.html)
+- [karma-webpack](ttps://github.com/webpack/karma-webpack)
 
 
 ## TODO
 - [ ] webpack 打包速度优化，研究一下dll，关于配置 github上搜索 react webpack，看看其他项目webpack是怎么配置的，项目是如何组织的。
-- [ ] 单元测试，端对端测试，目前搭建了结构，但是运行报错。
+- [ ] 端对端测试环境搭建
+- [ ] 端对端测试写法
+- [x] 单元测试环境搭建。
+- [ ] 单元测试写法。
