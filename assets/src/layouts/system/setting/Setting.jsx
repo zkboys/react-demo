@@ -56,8 +56,8 @@ export class LayoutComponent extends Component {
                         label="固定页面头部："
                     >
                         <Switch
-                            checkedChildren="开"
-                            unCheckedChildren="关"
+                            checkedChildren="是"
+                            unCheckedChildren="否"
                             checked={pageHeaderFixed}
                             onChange={this.handleFixedPageHeaderChange}
                         />

@@ -4,7 +4,7 @@ let initialState = {
     isSidebarCollapsed: false,
     usePageWitchAnimation: true,
     pageHeaderFixed: true,
-    pageAnimationType: 'down',
+    pageAnimationType: 'right',
     randomPageAnimation: false,
 };
 
