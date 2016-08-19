@@ -225,10 +225,10 @@ body {
   left: @sideBarMaxWidth;
   top: @headerHeight;
   right: 0;
-  padding: @contentPadding;
+  padding: 0 @contentPadding @contentPadding @contentPadding;
   transition: left 300ms, opacity 150ms, transform 150ms;
   &.page-header-fixed {
-    top: 108px;
+    top: 124px;
   }
   &.page-header-hidden {
     top: @headerHeight;

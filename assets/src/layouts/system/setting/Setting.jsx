@@ -6,6 +6,7 @@ export class LayoutComponent extends Component {
     handlePageWitchAnimationChange = (e) => {
         const {actions} = this.props;
         const usePageWitchAnimation = e.target.checked;
+
         actions.setSeting({usePageWitchAnimation});
     }
 
@@ -14,6 +15,13 @@ export class LayoutComponent extends Component {
         const pageHeaderFixed = e.target.checked;
 
         actions.setSeting({pageHeaderFixed});
+        // TODO 页面头部背景添加动画效果，提示用户改变的部分
+        setTimeout(() => {
+            document.querySelector('.page-header').style.backgroundColor = '#fffdcb';
+        }, 100);
+        setTimeout(() => {
+            document.querySelector('.page-header').style.backgroundColor = '#fff';
+        }, 1300);
     }
 
     render() {

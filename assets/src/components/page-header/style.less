@@ -3,16 +3,16 @@
 .page-header {
   border-bottom: 1px solid @borderColor;
   padding-bottom: 8px;
+  padding-top: 16px;
   margin-bottom: @contentPadding;
-  transition: left 300ms, opacity 150ms, transform 150ms;
+  transition: left 300ms, opacity 150ms, transform 150ms, background-color 1000ms;
   &.fixed {
     position: fixed;
     top: @headerHeight;
     right: @contentPadding;
     left: @sideBarMaxWidth + @contentPadding;
     z-index: 8888;
-    padding-top: 16px;
-    background: #fff;
+    background-color: #fff;
   }
   &.collapsed {
     left: @sideBarMinWidth + @contentPadding;
