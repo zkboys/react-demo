@@ -173,9 +173,49 @@ export function getCurrentSidebarMenuByUrl(menusData = []) {
         }
     }
 }
-
+/**
+ * 获得一个指定范围内的随机数
+ * @param min
+ * @param max
+ * @returns {*}
+ */
 export function getRandomNum(min, max) {
     const range = max - min;
     const rand = Math.random();
     return (min + Math.round(rand * range));
+}
+
+/**
+ * 为一个dom元素移除class
+ * @param selector
+ * @param className
+ */
+export function removeClass(selector, className) {
+    const dom = document.querySelector(selector);
+    if (!dom) return;
+    let domClass = dom.className;
+    if (domClass) {
+        domClass = domClass.split(' ');
+        if (!domClass || !domClass.length) return;
+        dom.className = domClass.filter(c => c !== className).join(' ');
+    }
+}
+
+/**
+ * 为一个dom元素添加class
+ * @param selector
+ * @param className
+ */
+export function addClass(selector, className) {
+    const dom = document.querySelector(selector);
+    if (!dom) return;
+    let domClass = dom.className;
+    if (domClass) {
+        domClass = domClass.split(' ');
+        if (!domClass || !domClass.length || domClass.indexOf(className) > -1) return;
+        domClass.push(className);
+        dom.className = domClass.join(' ');
+    } else {
+        dom.className = className;
+    }
 }

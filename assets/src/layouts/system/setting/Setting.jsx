@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Radio, Form, Switch} from 'antd';
+import * as Utils from '../../../utils';
 import './style.less';
 
 const RadioGroup = Radio.Group;
@@ -29,6 +30,19 @@ export class LayoutComponent extends Component {
         } else {
             actions.setSettings({pageAnimationType, randomPageAnimation: false});
         }
+        // 过场动画效果提示
+        setTimeout(() => {
+            Utils.removeClass('.app-content', 'entered');
+            Utils.addClass('.app-content', 'leaving');
+            Utils.removeClass('.page-header', 'entered');
+            Utils.addClass('.page-header', 'leaving');
+        }, 0);
+        setTimeout(() => {
+            Utils.removeClass('.app-content', 'leaving');
+            Utils.addClass('.app-content', 'entered');
+            Utils.removeClass('.page-header', 'leaving');
+            Utils.addClass('.page-header', 'entered');
+        }, 300);
     }
 
     render() {

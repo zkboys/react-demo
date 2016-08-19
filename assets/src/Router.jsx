@@ -64,7 +64,7 @@ export class LayoutComponent extends Component {
 
     onEnter = (nextState, replace, callback, oriOnEnter) => {
         const {usePageWitchAnimation, actions} = this.props;
-        const witchDuring = 150;
+        const switchDuring = 150;
         if (usePageWitchAnimation) {
             setTimeout(() => {
                 actions.autoSetPageHeaderStatus();
@@ -75,7 +75,7 @@ export class LayoutComponent extends Component {
                 } else {
                     callback();
                 }
-            }, witchDuring);
+            }, switchDuring);
         } else {
             callback();
         }
