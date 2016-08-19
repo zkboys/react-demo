@@ -65,6 +65,7 @@ export class LayoutComponent extends Component {
     onEnter = (nextState, replace, callback, oriOnEnter) => {
         const {usePageWitchAnimation, actions} = this.props;
         const switchDuring = 150;
+
         if (usePageWitchAnimation) {
             setTimeout(() => {
                 actions.autoSetPageHeaderStatus();
@@ -83,6 +84,7 @@ export class LayoutComponent extends Component {
 
     onLeave = (prevState, oriOnLeave) => {
         const {usePageWitchAnimation, actions, randomPageAnimation} = this.props;
+
         if (usePageWitchAnimation) {
             if (randomPageAnimation) {
                 const pageAnimationTypes = ['up', 'down', 'left', 'right', 'fade'];
@@ -93,6 +95,7 @@ export class LayoutComponent extends Component {
 
             actions.setPageStatus('leaving');
         }
+
         if (oriOnLeave) {
             oriOnLeave(prevState);
         }
