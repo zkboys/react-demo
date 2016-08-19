@@ -45,7 +45,7 @@ export class LayoutComponent extends Component {
 
         const formItemLayout = {
             labelCol: {span: 3},
-            wrapperCol: {span: 14},
+            wrapperCol: {span: 21},
         };
 
         return (
@@ -68,26 +68,25 @@ export class LayoutComponent extends Component {
                         label="页面过场动画："
                     >
                         <Switch
+                            style={{float: 'left'}}
                             checkedChildren="开"
                             unCheckedChildren="关"
                             checked={usePageWitchAnimation}
                             onChange={checked => this.props.actions.setSettings({usePageWitchAnimation: checked})}
                         />
-                    </FormItem>
-
-                    <FormItem
-                        {...formItemLayout}
-                        label="页面过场动画类型："
-                    >
-                        <RadioGroup onChange={this.handlePageAnimationTypeChange} value={pageAnimationType}>
-                            <Radio key="none" value="none">无</Radio>
-                            <Radio key="random" value="random">随机</Radio>
-                            <Radio key="fade" value="fade">淡入淡出</Radio>
-                            <Radio key="up" value="up">上侧出入场</Radio>
-                            <Radio key="down" value="down">下侧出入场</Radio>
-                            <Radio key="left" value="left">左侧出入场</Radio>
-                            <Radio key="right" value="right">右侧出入场</Radio>
-                        </RadioGroup>
+                        <div className="page-animation-type" style={{display: usePageWitchAnimation ? 'inline-block' : 'none'}}>
+                            <RadioGroup
+                                onChange={this.handlePageAnimationTypeChange}
+                                value={pageAnimationType}
+                            >
+                                <Radio key="random" value="random">随机</Radio>
+                                <Radio key="fade" value="fade">淡入淡出</Radio>
+                                <Radio key="up" value="up">↑上侧出入场</Radio>
+                                <Radio key="right" value="right">→右侧出入场</Radio>
+                                <Radio key="down" value="down">↓下侧出入场</Radio>
+                                <Radio key="left" value="left">←左侧出入场</Radio>
+                            </RadioGroup>
+                        </div>
                     </FormItem>
 
                 </Form>
