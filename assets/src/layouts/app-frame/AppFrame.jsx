@@ -29,10 +29,12 @@ export class LayoutComponent extends Component {
             pageStatus,
             pageAnimationType,
         } = this.props;
+
         const {
             logout,
             toggleSideBar,
         } = this.props.actions;
+
         const collapsedClass = isSidebarCollapsed ? 'collapsed' : '';
         const fullClass = sideBarHidden ? 'full' : '';
         const pageHeaderFixedClass = pageHeaderFixed ? 'page-header-fixed' : '';
@@ -56,6 +58,8 @@ export class LayoutComponent extends Component {
                     hidden={sideBarHidden}
                 />
                 {
+                    // 元素使用了transform 内部元素 display:fixed 将失效 (chrome, opera)
+                    // 防止启用动画时 app-content 会添加transform属性, pageHeader 固定失效，这里需要将 PageHeader提出来
                     pageHeaderFixed ?
                         <PageHeader
                             className={`fixed ${collapsedClass} ${fullClass} ${pageStatus} ${pageAnimationType}`}

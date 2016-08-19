@@ -25,11 +25,13 @@ export class LayoutComponent extends Component {
     handlePageAnimationTypeChange = (e) => {
         const {actions} = this.props;
         const pageAnimationType = e.target.value;
+
         if (pageAnimationType === 'random') {
             actions.setSettings({randomPageAnimation: true});
         } else {
             actions.setSettings({pageAnimationType, randomPageAnimation: false});
         }
+
         // 过场动画效果提示
         setTimeout(() => {
             Utils.removeClass('.app-content', 'entered');
