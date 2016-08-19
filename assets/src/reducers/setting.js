@@ -4,6 +4,8 @@ let initialState = {
     isSidebarCollapsed: false,
     usePageWitchAnimation: true,
     pageHeaderFixed: true,
+    pageAnimationType: 'down',
+    randomPageAnimation: false,
 };
 
 export default function (state = initialState, action) {

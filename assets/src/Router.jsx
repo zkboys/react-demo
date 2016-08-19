@@ -4,6 +4,8 @@ import pageRouts from './allRoutes';
 import * as AppFrame from './layouts/app-frame/AppFrame';
 import * as Home from './layouts/home/Home';
 import connectComponent from './utils/connectComponent.js';
+import * as Utils from './utils';
+
 
 export class LayoutComponent extends Component {
     constructor(props) {
@@ -80,8 +82,15 @@ export class LayoutComponent extends Component {
     }
 
     onLeave = (prevState, oriOnLeave) => {
-        const {usePageWitchAnimation, actions} = this.props;
+        const {usePageWitchAnimation, actions, randomPageAnimation} = this.props;
         if (usePageWitchAnimation) {
+            if (randomPageAnimation) {
+                const pageAnimationTypes = ['up', 'down', 'left', 'right', 'fade'];
+                const random = Utils.getRandomNum(0, 4);
+                const pageAnimationType = pageAnimationTypes[random];
+                actions.setSettings({pageAnimationType});
+            }
+
             actions.setPageStatus('leaving');
         }
         if (oriOnLeave) {

@@ -27,6 +27,7 @@ export class LayoutComponent extends Component {
             pageHeader,
             pageHeaderFixed,
             pageStatus,
+            pageAnimationType,
         } = this.props;
         const {
             logout,
@@ -57,7 +58,7 @@ export class LayoutComponent extends Component {
                 {
                     pageHeaderFixed ?
                         <PageHeader
-                            className={`fixed ${collapsedClass} ${fullClass} ${pageStatus}`}
+                            className={`fixed ${collapsedClass} ${fullClass} ${pageStatus} ${pageAnimationType}`}
                             hidden={pageHeader.hidden}
                             title={pageHeader.title}
                             breadcrumb={pageHeader.breadcrumb}
@@ -66,7 +67,7 @@ export class LayoutComponent extends Component {
                         null
                 }
 
-                <div className={`app-content ${collapsedClass} ${fullClass} ${pageStatus} ${pageHeaderFixedClass} ${pageHeaderHiddenClass}`}>
+                <div className={`app-content ${collapsedClass} ${fullClass} ${pageStatus} ${pageHeaderFixedClass} ${pageHeaderHiddenClass} ${pageAnimationType}`}>
                     {
                         !pageHeaderFixed ?
                             <PageHeader

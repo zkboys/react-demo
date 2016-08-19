@@ -173,3 +173,9 @@ export function getCurrentSidebarMenuByUrl(menusData = []) {
         }
     }
 }
+
+export function getRandomNum(min, max) {
+    const range = max - min;
+    const rand = Math.random();
+    return (min + Math.round(rand * range));
+}
