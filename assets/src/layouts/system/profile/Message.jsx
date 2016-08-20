@@ -41,7 +41,7 @@ export class Message extends Component {
                 return;
             }
 
-            actions.saveUserMessage(values, () => {
+            actions.updateUserMessage(values, () => {
                 actions.updateCurrentUser(values);
             });
         });
@@ -73,7 +73,7 @@ export class Message extends Component {
         };
 
         return (
-            <div className="organization-org">
+            <div className="system-profile-message">
                 <Form horizontal>
                     <FormItem
                         {...formItemLayout}

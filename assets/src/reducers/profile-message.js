@@ -6,7 +6,7 @@ let initialState = {
 };
 
 export default handleActions({
-    [types.SAVE_USER_MESSAGE](state, action) {
+    [types.UPDATE_USER_MESSAGE](state, action) {
         const {/* error, */meta = {}} = action;
         const {sequence = {}} = meta;
         const loading = sequence.type === 'start';

@@ -21,4 +21,5 @@ export const TOGGLE_SIDE_BAR = 'TOGGLE_SIDE_BAR';
 export const SET_SETTING = 'SET_SETTING';
 
 // profile
-export const SAVE_USER_MESSAGE = 'SAVE_USER_MESSAGE';
+export const UPDATE_USER_MESSAGE = 'UPDATE_USER_MESSAGE';
+export const UPDATE_USER_PASS = 'UPDATE_USER_PASS';
