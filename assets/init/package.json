@@ -1,0 +1,19 @@
+{
+  "name": "rrf-cli",
+  "version": "0.0.1",
+  "description": "A simple CLI (react-redux-file-cli) for creating files of react-redux, eg. component.jsx action.js reducer.js ...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "scion": "bin/scion"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.9.0",
+    "ejs": "^2.5.1"
+  }
+}
