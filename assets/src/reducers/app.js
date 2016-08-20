@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes';
 import config from '../configs';
 import {getHeaderMenus, getCurrentHeaderMenuByUrl, convertToTree, getCurrentSidebarMenuByUrl} from '../utils';
+import {session} from '../utils/storage';
 
 let initialState = {
     headerMenus: [],
@@ -18,13 +19,22 @@ let initialState = {
 
 export default function (state = initialState, action) {
     const {type, payload} = action;
+
     switch (type) {
     case types.LOGOUT:
         return location.href = config.signInPath;
-    case types.GET_CURRNET_USER: {
+    case types.GET_CURRENT_USER: {
         return {
             ...state,
             user: payload,
+        };
+    }
+    case types.UPDATE_CURRENT_USER: {
+        const newUser = {...state.user, ...payload};
+        session.setItem('currentLoginUser', newUser);
+        return {
+            ...state,
+            user: newUser,
         };
     }
     case types.GET_MENUS: {

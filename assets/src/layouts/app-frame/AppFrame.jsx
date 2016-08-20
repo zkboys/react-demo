@@ -1,11 +1,26 @@
 import 'antd/dist/antd.css';
 import React, {Component} from 'react';
+import {message} from 'antd';
 import './style.less';
 import NavBar from './SideBar';
 import Header from './Header';
 import PageHeader from '../../components/page-header/PageHeader';
 
 export class LayoutComponent extends Component {
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        if (this.props.toast.id !== nextProps.toast.id) {
+            const {text, type} = nextProps.toast;
+            if (type === 'error') {
+                message.error(text);
+            } else if (type === 'success') {
+                message.success(text);
+            } else {
+                message.warning(text);
+            }
+        }
+    }
+
     componentDidMount() {
         const {actions} = this.props;
         actions.getMenus();
@@ -93,5 +108,6 @@ export function mapStateToProps(state) {
     return {
         ...state.app,
         ...state.setting,
+        ...state.utils,
     };
 }

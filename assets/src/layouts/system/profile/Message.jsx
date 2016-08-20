@@ -23,7 +23,10 @@ export class Message extends Component {
             if (errors) {
                 return;
             }
-            actions.saveUserMessage(values);
+
+            actions.saveUserMessage(values, () => {
+                actions.updateCurrentUser(values);
+            });
         });
     }
 

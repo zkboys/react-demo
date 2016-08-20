@@ -5,7 +5,8 @@ import {session} from '../utils/storage';
 
 export const logout = createAction(types.LOGOUT, async() => await appService.logout());
 export const getMenus = createAction(types.GET_MENUS, () => session.getItem('menus'));
-export const getCurrentUser = createAction(types.GET_CURRNET_USER, () => session.getItem('currentLoginUser'));
+export const getCurrentUser = createAction(types.GET_CURRENT_USER, () => session.getItem('currentLoginUser'));
+export const updateCurrentUser = createAction(types.UPDATE_CURRENT_USER);
 export const autoSetSideBarStatus = createAction(types.AUTO_SET_SIDE_BAR_STATUS, () => session.getItem('menus'));
 export const autoSetHeaderMenuStatus = createAction(types.AUTO_SET_HEADER_MENU_STATUS, () => session.getItem('menus'));
 export const autoSetPageHeaderStatus = createAction(types.AUTO_SET_PAGE_HEADER_STATUS, () => session.getItem('menus'));

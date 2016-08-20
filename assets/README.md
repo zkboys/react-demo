@@ -188,14 +188,25 @@ export const testAsync = createAction(
 
 #### action异步写法
 ```
-export const testAsync = createAction(
-    types.TEXT_ASYNC_DEMO,
-    async()=> {
-        return await homeService.getMsg(); // 返回promise
+import {createAction} from 'redux-actions';
+import * as types from '../constants/actionTypes';
+import * as profileService from '../services/profile-service';
+
+export const saveUserMessage = createAction(types.SAVE_USER_MESSAGE,
+    async(userMessage) => await profileService.saveUserMessage(userMessage), // 返回一个promise实例
+    (userMessage, resolved, rejected) => {
+        return {
+            resolved, // 执行异步action成功回调，使页面可以获取异步成功
+            rejected, // 执行异步action失败回调，使页面可以处理异步失败
+            autoTipError: '保存失败', // 系统自动提示错误， 默认 ‘未知系统错误’ 传递false，不使用系统提示
+            autoTipSuccess: '个人信息修改成功', // 默认 false，不显示成功提示信息，
+        };
     }
 );
 ```
+
 #### reducer 异步写法：
+有两种写法，第一种有机会获取所有action的数据，第二种，只能获取自己type的action数据，个人觉得获取所有action数据没有用，反而状态受干扰。推荐第二种写法
 ```
 import * as types from '../constants/actionTypes';
 
@@ -208,7 +219,7 @@ export default function (state = initialState, action) {
     const {payload, error, meta={}, type} = action;
     const {sequence = {}} = meta;
     const status = sequence.type === 'start';
-    if (status || error) { // 出错，或者正在请求中
+    if (status || error) { // 出错，或者正在请求中，注意： 这种写法将捕获所有异步action，自己模块得status要在自己的case中写。
         return {
             ...state,
             fetching: status,
@@ -234,9 +245,44 @@ export default function (state = initialState, action) {
 }
 
 ```
+```
+import {handleActions} from 'redux-actions';
+import * as types from '../constants/actionTypes';
+
+let initialState = {
+    loading: false,
+    orderState: '',
+};
+
+export default handleActions({
+    [types.SAVE_USER_MESSAGE](state, action) {
+        const {error, meta = {}} = action;
+        const {sequence = {}} = meta;
+        const loading = sequence.type === 'start';
+
+        // loading 要反应到页面上， error由middleware处理，全局message提示，或者各个页面添加回调处理
+        if (loading || error) {
+            return {
+                ...state,
+                loading,
+            };
+        }
+
+        return {
+            ...state,
+            orderState: 'success',
+            loading,
+        };
+    },
+}, initialState);
+
+```
 
 ### redux中的异常处理
-基于`flux-standard-action` 规范，异常action返回结构为：`{..., payload: error, error: true, ...}`
+- 基于`flux-standard-action` 规范，异常action返回结构为：`{..., payload: error, error: true, ...}`
+- `utilsMiddleware.js` 会根据 `meta.autoTipError`来确定是否全局提示处理异常信息
+- `asyncActionCallbackMiddleware.js` 会调用actions的回调函数，给具体页面处理异常的机会
+
 
 #### 异步异常
 异步操作统一使用的是promise，异常捕获在`src/store/promiseMiddleware.js`中间件中，一旦异步操作出现异常，action将传递给相应的reducer`{..., payload: error, error: true, ...}`

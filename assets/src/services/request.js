@@ -1,8 +1,16 @@
 import qs from 'query-string';
 import 'whatwg-fetch';
 import config from '../configs';
+import {session} from '../utils/storage';
 
 const urlPrefix = config.apiPath;
+
+function filterParams(params = {}) {
+    return {
+        ...params,
+        mock_user: session.getItem('currentLoginUser'),
+    };
+}
 
 function filterStatus(res) {
     const status = res.status;
@@ -25,6 +33,7 @@ function filterJSON(res) {
 }
 
 export function get(url, params) {
+    params = filterParams(params);
     url = urlPrefix + url;
     if (params) {
         url += `?${qs.stringify(params)}`;
@@ -37,6 +46,7 @@ export function get(url, params) {
 
 
 export function post(url, body) {
+    body = filterParams(body);
     url = urlPrefix + url;
     return fetch(url, {
         method: 'POST',
@@ -51,6 +61,7 @@ export function post(url, body) {
 }
 
 export function put(url, body) {
+    body = filterParams(body);
     url = urlPrefix + url;
     return fetch(url, {
         method: 'PUT',
@@ -65,6 +76,7 @@ export function put(url, body) {
 }
 
 export function del(url, body) {
+    body = filterParams(body);
     url = urlPrefix + url;
     return fetch(url, {
         method: 'DELETE',
