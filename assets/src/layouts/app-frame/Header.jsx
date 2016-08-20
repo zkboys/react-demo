@@ -29,6 +29,18 @@ class Header extends Component {
     handleExit = () => {
         this.props.exit();
     }
+
+    handleSignOutPopVisibleChange = (visible) => {
+        if (visible) {
+            // 使弹框固定，不随滚动条滚动
+            window.setTimeout(() => {
+                const popover = document.querySelector('.ant-popover.ant-popover-placement-bottomRight');
+                popover.style.top = '56px';
+                popover.style.position = 'fixed';
+            }, 0);
+        }
+    }
+
     renderMenus = () => {
         return this.props.menus.map((menu) => {
             return (
@@ -70,7 +82,12 @@ class Header extends Component {
                         </Link>
                     </li>
                     <li>
-                        <Popconfirm placement="bottomRight" title="您确定要退出系统吗？" onConfirm={handleExit}>
+                        <Popconfirm
+                            onVisibleChange={this.handleSignOutPopVisibleChange}
+                            placement="bottomRight"
+                            title="您确定要退出系统吗？"
+                            onConfirm={handleExit}
+                        >
                             <a>
                                 <FAIcon type="fa-sign-out"/>
                                 <span>退出系统</span>

@@ -147,8 +147,11 @@ render() {
 - store负责将数据以pros形式传递给component，以及通过中间件对数据统一处理。
 
 ### action：
-action 使用的是`redux-actions`模块构建的 `Flux Standard Action`
-> createAction(type, payloadCreator = Identity, ?metaCreator)
+- action 使用的是`redux-actions`模块构建的 `Flux Standard Action`
+    ```
+    createAction(type, payloadCreator = Identity, ?metaCreator)
+    ```
+- 各个action文件之间，不允许出现同名方法，`src/actions/index.js`中有检测。
 
 ### 回调处理
 调用actions方法时，给actions方法传入一个回调参数，这个回调参数，最终是由 `createAction` 的 `metaCreator` 参数处理的，项目中做了封装

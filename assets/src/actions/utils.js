@@ -21,4 +21,3 @@ export const getStateFromStorage = createAction(types.GET_STATE_FROM_STORAGE, ()
         rejected,
     };
 });
-

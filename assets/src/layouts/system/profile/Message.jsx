@@ -109,9 +109,8 @@ export class Message extends Component {
                         <span><Icon type="info-circle-o"/> 暂不支持其它性别</span>
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>
+                        <Button type="ghost" style={{marginRight: 8}} onClick={this.handleReset}>重置</Button>
                         <Button type="primary" loading={loading} onClick={this.handleSubmit}>确定</Button>
-                        &nbsp;&nbsp;&nbsp;
-                        <Button type="ghost" onClick={this.handleReset}>重置</Button>
                     </FormItem>
                 </Form>
             </div>
