@@ -8,6 +8,23 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 export class Message extends Component {
+    static defaultProps = {
+        loading: false,
+    };
+
+    static propTypes = {
+        loading: React.PropTypes.bool,
+        user: React.PropTypes.shape({
+            _id: React.PropTypes.string,
+            name: React.PropTypes.string,
+            email: React.PropTypes.string,
+            mobile: React.PropTypes.string,
+            gender: React.PropTypes.string,
+        }),
+        form: React.PropTypes.object,
+        actions: React.PropTypes.object,
+    };
+
     handleReset = (e) => {
         e.preventDefault();
         this.props.form.resetFields();
