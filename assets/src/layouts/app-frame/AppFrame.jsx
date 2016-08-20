@@ -8,9 +8,9 @@ import PageHeader from '../../components/page-header/PageHeader';
 
 export class LayoutComponent extends Component {
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (this.props.toast.id !== nextProps.toast.id) {
             const {text, type} = nextProps.toast;
+
             if (type === 'error') {
                 message.error(text);
             } else if (type === 'success') {
@@ -23,6 +23,7 @@ export class LayoutComponent extends Component {
 
     componentDidMount() {
         const {actions} = this.props;
+
         actions.getMenus();
         actions.getCurrentUser();
         actions.getStateFromStorage();

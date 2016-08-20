@@ -260,7 +260,8 @@ export default handleActions({
         const {sequence = {}} = meta;
         const loading = sequence.type === 'start';
 
-        // loading 要反应到页面上， error由middleware处理，全局message提示，或者各个页面添加回调处理
+        // loading 要反应到页面上， 
+        // error由middleware处理，全局message提示，或者各个页面添加回调处理
         if (loading || error) {
             return {
                 ...state,
@@ -280,7 +281,7 @@ export default handleActions({
 
 ### redux中的异常处理
 - 基于`flux-standard-action` 规范，异常action返回结构为：`{..., payload: error, error: true, ...}`
-- `utilsMiddleware.js` 会根据 `meta.autoTipError`来确定是否全局提示处理异常信息
+- `utilsMiddleware.js`会统一截获处理异常（无论异步还是同步）， 会根据 `meta.autoTipError`来确定是否全局提示处理异常信息
 - `asyncActionCallbackMiddleware.js` 会调用actions的回调函数，给具体页面处理异常的机会
 
 

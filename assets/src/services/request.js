@@ -6,10 +6,13 @@ import {session} from '../utils/storage';
 const urlPrefix = config.apiPath;
 
 function filterParams(params = {}) {
-    return {
-        ...params,
-        mock_user: session.getItem('currentLoginUser'),
-    };
+    if (process.env.NODE_ENV === 'development') {
+        return {
+            ...params,
+            mock_user: session.getItem('currentLoginUser'),
+        };
+    }
+    return params;
 }
 
 function filterStatus(res) {
