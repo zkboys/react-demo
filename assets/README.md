@@ -508,3 +508,4 @@ componentWillMount() {
 - [ ] 端对端测试写法
 - [x] 单元测试环境搭建。
 - [ ] 单元测试写法。
+- [ ] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦
