@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Table} from 'antd';
+import {Form, Input, Button, Table, Switch, Icon} from 'antd';
 import './style.less';
 import Operator from '../../../components/Operator';
-import SwitchPlus from '../../../components/switch-plus/SwitchPlus';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
 
 const FormItem = Form.Item;
@@ -83,12 +82,24 @@ export class UserList extends Component {
 
                 const id = record._id;
                 const loading = this.props.switchingLock[id];
+                const loadingChildren = <Icon type="loading"/>;
+                let checkedChildren = '是';
+                let unCheckedChildren = '否';
+
+                if (loading) {
+                    checkedChildren = loadingChildren;
+                    unCheckedChildren = loadingChildren;
+                }
 
                 return (
-                    <SwitchPlus
-                        loading={loading}
+                    <Switch
+                        unCheckedChildren={unCheckedChildren}
+                        checkedChildren={checkedChildren}
                         checked={record.is_locked}
-                        onChange={(checked) => this.props.actions.toggleUserLock({id, isLocked: !checked})}
+                        onChange={(checked) => {
+                            if (loading) return;
+                            this.props.actions.toggleUserLock({id, isLocked: !checked});
+                        }}
                     />
                 );
             },
@@ -102,7 +113,7 @@ export class UserList extends Component {
                 }
 
                 const id = record._id;
-                const options = [
+                const items = [
                     {
                         loading: this.state.editingId === id,
                         label: '编辑',
@@ -131,7 +142,7 @@ export class UserList extends Component {
                     },
                 ];
 
-                return (<Operator options={options}/>);
+                return (<Operator items={items}/>);
             },
         },
     ];

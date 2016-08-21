@@ -6,7 +6,7 @@ class Operator extends React.Component {
     loading = <span style={{padding: '0px 6px'}}><Icon type="loading"/></span>;
 
     static propTypes = {
-        options: React.PropTypes.arrayOf(React.PropTypes.shape({
+        items: React.PropTypes.arrayOf(React.PropTypes.shape({
             onClick: React.PropTypes.func.isRequired,
             label: React.PropTypes.string.isRequired,
             permission: React.PropTypes.string,
@@ -16,10 +16,10 @@ class Operator extends React.Component {
     };
 
     render() {
-        const options = this.props.options;
+        const items = this.props.items;
         let operators = [];
 
-        options.forEach((opt) => {
+        items.forEach((opt) => {
             const permission = opt.permission;
             const loading = opt.loading;
             const onClick = opt.onClick;

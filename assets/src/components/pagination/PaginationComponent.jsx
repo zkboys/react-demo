@@ -16,7 +16,13 @@ class PaginationComponent extends React.Component {
     };
 
     static propTypes = {
-        // TODO 完善propTypes
+        showSizeChanger: React.PropTypes.bool,
+        showQuickJumper: React.PropTypes.bool,
+        showMessage: React.PropTypes.bool,
+        pageSize: React.PropTypes.number,
+        currentPage: React.PropTypes.number,
+        totalCount: React.PropTypes.number,
+        onChange: React.PropTypes.func,
     }
 
     handleChange = (currentPage, pageSize) => {
@@ -47,7 +53,7 @@ class PaginationComponent extends React.Component {
         const totalPage = Math.ceil(totalCount / pageSize);
         let style = this.props.style;
         if (totalPage <= 1) {
-            style = assign({}, /* {display: 'none'},*/ style);
+            style = assign({}, {display: 'none'}, style);
         }
         return (
             <div className="pagination-component" style={style}>
