@@ -88,7 +88,7 @@ export class UserList extends Component {
                     <SwitchPlus
                         loading={loading}
                         checked={record.is_locked}
-                        onChange={(checked) => this.handleSwitchLock(id, checked)}
+                        onChange={(checked) => this.props.actions.toggleUserLock({id, isLocked: !checked})}
                     />
                 );
             },
@@ -118,9 +118,7 @@ export class UserList extends Component {
                         confirm: {
                             title: `您确定要删除“${record.name}”？`,
                         },
-                        onClick: () => {
-                            this.handleDelete(id);
-                        },
+                        onClick: () => this.props.actions.deleteUser({id}),
                     },
                     {
                         loading: this.props.resetting[id],
@@ -129,9 +127,7 @@ export class UserList extends Component {
                         confirm: {
                             title: `您确定要重置“${record.name}”的密码吗？`,
                         },
-                        onClick: () => {
-                            this.handleResetPass(id);
-                        },
+                        onClick: () => this.props.actions.resetUserPass({id}),
                     },
                 ];
                 return (<Operator options={options}/>);
@@ -145,19 +141,8 @@ export class UserList extends Component {
         actions.getUsersByParams(params);
     }
 
-    handleSwitchLock = (id, isLocked) => {
-        const {actions} = this.props;
-        actions.toggleUserLock({id, isLocked: !isLocked});
-    }
-
-    handleResetPass = (id) => {
-        const {actions} = this.props;
-        actions.resetUserPass({id});
-    }
-
-    handleDelete = (id) => {
-        const {actions} = this.props;
-        actions.deleteUser({id});
+    handleEdit = (id) => {
+        alert(id);
     }
 
     handleSubmit = (e) => {
