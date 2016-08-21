@@ -5,7 +5,7 @@ export default [
         path: '/organization/users',
         getComponent: (location, cb) => {
             require.ensure([], (require) => {
-                cb(null, connectComponent(require('./user/User')));
+                cb(null, connectComponent(require('./user/UserList')));
             });
         },
     },

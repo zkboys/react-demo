@@ -475,6 +475,25 @@ componentWillMount() {
 ## 页面过场动画
 在`src/Router.jsx`中，为每个route添加了onEnter和onLeave方法（没找到统一方法，只能为每个route添加），通过action，为页面容器app-content设置entered和leaving两个class，通过class使用css3添加过场动画。
 
+## 页面离开提示
+```
+...
+static contextTypes = {
+    router: React.PropTypes.object,
+};
+...
+componentDidMount() {
+    const {route} = this.props;
+    const {router} = this.context; // If contextTypes is not defined, then context will be an empty object.
+
+    router.setRouteLeaveHook(route, (/* nextLocation */) => {
+        // 返回 false 会继续停留当前页面，
+        // 否则，返回一个字符串，会显示给用户，让其自己决定
+        return '您有未保存的内容，确认要离开？';
+    });
+}
+...
+```
 ## 坑
 - webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
     ```

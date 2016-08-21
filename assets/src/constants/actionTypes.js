@@ -23,3 +23,15 @@ export const SET_SETTING = 'SET_SETTING';
 // profile
 export const UPDATE_USER_MESSAGE = 'UPDATE_USER_MESSAGE';
 export const UPDATE_USER_PASS = 'UPDATE_USER_PASS';
+
+// user
+export const GET_USERS_BY_PARAMS = 'GET_USERS_BY_PARAMS';
+export const TOGGLE_LOCK_USER = 'TOGGLE_LOCK_USER';
+export const RESET_USER_PASS = 'RESET_USER_PASS';
+export const DELETE_USER = 'DELETE_USER';
+
+// organization
+export const GET_ALL_ORGANIZATIONS = 'GET_ALL_ORGANIZATIONS';
+
+// role
+export const GET_ALL_ROLES = 'GET_ALL_ROLES';

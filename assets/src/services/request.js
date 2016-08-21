@@ -1,17 +1,21 @@
 import qs from 'query-string';
 import 'whatwg-fetch';
 import config from '../configs';
-import {session} from '../utils/storage';
+import {getCurrentLoginUser} from '../services/user';
 
 const urlPrefix = config.apiPath;
 
 function filterParams(params = {}) {
     if (process.env.NODE_ENV === 'development') {
+        const currentLoginUser = getCurrentLoginUser();
         return {
             ...params,
-            mock_user: session.getItem('currentLoginUser'),
+            mock_user_id: currentLoginUser._id,
         };
     }
+
+    const dom = document.querySelector('meta[name="csrf-token"]');
+    params._csrf = dom && dom.getAttribute('content');
     return params;
 }
 
@@ -22,6 +26,11 @@ function filterStatus(res) {
     if (status >= 200 && status < 300) {
         return res;
     }
+
+    if (status === 401) {
+        // window.location.href = config.signInPath;
+    }
+
     return res.json().then(body => {
         let error = new Error(statusText);
         error.body = body;

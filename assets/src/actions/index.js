@@ -3,8 +3,14 @@ import * as app from './app';
 import * as setting from './setting';
 import * as profileMessage from './profile-message';
 import * as profilePass from './profile-pass';
+import * as organizationUser from './organization-user';
+import * as organizationRole from './organization-role';
+import * as organization from './organization';
 
 const actions = {
+    organization,
+    organizationRole,
+    organizationUser,
     profilePass,
     profileMessage,
     app,

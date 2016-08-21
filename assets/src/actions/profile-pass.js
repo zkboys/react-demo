@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
 import * as types from '../constants/actionTypes';
-import * as profileService from '../services/profile-service';
+import * as profileService from '../services/profile';
 
 export const saveUserPass = createAction(types.UPDATE_USER_PASS,
     async(userPass) => await profileService.updateUserPass(userPass),

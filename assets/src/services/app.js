@@ -1,6 +1,6 @@
-import * as requestService from './request';
+import * as request from './request';
 
 export function logout() {
-    return requestService.post('/signout')
+    return request.post('/signout')
         .then(data => data);
 }

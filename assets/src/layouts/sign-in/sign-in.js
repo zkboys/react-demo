@@ -132,7 +132,7 @@ function handleResetPass() {
         rePass: reNewPass,
     };
     showLoading();
-    requestService.post('/signin', params)
+    requestService.put('/first_login', params)
         .then((res) => {
             const refer = res.refer || '/';
             const menus = res.menus || [];
