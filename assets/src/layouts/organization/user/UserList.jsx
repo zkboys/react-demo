@@ -13,9 +13,7 @@ export class UserList extends Component {
         currentPage: 1,
     };
 
-    static defaultProps = {
-        loading: false,
-    };
+    static defaultProps = {};
 
     static propTypes = {};
 
@@ -82,8 +80,10 @@ export class UserList extends Component {
             key: 'is_locked',
             render: (text, record) => {
                 if (record.loginname === 'admin') return '';
+
                 const id = record._id;
                 const loading = this.props.switchingLock[id];
+
                 return (
                     <SwitchPlus
                         loading={loading}
@@ -130,6 +130,7 @@ export class UserList extends Component {
                         onClick: () => this.props.actions.resetUserPass({id}),
                     },
                 ];
+
                 return (<Operator options={options}/>);
             },
         },
@@ -177,6 +178,7 @@ export class UserList extends Component {
         const {form: {getFieldProps}, users: {results: users, totalCount}} = this.props;
         const pageSize = this.state.pageSize;
         const currentPage = this.state.currentPage;
+
         return (
             <div className="organization-user">
                 <div className="query-item-bar">
