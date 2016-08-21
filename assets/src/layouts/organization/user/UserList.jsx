@@ -195,9 +195,11 @@ export class UserList extends Component {
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form>
                 </div>
+
                 <div className="tool-bar">
                     <Button type="primary">添加</Button>
                 </div>
+
                 <Table
                     size="middle"
                     rowKey={(record) => record._id}
@@ -205,6 +207,7 @@ export class UserList extends Component {
                     dataSource={users}
                     pagination={false}
                 />
+
                 <PaginationComponent
                     pageSize={pageSize}
                     currentPage={currentPage}
