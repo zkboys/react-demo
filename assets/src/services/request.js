@@ -7,7 +7,7 @@ const urlPrefix = config.apiPath;
 
 function filterParams(params = {}) {
     if (process.env.NODE_ENV === 'development') {
-        const currentLoginUser = getCurrentLoginUser();
+        const currentLoginUser = getCurrentLoginUser() || {};
         return {
             ...params,
             mock_user_id: currentLoginUser._id,
