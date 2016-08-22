@@ -12,7 +12,16 @@ export class UserList extends Component {
         currentPage: 1,
     };
 
-    static defaultProps = {};
+    static defaultProps = {
+        gettingUsers: false,
+        switchingLock: {},
+        deleting: {},
+        resetting: {},
+        users: {
+            results: [],
+            totalCount: 0,
+        },
+    };
 
     static propTypes = {
         gettingUsers: PropTypes.bool,
