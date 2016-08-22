@@ -1,31 +1,40 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Icon, Popconfirm} from 'antd';
 import {hasPermission} from '../services/user';
 
-class Operator extends React.Component {
-    loading = <span style={{padding: '0px 6px'}}><Icon type="loading"/></span>;
+class Operator extends Component {
+    loadingIcon = <Icon type="loading"/>;
 
     static propTypes = {
-        items: React.PropTypes.arrayOf(React.PropTypes.shape({
-            onClick: React.PropTypes.func.isRequired,
-            label: React.PropTypes.string.isRequired,
-            permission: React.PropTypes.string,
-            loading: React.PropTypes.bool,
-            confirm: React.PropTypes.object,
+        items: PropTypes.arrayOf(PropTypes.shape({
+            onClick: PropTypes.func.isRequired,
+            label: PropTypes.string.isRequired,
+            permission: PropTypes.string,
+            loading: PropTypes.bool,
+            confirm: PropTypes.object,
         })),
     };
+
+    label = {}
 
     render() {
         const items = this.props.items;
         let operators = [];
 
-        items.forEach((opt) => {
+        items.forEach((opt, i) => {
             const permission = opt.permission;
             const loading = opt.loading;
             const onClick = opt.onClick;
-            const label = loading ? this.loading : opt.label;
+            let label = opt.label;
             const confirm = opt.confirm;
             let hasPer = true;
+
+            if (loading) {
+                const labelWidth = this.label[i].offsetWidth;
+                label = <span style={{display: 'inline-block', width: labelWidth, textAlign: 'center'}}>{this.loadingIcon}</span>;
+            } else {
+                label = <span ref={v => this.label[i] = v}>{label}</span>;
+            }
 
             if (permission) {
                 hasPer = hasPermission(permission);
