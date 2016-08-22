@@ -66,6 +66,8 @@ export class LayoutComponent extends Component {
         const {usePageWitchAnimation, actions} = this.props;
         const switchDuring = 150;
 
+        const scrollDom = document.documentElement || document.body;
+
         if (usePageWitchAnimation) {
             setTimeout(() => {
                 actions.autoSetPageHeaderStatus();
@@ -74,12 +76,12 @@ export class LayoutComponent extends Component {
                 if (oriOnEnter) {
                     oriOnEnter(nextState, replace, callback);
                 } else {
-                    window.document.body.scrollTop = 0;
+                    scrollDom.scrollTop = 0;
                     callback();
                 }
             }, switchDuring);
         } else {
-            window.document.body.scrollTop = 0;
+            scrollDom.scrollTop = 0;
             callback();
         }
     }
