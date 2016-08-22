@@ -13,7 +13,7 @@ export class LayoutComponent extends Component {
     componentWillMount() {
         const {actions} = this.props;
         actions.setPageHeaderStatus({
-            hidden: true,
+            hidden: false,
             title: '组织架构-自定义title',
         });
     }

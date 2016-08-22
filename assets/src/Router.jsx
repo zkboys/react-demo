@@ -74,10 +74,12 @@ export class LayoutComponent extends Component {
                 if (oriOnEnter) {
                     oriOnEnter(nextState, replace, callback);
                 } else {
+                    window.document.body.scrollTop = 0;
                     callback();
                 }
             }, switchDuring);
         } else {
+            window.document.body.scrollTop = 0;
             callback();
         }
     }
