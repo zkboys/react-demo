@@ -58,7 +58,7 @@ class Operator extends Component {
         const operatorsLength = operators.length;
 
         if (!operatorsLength) {
-            return <span>您无任何操作权限</span>;
+            return <span>无操作权限</span>;
         }
 
         return (
