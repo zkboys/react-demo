@@ -1,3 +1,4 @@
+import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 import config from '../configs';
 import {getHeaderMenus, getCurrentHeaderMenuByUrl, convertToTree, getCurrentSidebarMenuByUrl} from '../utils';
@@ -17,27 +18,42 @@ let initialState = {
     pageStatus: 'entered',
 };
 
-export default function (state = initialState, action) {
-    const {type, payload} = action;
+export default handleActions({
+    [types.LOGOUT](state, action) {
+        const {meta = {}, error} = action;
+        const {sequence = {}} = meta;
+        const status = sequence.type === 'start';
 
-    switch (type) {
-    case types.LOGOUT:
-        return location.href = config.signInPath;
-    case types.GET_CURRENT_USER: {
+        if (status || error) {
+            return state;
+        }
+
+        window.location.href = config.signInPath;
+
+        return state;
+    },
+    [types.GET_CURRENT_USER](state, action) {
+        const {payload} = action;
+
         return {
             ...state,
             user: payload,
         };
-    }
-    case types.UPDATE_CURRENT_USER: {
+    },
+    [types.UPDATE_CURRENT_USER](state, action) {
+        const {payload} = action;
         const newUser = {...state.user, ...payload};
+
         session.setItem('currentLoginUser', newUser);
+
         return {
             ...state,
             user: newUser,
         };
-    }
-    case types.GET_MENUS: {
+    },
+    [types.GET_MENUS](state, action) {
+        const {payload} = action;
+
         if (!payload || !payload.length) {
             return {
                 ...state,
@@ -47,36 +63,44 @@ export default function (state = initialState, action) {
         let headerMenus = getHeaderMenus(payload);
         let headMenu = getCurrentHeaderMenuByUrl(headerMenus);
         let sideBarMenus = [];
+
         if (headMenu) {
             sideBarMenus = convertToTree(payload, headMenu);
         }
+
         const sideBarHidden = !sideBarMenus.length;
         headerMenus = headerMenus.filter(menu => {
             return menu.key !== 'system';
         });
+
         return {
             ...state,
             headerMenus,
             sideBarMenus,
             sideBarHidden,
         };
-    }
-    case types.AUTO_SET_SIDE_BAR_STATUS: {
+    },
+    [types.AUTO_SET_SIDE_BAR_STATUS](state, action) {
+        const {payload} = action;
         const {parentKeys: openKeys, key: selectedKeys} = getCurrentSidebarMenuByUrl(payload) || state;
+
         return {
             ...state,
             openKeys,
             selectedKeys,
         };
-    }
-    case types.AUTO_SET_HEADER_MENU_STATUS: {
+    },
+    [types.AUTO_SET_HEADER_MENU_STATUS](state, action) {
+        const {payload} = action;
         const {key: currentHeaderKey} = getCurrentHeaderMenuByUrl(payload) || state;
+
         return {
             ...state,
             currentHeaderKey,
         };
-    }
-    case types.AUTO_SET_PAGE_HEADER_STATUS: {
+    },
+    [types.AUTO_SET_PAGE_HEADER_STATUS](state, action) {
+        const {payload} = action;
         const {parentNodes, text, icon} = getCurrentSidebarMenuByUrl(payload) || {};
         const breadcrumb = [];
 
@@ -103,20 +127,21 @@ export default function (state = initialState, action) {
                 breadcrumb,
             },
         };
-    }
-    case types.SET_PAGE_HEADER_STATUS: {
+    },
+    [types.SET_PAGE_HEADER_STATUS](state, action) {
+        const {payload} = action;
+
         return {
             ...state,
             pageHeader: {...state.pageHeader, ...payload},
         };
-    }
-    case types.SET_PAGE_STATUS: {
+    },
+    [types.SET_PAGE_STATUS](state, action) {
+        const {payload} = action;
+
         return {
             ...state,
             pageStatus: payload,
         };
-    }
-    default:
-        return state;
-    }
-}
+    },
+}, initialState);
