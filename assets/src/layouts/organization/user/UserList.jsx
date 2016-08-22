@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Table, Switch, Icon} from 'antd';
+import {Form, Input, Button, Table, Switch, Icon, Spin} from 'antd';
 import './style.less';
 import Operator from '../../../components/Operator';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
@@ -14,7 +14,16 @@ export class UserList extends Component {
 
     static defaultProps = {};
 
-    static propTypes = {};
+    static propTypes = {
+        gettingUsers: React.PropTypes.bool,
+        switchingLock: React.PropTypes.object,
+        deleting: React.PropTypes.object,
+        resetting: React.PropTypes.object,
+        users: React.PropTypes.shape({
+            results: React.PropTypes.array.isRequired,
+            totalCount: React.PropTypes.number.isRequired,
+        }),
+    };
 
     columns = [
         {
@@ -186,7 +195,7 @@ export class UserList extends Component {
     }
 
     render() {
-        const {form: {getFieldProps}, users: {results: users, totalCount}} = this.props;
+        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}} = this.props;
         const pageSize = this.state.pageSize;
         const currentPage = this.state.currentPage;
 
@@ -210,15 +219,15 @@ export class UserList extends Component {
                 <div className="tool-bar">
                     <Button type="primary">添加</Button>
                 </div>
-
-                <Table
-                    size="middle"
-                    rowKey={(record) => record._id}
-                    columns={this.columns}
-                    dataSource={users}
-                    pagination={false}
-                />
-
+                <Spin spinning={gettingUsers}>
+                    <Table
+                        size="middle"
+                        rowKey={(record) => record._id}
+                        columns={this.columns}
+                        dataSource={users}
+                        pagination={false}
+                    />
+                </Spin>
                 <PaginationComponent
                     pageSize={pageSize}
                     currentPage={currentPage}

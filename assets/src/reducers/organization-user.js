@@ -6,7 +6,10 @@ let initialState = {
     switchingLock: {},
     deleting: {},
     resetting: {},
-    users: {},
+    users: {
+        results: [],
+        totalCount: 0,
+    },
 };
 
 export default handleActions({
@@ -23,6 +26,7 @@ export default handleActions({
         return {
             ...state,
             users: payload,
+            gettingUsers,
         };
     },
     [types.TOGGLE_LOCK_USER](state, action) {
