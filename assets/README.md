@@ -298,7 +298,8 @@ export default handleActions({
 
 ## 路由&菜单
 做大型应用时，route比较多，写在一个routes.js文件中，一是routes.js会过于庞大，不好维护，二是团队协作时，很容易产生冲突。
-因此每个模块的路由，写在自己的模块下(以routes.js命名)，无法在各个模块routes.js中定义的router，统一在`src/routes.js`中定义。所有的路由最终通过脚本规整到`src/allRoutes.js`文件下。
+因此每个模块的路由，写在自己的模块下(以routes.js命名)，无法在各个模块routes.js中定义的router，统一在`src/routes.js`中定义。
+所有的路由最终通过脚本规整到`src/allRoutes.js`文件下。新增路由文件`routes.js`后要执行`npm run route`重新生成`src/allRoutes.js`文件
 
 - 系统会根据url同步页面下状态：
     - 头部导航选中状态
@@ -385,7 +386,7 @@ http:localhost:8080/store/order/take_out/new_orders/21/edit
 ```
 
 #### 菜单数据来源：
-左侧菜单数据由后台提供，会包含path，路由前端单独维护，通过path跟菜单（或者Link）关联。
+左侧菜单数据由后台提供，会包含path，路由前端单独维护，通过path跟菜单（或者Link）关联。登录成功之后，会把菜单数据缓存在sessionStorage中，菜单数据有变动，需要重新登录才能生效。
 
 *注:头部和左侧菜单也可以前端硬编码,根据项目具体需求,具体决定.*
 
@@ -423,20 +424,20 @@ browserHistory.listen(function (data) {
 ```
 
 ## 按需加载
-react-router改成如下写法就可以按需加载:
+使用按需加载，具体某个模块改动，只会影响到当前模块对应生成的js文件和common.js，不会影响其他生成的文件，可以提高文件的缓存利用率，加速首页加载．
 
+react-router改成如下写法就可以按需加载:
 ```javascript
 {
-    path: '/system/mail/read', getComponent: (location, cb) => {
-    require.ensure([], (require) => {
-        cb(null, require('./mail/ReadMail'));
-    })
-}
+    path: '/organization/users',
+    getComponent: (location, cb) => {
+        require.ensure([], (require) => {
+            cb(null, connectComponent(require('./user/UserList')));
+        });
+    },
+},
 ```
-按需加载的模块，就不要重复import，否则不会单独生成文件，按需加载会失效。
-
-具体某个模块改动，只会影响到当前模块对应生成的文件和common.js不会影响其他生成的文件，可以提高文件的缓存利用率，加速首页加载．
-
+*注：按需加载的模块，就不要重复import，否则不会单独生成文件，按需加载会失效。*
 
 ## 页面头部设置
 默认根据菜单状态自动设置头部
@@ -454,6 +455,7 @@ componentDidMount() {
 }
 ...
 ```
+
 各个页面可以自定义头部
 ```javascript
 componentWillMount() {
@@ -477,6 +479,7 @@ componentWillMount() {
 在`src/Router.jsx`中，为每个route添加了onEnter和onLeave方法（没找到统一方法，只能为每个route添加），通过action，为页面容器app-content设置entered和leaving两个class，通过class使用css3添加过场动画。
 
 ## 页面离开提示
+一般可以用于编辑页面，当路由切换到其它页面前，如果有未保存内容，提示用户是否放弃保存。
 ```javascript
 ...
 static contextTypes = {
@@ -515,7 +518,6 @@ componentDidMount() {
         allChunks: true // 不设置成true，webpack异步方式加载的组件 样式无法引入 坑！！！
     }),
     ```
-
 - npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
 
 
