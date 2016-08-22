@@ -158,7 +158,10 @@ export class UserList extends Component {
 
     search = () => {
         const {actions, form: {getFieldsValue}} = this.props;
-        const params = getFieldsValue();
+        let params = {
+            ...getFieldsValue(),
+            ...this.state,
+        };
         actions.getUsersByParams(params);
     }
 
@@ -168,7 +171,10 @@ export class UserList extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.search();
+        this.setState({
+            currentPage: 1,
+        });
+        setTimeout(this.search, 0);
     }
 
     handlePageChange = (currentPage, pageSize) => {
@@ -182,6 +188,8 @@ export class UserList extends Component {
                 currentPage,
             });
         }
+        // setState当前函数不生效，将search推迟到下一个时钟周期触发
+        setTimeout(this.search, 0);
     }
 
     componentWillMount() {
