@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {PropTypes, Component} from 'react';
 import assign from 'object-assign';
 import {Pagination} from 'antd';
 import './style.less';
 
-class PaginationComponent extends React.Component {
+class PaginationComponent extends Component {
     static defaultProps = {
         showSizeChanger: true,
         showQuickJumper: true,
@@ -16,13 +16,13 @@ class PaginationComponent extends React.Component {
     };
 
     static propTypes = {
-        showSizeChanger: React.PropTypes.bool,
-        showQuickJumper: React.PropTypes.bool,
-        showMessage: React.PropTypes.bool,
-        pageSize: React.PropTypes.number,
-        currentPage: React.PropTypes.number,
-        totalCount: React.PropTypes.number,
-        onChange: React.PropTypes.func,
+        showSizeChanger: PropTypes.bool,
+        showQuickJumper: PropTypes.bool,
+        showMessage: PropTypes.bool,
+        pageSize: PropTypes.number,
+        currentPage: PropTypes.number,
+        totalCount: PropTypes.number,
+        onChange: PropTypes.func,
     }
 
     handleChange = (currentPage, pageSize) => {

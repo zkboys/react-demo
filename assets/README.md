@@ -560,3 +560,4 @@ componentDidMount() {
 - [ ] 单元测试写法。
 - [ ] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦
 - [ ] 前后端分离，数据交互问题，crsf问题。
+- [ ] antd spin 组件消失时，有个500毫秒延迟，不知道官方什么时候能够提示可配置时间

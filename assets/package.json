@@ -59,7 +59,6 @@
     "ora": "^0.2.0",
     "postcss-loader": "^0.9.1",
     "query-string": "^4.2.2",
-    "rc-queue-anim": "^0.12.4",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",

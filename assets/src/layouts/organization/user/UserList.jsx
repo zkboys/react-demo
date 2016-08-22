@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Form, Input, Button, Table, Switch, Icon, Spin} from 'antd';
 import './style.less';
 import Operator from '../../../components/Operator';
@@ -15,13 +15,13 @@ export class UserList extends Component {
     static defaultProps = {};
 
     static propTypes = {
-        gettingUsers: React.PropTypes.bool,
-        switchingLock: React.PropTypes.object,
-        deleting: React.PropTypes.object,
-        resetting: React.PropTypes.object,
-        users: React.PropTypes.shape({
-            results: React.PropTypes.array.isRequired,
-            totalCount: React.PropTypes.number.isRequired,
+        gettingUsers: PropTypes.bool,
+        switchingLock: PropTypes.object,
+        deleting: PropTypes.object,
+        resetting: PropTypes.object,
+        users: PropTypes.shape({
+            results: PropTypes.array.isRequired,
+            totalCount: PropTypes.number.isRequired,
         }),
     };
 
