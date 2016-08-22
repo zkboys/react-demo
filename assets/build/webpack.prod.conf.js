@@ -49,6 +49,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         // see https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
             chunks: ['app', 'vendor', 'manifest'],
+            favicon: 'favicon.png',
             filename: process.env.NODE_ENV === 'testing'
                 ? 'index.html'
                 : config.build.index,
@@ -66,6 +67,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         }),
         new HtmlWebpackPlugin({
             chunks: ['signIn'],
+            favicon: 'favicon.png',
             filename: process.env.NODE_ENV === 'testing'
                 ? 'signin.html'
                 : config.build.sigin,

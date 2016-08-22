@@ -1,6 +1,20 @@
 import assign from 'object-assign';
 
 /**
+ * 获取cookie
+ * @param objName
+ * @returns {string}
+ */
+export function getCookie(objName) {
+    let arrStr = document.cookie.split('; ');
+    for (let i = 0; i < arrStr.length; i++) {
+        let temp = arrStr[i].split('=');
+        if (temp[0] === objName) return unescape(temp[1]);
+    }
+    return '';
+}
+
+/**
  * 获取滚动条宽度
  * @returns {number}
  */

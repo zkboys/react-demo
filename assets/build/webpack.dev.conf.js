@@ -41,12 +41,14 @@ module.exports = merge(baseWebpackConfig, {
         // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
             chunks: ['app'],
+            favicon: 'favicon.png',
             filename: 'index.html',
             template: 'index.html',
             inject: true
         }),
         new HtmlWebpackPlugin({
             chunks: ['signIn'],
+            favicon: 'favicon.png',
             filename: 'signin.html',
             template: 'signin.html',
             inject: true
