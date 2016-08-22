@@ -510,6 +510,24 @@ componentDidMount() {
 - props单个定义，不要使用options之类的对象，封装不相干的props
 - 使用`shouldComponentUpdate(nextProps, nextState)`优化组件性能
 
+## 前后端分离
+前后端分离，可以使前后端开发独立，各自不用关心对方是如何实现的，项目也可以分开管理
+
+### 前端实现
+前端开发过程中会启动一个node express服务器，这个服务器主要有一下作用：
+
+- 提供webpackd evserver功能，加快rebuild速度，提供热刷新，热重载功能等
+- 前端请求反向代理到后端服务器，使前端开发过程中就能请求后端真实接口
+
+前端请求需要登录的接口怎么搞，能够模拟cookie吗？目前是每个请求都携带了用户id，后端处理的。
+
+## 后端实现
+后端可以通过启动不同模式，区分开发模式，和线上模式的不同处理
+
+- 后端要关闭crsf功能，或者提供其他方式，让前端获取到
+- 请求需要登录的接口的特殊处理
+ 
+
 ## 坑
 - webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
     ```javascript
@@ -543,3 +561,4 @@ componentDidMount() {
 - [x] 单元测试环境搭建。
 - [ ] 单元测试写法。
 - [ ] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦
+- [ ] 前后端分离，数据交互问题，涉及到登录的接口，和crsf问题。反向代理应该可以携带cookie
