@@ -32,7 +32,7 @@ npm run build
 
 
 ## React ES6+写法
-```
+```javascript
 class App extends React.Component{
     // 构造函数，一般不用写
     constructor(props){
@@ -65,7 +65,7 @@ class App extends React.Component{
 Autobinding: When creating callbacks in JavaScript, you usually need to explicitly bind a method to its instance such that the value of this is correct. With React, every method is automatically bound to its component instance. React caches the bound method such that it's extremely CPU and memory efficient. It's also less typing!
 
 新的ES6写法如果要实现this还指向当前对象,有三种写法:个人感觉箭头函数写法最优雅.
-```
+```javascript
 第一种:this._handleClick.bind(this)
 
 _handleClick(e) {
@@ -123,7 +123,7 @@ render() {
 - 各个页面（组件）要export出两个变量`LayoutComponent`和`mapStateToProps`；使用`src/utils/connectComponent.js`使组件与redux做链接时会用到；
 - `mapStateToProps` 用于指定redux的state中哪部分数据用于当前组件，由于reducer的`combineReducers`方法包装之后，将各个reducer的state存放在对应的key中，key指的是combineReducers包装时指定的key，比如：
     
-    ```
+    ```javascript
     // src/reducers/index.js
     export default combineReducers({
         home, // 这个home就是key，es6写法
@@ -148,15 +148,15 @@ render() {
 
 ### action：
 - action 使用的是`redux-actions`模块构建的 `Flux Standard Action`
-    ```
+    ```javascript
     createAction(type, payloadCreator = Identity, ?metaCreator)
     ```
 - 各个action文件之间，不允许出现同名方法，`src/actions/index.js`中有检测。
 
 ### 回调处理
-调用actions方法时，给actions方法传入一个回调参数，这个回调参数，最终是由 `createAction` 的 `metaCreator` 参数处理的，项目中做了封装
+调用actions方法时，给actions方法传入一个回调参数，这个回调参数，最终是由 `createAction` 的 `metaCreator` 参数处理的，项目中做了封装。`metaCreator` 可以携带业务以外的数据，异步actions会触发两次reducer，第一次触发时`payloadCreator` 传递给reducer的是promise对象，无法携带其他数据了，这时候就可以通过`metaCreator`携带额外的数据。
 
-```
+```javascript
 export const testAsync = createAction(
     types.TEXT_ASYNC_DEMO,
     async()=> {
@@ -190,7 +190,7 @@ export const testAsync = createAction(
 一本异步action其实是触发了两次reducer，第一次标记异步开始，reducer可以获取相应的标记，第二次异步完成，返回数据。具体可以参考`promiseMiddleware.js`源码
 
 #### action异步写法
-```
+```javascript
 import {createAction} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 import * as profileService from '../services/profile-service';
@@ -199,6 +199,7 @@ export const saveUserMessage = createAction(types.SAVE_USER_MESSAGE,
     async(userMessage) => await profileService.saveUserMessage(userMessage), // 返回一个promise实例
     (userMessage, resolved, rejected) => {
         return {
+            userMessage, // 异步action将触发reducer两次，reducer第一次触发获取payload是promise对象，额外的数据就要metaCreator提供了。
             resolved, // 执行异步action成功回调，使页面可以获取异步成功
             rejected, // 执行异步action失败回调，使页面可以处理异步失败
             autoTipError: '保存失败', // 系统自动提示错误， 默认 ‘未知系统错误’ 传递false，不使用系统提示
@@ -210,7 +211,7 @@ export const saveUserMessage = createAction(types.SAVE_USER_MESSAGE,
 
 #### reducer 异步写法：
 有两种写法，第一种有机会获取所有action的数据，第二种，只能获取自己type的action数据，个人觉得获取所有action数据没有用，反而状态受干扰。推荐第二种写法
-```
+```javascript
 import * as types from '../constants/actionTypes';
 
 let initialState = {
@@ -248,7 +249,7 @@ export default function (state = initialState, action) {
 }
 
 ```
-```
+```javascript
 import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 
@@ -305,38 +306,38 @@ export default handleActions({
     - 页面头部信息：标题和面包屑导航等
 
 - url需要有统一的约定，方便提取信息
-```
-初步定为：http[s]://www.xxxx.com/sys-path/menu-path
-sys-path：对应头部导航，确定是哪个系统，确定左侧显示哪组菜单
-menu-path：左侧菜单对应的path，同时跟路由有对应。menu-path可以多级，比如users/lists/...
-```
+    ```
+    初步定为：http[s]://www.xxxx.com/sys-path/menu-path
+    sys-path：对应头部导航，确定是哪个系统，确定左侧显示哪组菜单
+    menu-path：左侧菜单对应的path，同时跟路由有对应。menu-path可以多级，比如users/lists/...
+    ```
 - 后端所有http的get请求，没有被截获的都渲染`index.html`
-```
-node后端路由配置（routes.js）：
-router.get('*', function (req, res, next) {
-    // ajax请求 抛出404,其他请求直接render index.html 
-    res.render('index.html');
-});
-```
+    ```
+    node后端路由配置（routes.js）：
+    router.get('*', function (req, res, next) {
+        // ajax请求 抛出404,其他请求直接render index.html 
+        res.render('index.html');
+    });
+    ```
 - 前端所有没截获的path，都渲染Error404组件
-```
-// src/Router.jsx
-pageRouts.push(
-    {
-        path: '*',
-        getComponent: (location, cb) => {
-            require.ensure([], (require) => {
-                cb(null, connectComponent(require('./layouts/error/Error404')));
-            });
-        },
-    }
-);
-```
+    ```javascript
+    // src/Router.jsx
+    pageRouts.push(
+        {
+            path: '*',
+            getComponent: (location, cb) => {
+                require.ensure([], (require) => {
+                    cb(null, connectComponent(require('./layouts/error/Error404')));
+                });
+            },
+        }
+    );
+    ```
 - 页面跳转使用`Link`组件，否则会跳出单页面应用
-```
-import {Link} from 'react-router'
-<Link to="/xxxxx">XXXXX</Link>
-```
+    ```javascript
+    import {Link} from 'react-router'
+    <Link to="/xxxxx">XXXXX</Link>
+    ```
 
 ### 前端路由结构规范
 *特殊情况，不能按照规范实现，与各位leader商榷*
@@ -415,7 +416,7 @@ http:localhost:8080/store/order/take_out/new_orders/21/edit
 #### 地址栏与菜单自动关联
 点击菜单时(或其他链接)，不需要绑定事件，直接通过Link走路由跳转，地址栏改变后，会触发监听事件，同步头部导航和左侧菜单状态
 
-```
+```javascript
 browserHistory.listen(function (data) {
 //细节参见 具体代码 src/Routes.jsx
 }}
@@ -424,7 +425,7 @@ browserHistory.listen(function (data) {
 ## 按需加载
 react-router改成如下写法就可以按需加载:
 
-```
+```javascript
 {
     path: '/system/mail/read', getComponent: (location, cb) => {
     require.ensure([], (require) => {
@@ -439,7 +440,7 @@ react-router改成如下写法就可以按需加载:
 
 ## 页面头部设置
 默认根据菜单状态自动设置头部
-```
+```javascript
 // src/Router.jsx 中代码片段
 ...
 componentDidMount() {
@@ -454,7 +455,7 @@ componentDidMount() {
 ...
 ```
 各个页面可以自定义头部
-```
+```javascript
 componentWillMount() {
     const {actions} = this.props;
     actions.setPageHeaderStatus({
@@ -476,7 +477,7 @@ componentWillMount() {
 在`src/Router.jsx`中，为每个route添加了onEnter和onLeave方法（没找到统一方法，只能为每个route添加），通过action，为页面容器app-content设置entered和leaving两个class，通过class使用css3添加过场动画。
 
 ## 页面离开提示
-```
+```javascript
 ...
 static contextTypes = {
     router: React.PropTypes.object,
@@ -508,7 +509,7 @@ componentDidMount() {
 
 ## 坑
 - webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
-    ```
+    ```javascript
     new ExtractTextPlugin('[name].css', {
         disable: false,
         allChunks: true // 不设置成true，webpack异步方式加载的组件 样式无法引入 坑！！！
