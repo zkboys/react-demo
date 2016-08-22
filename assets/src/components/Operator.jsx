@@ -3,8 +3,6 @@ import {Icon, Popconfirm} from 'antd';
 import {hasPermission} from '../services/user';
 
 class Operator extends Component {
-    loadingIcon = <Icon type="loading"/>;
-
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.shape({
             onClick: PropTypes.func.isRequired,
@@ -15,7 +13,9 @@ class Operator extends Component {
         })),
     };
 
-    label = {}
+    loadingIcon = <Icon type="loading"/>;
+
+    label = {};
 
     render() {
         const items = this.props.items;
