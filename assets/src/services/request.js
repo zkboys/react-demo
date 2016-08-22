@@ -1,24 +1,27 @@
 import qs from 'query-string';
 import 'whatwg-fetch';
 import config from '../configs';
-import {getCurrentLoginUser} from '../services/user';
 
 const urlPrefix = config.apiPath;
 
+/**
+ * 统一处理请求参数
+ * @param params
+ * @returns {{}}
+ */
 function filterParams(params = {}) {
-    if (process.env.NODE_ENV === 'development') {
-        const currentLoginUser = getCurrentLoginUser() || {};
-        return {
-            ...params,
-            mock_user_id: currentLoginUser._id,
-        };
-    }
-
-    const dom = document.querySelector('meta[name="csrf-token"]');
-    params._csrf = dom && dom.getAttribute('content');
+    /*
+     const dom = document.querySelector('meta[name="csrf-token"]');
+     params._csrf = dom && dom.getAttribute('content');
+     */
     return params;
 }
 
+/**
+ * 根据返回的状态，对结果进行不同的处理
+ * @param res
+ * @returns {*}
+ */
 function filterStatus(res) {
     const status = res.status;
     const statusText = res.statusText;
@@ -28,7 +31,7 @@ function filterStatus(res) {
     }
 
     if (status === 401) {
-        // window.location.href = config.signInPath;
+        window.location.href = config.signInPath;
     }
 
     return res.json().then(body => {
@@ -40,6 +43,11 @@ function filterStatus(res) {
     });
 }
 
+/**
+ * 处理返回的结果，
+ * @param res
+ * @returns promise
+ */
 function filterJSON(res) {
     return res.json(); // res.json() 是一个promise
 }
@@ -51,7 +59,9 @@ export function get(url, params) {
         url += `?${qs.stringify(params)}`;
     }
 
-    return fetch(url)
+    return fetch(url, {
+        credentials: 'same-origin', // 携带cookie，否则前后端分离开发，无法请求后端数据。
+    })
         .then(filterStatus)
         .then(filterJSON);
 }
@@ -62,6 +72,7 @@ export function post(url, body) {
     url = urlPrefix + url;
     return fetch(url, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -77,6 +88,7 @@ export function put(url, body) {
     url = urlPrefix + url;
     return fetch(url, {
         method: 'PUT',
+        credentials: 'same-origin',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -92,6 +104,7 @@ export function del(url, body) {
     url = urlPrefix + url;
     return fetch(url, {
         method: 'DELETE',
+        credentials: 'same-origin',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',

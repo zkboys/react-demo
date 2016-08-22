@@ -36,10 +36,7 @@ export function getCurrentLoginUser() {
     // 这样关闭tab页，就算用户退出登录。
     const currentLoginUser = Storage.session.getItem('currentLoginUser');
     const pathName = location.pathname;
-
-    // 开发模式，登录时，Storage.session 中不存在currentLoginUser
-    // request中调用了getCurrentLoginUser()，当currentLoginUser不存在时，会产生死循环
-    if (!currentLoginUser && pathName !== config.signInPath) {
+    if (!currentLoginUser) {
         request
             .post('/signout')
             .then(() => location.href = pathName, () => location.href = config.signInPath);

@@ -23,8 +23,8 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api/**': 'http://localhost:3001',
-            // '/api/**': 'http://wangshubin.com', // 要设置 options.changeOrigin = true;
+            // '/api/**': 'http://localhost:3001',
+            '/api/**': 'http://wangshubin.com', // 要设置 options.changeOrigin = true;
 
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
