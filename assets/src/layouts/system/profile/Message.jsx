@@ -74,7 +74,7 @@ export class Message extends Component {
 
         return (
             <div className="system-profile-message">
-                <Form horizontal>
+                <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <FormItem
                         {...formItemLayout}
                         label="用户id："
@@ -126,8 +126,8 @@ export class Message extends Component {
                         <span><Icon type="info-circle-o"/> 暂不支持其它性别</span>
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>
-                        <Button type="ghost" style={{marginRight: 8}} onClick={this.handleReset}>重置</Button>
-                        <Button type="primary" loading={loading} onClick={this.handleSubmit}>确定</Button>
+                        <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>
+                        <Button type="primary" loading={loading} htmlType="submit">确定</Button>
                     </FormItem>
                 </Form>
             </div>

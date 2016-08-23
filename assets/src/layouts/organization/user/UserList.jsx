@@ -3,8 +3,11 @@ import {Form, Input, Button, Table, Switch, Icon, Spin} from 'antd';
 import './style.less';
 import Operator from '../../../components/Operator';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
+import connectComponent from '../../../utils/connectComponent';
+import * as UserEdit from './UserEdit';
 
 const FormItem = Form.Item;
+const UserEditModal = connectComponent(UserEdit);
 
 export class UserList extends Component {
     state = {
@@ -21,6 +24,8 @@ export class UserList extends Component {
             results: [],
             totalCount: 0,
         },
+        organizations: [],
+        roles: [],
     };
 
     static propTypes = {
@@ -32,6 +37,8 @@ export class UserList extends Component {
             results: PropTypes.array.isRequired,
             totalCount: PropTypes.number.isRequired,
         }),
+        organizations: PropTypes.array,
+        roles: PropTypes.array,
     };
 
     columns = [
@@ -97,7 +104,6 @@ export class UserList extends Component {
             key: 'is_locked',
             render: (text, record) => {
                 if (record.loginname === 'admin') return '';
-
                 const id = record._id;
                 const loading = this.props.switchingLock[id];
                 const loadingChildren = <Icon type="loading"/>;
@@ -137,7 +143,7 @@ export class UserList extends Component {
                         label: '编辑',
                         permission: 'user-update',
                         onClick: () => {
-                            this.handleEdit(id);
+                            this.handleEdit(record);
                         },
                     },
                     {
@@ -174,8 +180,30 @@ export class UserList extends Component {
         actions.getUsersByParams(params);
     }
 
-    handleEdit = (id) => {
-        alert(id);
+    handleAdd = () => {
+        const {actions} = this.props;
+        actions.showUserEditModal({
+            editModalTitle: '添加人员',
+            user: {
+                name: '',
+                loginname: '',
+                email: '',
+                mobile: '',
+                gender: '',
+                position: '',
+                role_id: '',
+                org_key: '',
+                is_locked: false,
+            },
+        });
+    }
+
+    handleEdit = (user) => {
+        const {actions} = this.props;
+        actions.showUserEditModal({
+            editModalTitle: '修改人员',
+            user,
+        });
     }
 
     handleSubmit = (e) => {
@@ -234,7 +262,7 @@ export class UserList extends Component {
                 </div>
 
                 <div className="tool-bar">
-                    <Button type="primary">添加</Button>
+                    <Button type="primary" onClick={this.handleAdd}>添加</Button>
                 </div>
                 <Spin spinning={gettingUsers}>
                     <Table
@@ -251,6 +279,7 @@ export class UserList extends Component {
                     totalCount={totalCount}
                     onChange={this.handlePageChange}
                 />
+                <UserEditModal/>
             </div>
         );
     }

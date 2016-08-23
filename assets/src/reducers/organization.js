@@ -1,5 +1,6 @@
 import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
+import {convertToTree} from '../utils';
 
 let initialState = {
     gettingOrganizations: false,
@@ -17,9 +18,17 @@ export default handleActions({
                 gettingOrganizations,
             };
         }
+        const organizationsTreeData = convertToTree(payload.map(v => {
+            v.text = v.name;
+            v.label = v.name;
+            v.value = v.key;
+            return v;
+        }));
+
         return {
             ...state,
             organizations: payload,
+            organizationsTreeData,
         };
     },
 }, initialState);

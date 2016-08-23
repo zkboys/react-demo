@@ -2,6 +2,7 @@ import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 
 let initialState = {
+    savingOrUpdatingUser: false,
     gettingUsers: false,
     switchingLock: {},
     deleting: {},
@@ -9,6 +10,19 @@ let initialState = {
     users: {
         results: [],
         totalCount: 0,
+    },
+    showEditModal: false,
+    editModalTitle: '',
+    user: {
+        name: '',
+        loginname: '',
+        email: '',
+        mobile: '',
+        gender: '',
+        position: '',
+        role_id: '',
+        org_key: '',
+        is_locked: false,
     },
 };
 
@@ -34,14 +48,11 @@ export default handleActions({
         const {sequence = {}} = meta;
         const loading = sequence.type === 'start';
         const {id} = meta.params;
-        let switchingLock = state;
-
-        switchingLock[id] = loading;
 
         if (loading || error) {
             return {
                 ...state,
-                switchingLock,
+                switchingLock: {...state.switchingLock, [id]: loading},
             };
         }
         const users = state.users;
@@ -53,7 +64,54 @@ export default handleActions({
         return {
             ...state,
             users,
-            switchingLock,
+            switchingLock: {...state.switchingLock, [id]: loading},
+        };
+    },
+    [types.ADD_USER](state, action) {
+        const {meta = {}, error, payload} = action;
+        const {sequence = {}} = meta;
+        const savingOrUpdatingUser = sequence.type === 'start';
+
+        if (savingOrUpdatingUser || error) {
+            return {
+                ...state,
+                savingOrUpdatingUser,
+            };
+        }
+
+        const users = state.users;
+        users.results.unshift(payload);
+
+        return {
+            ...state,
+            savingOrUpdatingUser,
+            users,
+        };
+    },
+    [types.UPDATE_USER](state, action) {
+        const {meta = {}, error} = action;
+        const {sequence = {}, params} = meta;
+        const savingOrUpdatingUser = sequence.type === 'start';
+
+        if (savingOrUpdatingUser || error) {
+            return {
+                ...state,
+                savingOrUpdatingUser,
+            };
+        }
+
+        const users = state.users;
+
+        users.results.forEach((u, i, array) => {
+            if (u._id === params._id) {
+                array[i] = {...u, ...params};
+            }
+        });
+
+        return {
+            ...state,
+            savingOrUpdatingUser,
+            users,
         };
     },
     [types.DELETE_USER](state, action) {
@@ -61,14 +119,11 @@ export default handleActions({
         const {sequence = {}} = meta;
         const loading = sequence.type === 'start';
         const {id} = meta.params;
-        let deleting = state;
-
-        deleting[id] = loading;
 
         if (loading || error) {
             return {
                 ...state,
-                deleting,
+                deleting: {...state.deleting, [id]: loading},
             };
         }
 
@@ -79,7 +134,7 @@ export default handleActions({
 
         return {
             ...state,
-            deleting,
+            deleting: {...state.deleting, [id]: loading},
             users,
         };
     },
@@ -95,6 +150,20 @@ export default handleActions({
         return {
             ...state,
             resetting,
+        };
+    },
+    [types.SHOW_USER_EDIT_MODAL](state, action) {
+        const {payload} = action;
+        return {
+            ...state,
+            ...payload,
+            showEditModal: true,
+        };
+    },
+    [types.HIDE_USER_EDIT_MODAL](state) {
+        return {
+            ...state,
+            showEditModal: false,
         };
     },
 }, initialState);

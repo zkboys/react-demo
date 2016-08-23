@@ -59,7 +59,7 @@ export default {
                     return callback();
                 }
                 Request
-                    .get(`/api/organization/users/loginname/${value}`)
+                    .get(`/organization/users/loginname/${value}`)
                     .then(data => {
                         if (data && value === data.loginname) {
                             return callback([new Error('抱歉，该角色名已被占用！')]);

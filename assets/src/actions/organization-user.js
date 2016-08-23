@@ -8,7 +8,6 @@ export const getUsersByParams = createAction(types.GET_USERS_BY_PARAMS,
         return {
             resolved,
             rejected,
-            autoTipError: '获取用户失败',
         };
     }
 );
@@ -20,7 +19,6 @@ export const toggleUserLock = createAction(types.TOGGLE_LOCK_USER,
             params,
             resolved,
             rejected,
-            autoTipError: '切换锁定状态失败',
         };
     }
 );
@@ -32,7 +30,6 @@ export const deleteUser = createAction(types.DELETE_USER,
             params,
             resolved,
             rejected,
-            autoTipError: '删除用户失败',
         };
     }
 );
@@ -44,7 +41,33 @@ export const resetUserPass = createAction(types.RESET_USER_PASS,
             params,
             resolved,
             rejected,
-            autoTipError: '重置用户密码失败',
         };
     }
 );
+
+export const showUserEditModal = createAction(types.SHOW_USER_EDIT_MODAL);
+
+export const hideUserEditModal = createAction(types.HIDE_USER_EDIT_MODAL);
+
+export const addUser = createAction(types.ADD_USER,
+    async(params) => await userService.addUser(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
+        };
+    }
+);
+
+export const updateUser = createAction(types.UPDATE_USER,
+    async(params) => await userService.updateUser(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
+        };
+    }
+);
+

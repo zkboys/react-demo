@@ -12,6 +12,16 @@ export function toggleLock(params) {
         .then(data => data);
 }
 
+export function addUser(params) {
+    return request.post('/organization/users', params)
+        .then(data => data);
+}
+
+export function updateUser(params) {
+    return request.put('/organization/users', params)
+        .then(data => data);
+}
+
 export function deleteUser(params) {
     return request.del('/organization/users', params)
         .then(data => data);
