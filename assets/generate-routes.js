@@ -50,7 +50,7 @@ function getRoutes(filePath, fileName, _imports, _routesNames) {
             var pName = '';
             pathName.forEach(function (p) {
                 if (p) {
-                    var ps = p.split('-');
+                    var ps = p.split(path.sep);
                     ps.forEach(function (v) {
                         pName += v.replace(/(\w)/, function (v) {
                             return v.toUpperCase()
