@@ -46,11 +46,11 @@ function getRoutes(filePath, fileName, _imports, _routesNames) {
                 routesPath = routesPath.replace(/\\/g, "\/");
             }
             pathName = pathName.replace('.js', '');
-            pathName = pathName.split('/');
+            pathName = pathName.split(path.sep);
             var pName = '';
             pathName.forEach(function (p) {
                 if (p) {
-                    var ps = p.split(path.sep);
+                    var ps = p.split('-');
                     ps.forEach(function (v) {
                         pName += v.replace(/(\w)/, function (v) {
                             return v.toUpperCase()
