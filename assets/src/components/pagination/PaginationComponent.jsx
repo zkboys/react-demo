@@ -53,7 +53,7 @@ class PaginationComponent extends Component {
         const totalPage = Math.ceil(totalCount / pageSize);
         let style = this.props.style;
         if (totalPage <= 1) {
-            style = assign({}, {display: 'none'}, style);
+            style = assign({}, /* {display: 'none'},*/ style);
         }
         return (
             <div className="pagination-component" style={style}>

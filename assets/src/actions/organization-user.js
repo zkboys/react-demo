@@ -6,6 +6,7 @@ export const getUsersByParams = createAction(types.GET_USERS_BY_PARAMS,
     async(params) => await userService.getUsersByParams(params),
     (params, resolved, rejected) => {
         return {
+            params,
             resolved,
             rejected,
         };

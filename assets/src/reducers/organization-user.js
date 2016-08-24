@@ -2,6 +2,8 @@ import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 
 let initialState = {
+    currentPage: 1,
+    pageSize: 10,
     savingOrUpdatingUser: false,
     gettingUsers: false,
     switchingLock: {},
@@ -29,7 +31,7 @@ let initialState = {
 export default handleActions({
     [types.GET_USERS_BY_PARAMS](state, action) {
         const {meta = {}, error, payload} = action;
-        const {sequence = {}} = meta;
+        const {sequence = {}, params} = meta;
         const gettingUsers = sequence.type === 'start';
         if (gettingUsers || error) {
             return {
@@ -41,6 +43,8 @@ export default handleActions({
             ...state,
             users: payload,
             gettingUsers,
+            currentPage: params.currentPage,
+            pageSize: params.pageSize,
         };
     },
     [types.TOGGLE_LOCK_USER](state, action) {

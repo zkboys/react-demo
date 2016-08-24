@@ -10,12 +10,9 @@ const FormItem = Form.Item;
 const UserEditModal = connectComponent(UserEdit);
 
 export class UserList extends Component {
-    state = {
-        pageSize: 10,
-        currentPage: 1,
-    };
-
     static defaultProps = {
+        currentPage: 1,
+        pageSize: 10,
         gettingUsers: false,
         switchingLock: {},
         deleting: {},
@@ -29,6 +26,8 @@ export class UserList extends Component {
     };
 
     static propTypes = {
+        currentPage: PropTypes.number,
+        pageSize: PropTypes.number,
         gettingUsers: PropTypes.bool,
         switchingLock: PropTypes.object,
         deleting: PropTypes.object,
@@ -139,7 +138,7 @@ export class UserList extends Component {
                 const id = record._id;
                 const items = [
                     {
-                        loading: this.state.editingId === id,
+                        loading: this.props.editingId === id,
                         label: '编辑',
                         permission: 'user-update',
                         onClick: () => {
@@ -171,11 +170,13 @@ export class UserList extends Component {
         },
     ];
 
-    search = () => {
-        const {actions, form: {getFieldsValue}} = this.props;
+    search = (args) => {
+        const {actions, form: {getFieldsValue}, currentPage, pageSize} = this.props;
         let params = {
             ...getFieldsValue(),
-            ...this.state,
+            currentPage,
+            pageSize,
+            ...args,
         };
         actions.getUsersByParams(params);
     }
@@ -208,25 +209,22 @@ export class UserList extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
+        this.search({
             currentPage: 1,
         });
-        setTimeout(this.search, 0);
     }
 
     handlePageChange = (currentPage, pageSize) => {
         if (pageSize) {
-            this.setState({
+            this.search({
                 currentPage: 1,
                 pageSize,
             });
         } else {
-            this.setState({
+            this.search({
                 currentPage,
             });
         }
-        // setState当前函数不生效，将search推迟到下一个时钟周期触发
-        setTimeout(this.search, 0);
     }
 
     componentWillMount() {
@@ -240,9 +238,7 @@ export class UserList extends Component {
     }
 
     render() {
-        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}} = this.props;
-        const pageSize = this.state.pageSize;
-        const currentPage = this.state.currentPage;
+        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize} = this.props;
 
         return (
             <div className="organization-user">
