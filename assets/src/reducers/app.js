@@ -69,9 +69,7 @@ export default handleActions({
         }
 
         const sideBarHidden = !sideBarMenus.length;
-        headerMenus = headerMenus.filter(menu => {
-            return menu.key !== 'system';
-        });
+        headerMenus = headerMenus.filter(menu => menu.key !== 'system');
 
         return {
             ...state,

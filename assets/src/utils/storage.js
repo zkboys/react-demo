@@ -17,16 +17,12 @@ export const removeItem = Storage.removeItem;
 
 export function multiGet(keys) {
     let values = {};
-    keys.forEach((key) => {
-        values[key] = getItem(key);
-    });
+    keys.forEach(key => values[key] = getItem(key));
     return values;
 }
 
 export function multiRemove(keys) {
-    keys.forEach((key) => {
-        removeItem(key);
-    });
+    keys.forEach(key => removeItem(key));
 }
 
 export const session = {
@@ -42,14 +38,10 @@ export const session = {
     removeItem: sessionStorage.removeItem,
     multiGet(keys) {
         let values = {};
-        keys.forEach((key) => {
-            values[key] = this.getItem(key);
-        });
+        keys.forEach(key => values[key] = this.getItem(key));
         return values;
     },
     multiRemove(keys) {
-        keys.forEach((key) => {
-            this.removeItem(key);
-        });
+        keys.forEach(key => this.removeItem(key));
     },
 };

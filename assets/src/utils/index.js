@@ -39,14 +39,8 @@ export function getScrollBarWidth() {
  */
 export function getFirstPath(node, menus) {
     if (node.path) return node.path;
-    let firstChild;
-    for (let i = 0; i < menus.length; i++) {
-        let menu = menus[i];
-        if (menu.parentKey === node.key) {
-            firstChild = menu;
-            break;
-        }
-    }
+    let firstChild = menus.find(m => m.parentKey === node.key);
+
     if (firstChild) {
         return firstChild.path || getFirstPath(firstChild, menus);
     }
@@ -61,12 +55,8 @@ export function getFirstPath(node, menus) {
  */
 export function hasParent(rows, row) {
     let parentKey = row.parentKey;
-    for (let i = 0; i < rows.length; i++) {
-        if (rows[i].key === parentKey) return true;
-    }
-    return false;
+    return rows.find(r => r.key === parentKey);
 }
-
 /**
  * js构造树方法。
  * @param rows 具有key，parentKey关系的扁平数据结构，标题字段为text
@@ -75,22 +65,14 @@ export function hasParent(rows, row) {
  */
 export function convertToTree(rows, parentNode = {}) {
     // 这个函数会被多次调用，对rows做深拷贝，否则会产生副作用。
-    rows = rows.map((row) => {
-        return deepCopy(row);
-    });
+    rows = deepCopy(rows);
     parentNode = deepCopy(parentNode);
 
     let nodes = [];
     if (parentNode) {
         nodes.push(parentNode);
-    } else {
-        // 获取所有的顶级节点
-        for (let i = 0; i < rows.length; i++) {
-            let row = rows[i];
-            if (!hasParent(rows, row.parentKey)) {
-                nodes.push(row);
-            }
-        }
+    } else { // 获取所有的顶级节点
+        nodes = rows.filter(r => !hasParent(rows, r));
     }
 
     // 存放要处理的节点
@@ -100,8 +82,7 @@ export function convertToTree(rows, parentNode = {}) {
         // 处理一个，头部弹出一个。
         let node = toDo.shift();
         // 获取子节点。
-        for (let i = 0; i < rows.length; i++) {
-            let row = rows[i];
+        rows.forEach(row => {
             if (row.parentKey === node.key) {
                 let child = row;
                 let parentKeys = [node.key];
@@ -109,6 +90,7 @@ export function convertToTree(rows, parentNode = {}) {
                     parentKeys = node.parentKeys.concat(node.key);
                 }
                 child.parentKeys = parentKeys;
+
                 let parentTexts = [node.text];
                 if (node.parentTexts) {
                     parentTexts = node.parentTexts.concat(node.text);
@@ -129,8 +111,9 @@ export function convertToTree(rows, parentNode = {}) {
                 // child加入toDo，继续处理
                 toDo.push(child);
             }
-        }
+        });
     }
+
     if (parentNode) {
         return nodes[0].children;
     }
@@ -143,12 +126,8 @@ export function convertToTree(rows, parentNode = {}) {
  * @returns {Array.<T>|*}
  */
 export function getHeaderMenus(menusData) {
-    const menus = menusData.filter((menu, index, arr) => {
-        return !hasParent(arr, menu);
-    });
-    menus.forEach((headMenu) => {
-        headMenu.path = getFirstPath(headMenu, menusData) || '/';
-    });
+    const menus = menusData.filter((menu, index, arr) => !hasParent(arr, menu));
+    menus.forEach((headMenu) => headMenu.path = getFirstPath(headMenu, menusData) || '/');
     return menus;
 }
 /**
@@ -158,16 +137,8 @@ export function getHeaderMenus(menusData) {
  */
 export function getCurrentHeaderMenuByUrl(headerMenus = []) {
     let pathNames = location.pathname.split('/');
-    let headerMenuCurrent = null;
-    if (pathNames && pathNames.length > 0) {
-        headerMenuCurrent = pathNames[1];
-    }
-    for (let i = 0; i < headerMenus.length; i++) {
-        if (headerMenuCurrent === headerMenus[i].key) {
-            return headerMenus[i];
-        }
-    }
-    return null;
+    let headerMenuCurrentKey = pathNames && pathNames.length > 0 && pathNames[1];
+    return headerMenus.find(hm => headerMenuCurrentKey === hm.key);
 }
 
 export function getCurrentSidebarMenuByUrl(menusData = []) {
@@ -181,9 +152,7 @@ export function getCurrentSidebarMenuByUrl(menusData = []) {
             return node;
         }
         if (node.children) {
-            node.children.forEach((v) => {
-                menusTree.push(v);
-            });
+            node.children.forEach((v) => menusTree.push(v));
         }
     }
 }
