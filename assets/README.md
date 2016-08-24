@@ -144,7 +144,7 @@ render() {
     - action内部调用service异步请求获得的数据
     - storage中获取数据
     - 其他数据来源
-- reducer为纯函数，负责处理数据，不会涉及异步，不要调用services中方法，不操作Storage，单纯的获取action的数据之后，做进一步处理。
+- reducer为纯函数，负责处理数据，要对state做deepcopy，返回一个新的数据，不要直接操作state，不会涉及异步，不要调用services中方法，不操作Storage，单纯的获取action的数据之后，做进一步处理。
 - store负责将数据以pros形式传递给component，以及通过中间件对数据统一处理。
 - 组件，调用触发action，获取store处理过的数据，不发送ajax，不操作storage，单纯的展示数据。
 
@@ -537,7 +537,7 @@ componentDidMount() {
     }),
     ```
 - npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
-
+- object-assign 是将多个对象合并成一个对象，并没有deepcopy的作用，如果需要deepcopy的场景，要使用deepcopy。
 
 ## 文档链接
 - [react](http://reactjs.cn/)

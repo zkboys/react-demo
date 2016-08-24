@@ -1,4 +1,4 @@
-import assign from 'object-assign';
+import deepCopy from 'deepcopy';
 
 /**
  * 获取cookie
@@ -73,12 +73,12 @@ export function hasParent(rows, row) {
  * @param parentNode 开始节点
  * @returns {array}
  */
-export function convertToTree(rows, parentNode) {
+export function convertToTree(rows, parentNode = {}) {
     // 这个函数会被多次调用，对rows做深拷贝，否则会产生副作用。
     rows = rows.map((row) => {
-        return assign({}, row);
+        return deepCopy(row);
     });
-    parentNode = assign({}, parentNode);
+    parentNode = deepCopy(parentNode);
 
     let nodes = [];
     if (parentNode) {
