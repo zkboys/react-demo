@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Form, Input, Radio, Icon, Button} from 'antd';
 import ValidationRule from '../../../services/validation-rule';
 import './style.less';
@@ -13,16 +13,16 @@ export class Message extends Component {
     };
 
     static propTypes = {
-        loading: React.PropTypes.bool,
-        user: React.PropTypes.shape({
-            _id: React.PropTypes.string,
-            name: React.PropTypes.string,
-            email: React.PropTypes.string,
-            mobile: React.PropTypes.string,
-            gender: React.PropTypes.string,
+        loading: PropTypes.bool,
+        user: PropTypes.shape({
+            _id: PropTypes.string,
+            name: PropTypes.string,
+            email: PropTypes.string,
+            mobile: PropTypes.string,
+            gender: PropTypes.string,
         }),
-        form: React.PropTypes.object,
-        actions: React.PropTypes.object,
+        form: PropTypes.object,
+        actions: PropTypes.object,
     };
 
     handleReset = (e) => {

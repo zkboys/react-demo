@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Form, Input, Button} from 'antd';
 import './style.less';
 
@@ -14,7 +14,7 @@ export class Pass extends Component {
     };
 
     static propTypes = {
-        loading: React.PropTypes.bool,
+        loading: PropTypes.bool,
     };
 
     handleReset = (e) => {

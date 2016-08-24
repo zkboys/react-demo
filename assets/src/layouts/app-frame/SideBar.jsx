@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Menu} from 'antd';
 import {Link} from 'react-router';
 import {getScrollBarWidth} from '../../utils/index';
@@ -19,12 +19,12 @@ class NavBar extends Component {
         hidden: false,
     }
 
-    static propsType = {
-        menus: React.PropTypes.array,
-        collapsed: React.PropTypes.bool,
-        openKeys: React.PropTypes.array,
-        selectedKeys: React.PropTypes.string,
-        hidden: React.PropTypes.boolean,
+    static propTypes = {
+        menus: PropTypes.array,
+        collapsed: PropTypes.bool,
+        openKeys: PropTypes.array,
+        selectedKeys: PropTypes.string,
+        hidden: PropTypes.bool,
     }
 
     onToggle = (info) => {

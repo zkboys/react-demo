@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Menu, Popconfirm} from 'antd';
 import {Link} from 'react-router';
 import FAIcon from '../../components/faicon/FAIcon';
@@ -18,12 +18,12 @@ class Header extends Component {
         },
     }
 
-    static propsType = {
-        menus: React.PropTypes.array,
-        collapsed: React.PropTypes.bool,
-        user: React.PropTypes.object,
-        toggleSideBar: React.PropTypes.func,
-        exit: React.PropTypes.func,
+    static propTypes = {
+        menus: PropTypes.array,
+        collapsed: PropTypes.bool,
+        user: PropTypes.object,
+        toggleSideBar: PropTypes.func,
+        exit: PropTypes.func,
     }
 
     handleExit = () => {
