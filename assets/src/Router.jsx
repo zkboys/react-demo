@@ -62,6 +62,25 @@ export class LayoutComponent extends Component {
         });
     }
 
+    onLeave = (prevState, oriOnLeave) => {
+        const {usePageWitchAnimation, actions, randomPageAnimation} = this.props;
+
+        if (usePageWitchAnimation) {
+            if (randomPageAnimation) {
+                const pageAnimationTypes = ['up', 'down', 'left', 'right', 'fade'];
+                const random = Utils.getRandomNum(0, 4);
+                const pageAnimationType = pageAnimationTypes[random];
+                actions.setSettings({pageAnimationType});
+            }
+
+            actions.setPageStatus('leaving');
+        }
+
+        if (oriOnLeave) {
+            oriOnLeave(prevState);
+        }
+    }
+
     onEnter = (nextState, replace, callback, oriOnEnter) => {
         const {usePageWitchAnimation, actions} = this.props;
         const switchDuring = 150;
@@ -83,25 +102,6 @@ export class LayoutComponent extends Component {
         } else {
             scrollDom.scrollTop = 0;
             callback();
-        }
-    }
-
-    onLeave = (prevState, oriOnLeave) => {
-        const {usePageWitchAnimation, actions, randomPageAnimation} = this.props;
-
-        if (usePageWitchAnimation) {
-            if (randomPageAnimation) {
-                const pageAnimationTypes = ['up', 'down', 'left', 'right', 'fade'];
-                const random = Utils.getRandomNum(0, 4);
-                const pageAnimationType = pageAnimationTypes[random];
-                actions.setSettings({pageAnimationType});
-            }
-
-            actions.setPageStatus('leaving');
-        }
-
-        if (oriOnLeave) {
-            oriOnLeave(prevState);
         }
     }
 
