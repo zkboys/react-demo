@@ -1,18 +1,10 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var proxyTable = require('./proxy-table');
 
 var proxyTables = {
     // '/api/**': 'http://localhost:3001',
     '/api/**': 'http://wangshubin.com', // 要设置 options.changeOrigin = true;
-}
-
-if (proxyTable) {
-    for (var key in proxyTable) {
-        proxyTables[key] = proxyTable[key]
-    }
-}
-
+};
 
 module.exports = {
     build: {

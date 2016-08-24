@@ -522,8 +522,7 @@ componentDidMount() {
 - 提供webpackd evserver功能，加快rebuild速度，提供热刷新，热重载功能等
 - 前端请求反向代理到后端服务器，使前端开发过程中就能请求后端真实接口
 - 如果后端使用cookie实现session 和 用户登录，使用fetch时，要携带cookie
-- `build/config/proxy-table.js`中可以单独配置所需的代理（如果没有这个文件，新建一个），proxy-table.js 被git忽略了，防止影响到其他人。
-    跟后端对接口的时候，可以在proxy-table.js文件中配置，代理到后端的开发机器上，方便对接新的口，其他功能可以代理到测试服务器，后者开发服务起上。
+- `build/config/index.js`中可以单独配置所需的代理,跟后端对接口的时候，可以在`build/config/index.js`文件中配置，代理到后端的开发机器上，方便对接新的口，其他功能可以代理到测试服务器，后者开发服务起上。
 
 
 ## 后端实现
