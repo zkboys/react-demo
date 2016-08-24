@@ -20,6 +20,7 @@ export const toggleUserLock = createAction(types.TOGGLE_LOCK_USER,
             params,
             resolved,
             rejected,
+            autoTipSuccess: '操作成功！',
         };
     }
 );
@@ -31,6 +32,7 @@ export const deleteUser = createAction(types.DELETE_USER,
             params,
             resolved,
             rejected,
+            autoTipSuccess: '用户删除成功！',
         };
     }
 );
@@ -42,6 +44,7 @@ export const resetUserPass = createAction(types.RESET_USER_PASS,
             params,
             resolved,
             rejected,
+            autoTipSuccess: '密码重置成功！',
         };
     }
 );
@@ -57,6 +60,7 @@ export const addUser = createAction(types.ADD_USER,
             params,
             resolved,
             rejected,
+            autoTipSuccess: '添加成功！',
         };
     }
 );
@@ -68,6 +72,7 @@ export const updateUser = createAction(types.UPDATE_USER,
             params,
             resolved,
             rejected,
+            autoTipSuccess: '修改成功！',
         };
     }
 );
