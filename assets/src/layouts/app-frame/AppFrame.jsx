@@ -51,20 +51,22 @@ export class LayoutComponent extends Component {
             logout,
             toggleSideBar,
         } = this.props.actions;
+
         const pageHeaderClassName = classNames({
+            full: sideBarHidden,
             fixed: true,
             collapsed: isSidebarCollapsed,
-            full: sideBarHidden,
             [pageStatus]: true,
             [pageAnimationType]: true,
         });
+
         const appContentClassName = classNames({
             'app-content': true,
+            'page-header-fixed': pageHeaderFixed,
+            'page-header-hidden': pageHeader.hidden,
             collapsed: isSidebarCollapsed,
             full: sideBarHidden,
             [pageStatus]: true,
-            'page-header-fixed': pageHeaderFixed,
-            'page-header-hidden': pageHeader.hidden,
             [pageAnimationType]: true,
         });
 

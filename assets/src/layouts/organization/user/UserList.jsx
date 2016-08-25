@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Form, Input, Button, Table, Switch, Icon, Spin} from 'antd';
+import {Form, Input, Button, Table, Switch, Icon} from 'antd';
 import './style.less';
 import Operator from '../../../components/Operator';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
@@ -41,6 +41,10 @@ export class UserList extends Component {
     };
 
     columns = [
+        {
+            title: '#',
+            render: (text, record, index) => (index + 1) + ((this.props.currentPage - 1) * this.props.pageSize),
+        },
         {
             title: '登录名',
             dataIndex: 'loginname',
@@ -260,15 +264,14 @@ export class UserList extends Component {
                 <div className="tool-bar">
                     <Button type="primary" onClick={this.handleAdd}>添加</Button>
                 </div>
-                <Spin spinning={gettingUsers}>
-                    <Table
-                        size="middle"
-                        rowKey={(record) => record._id}
-                        columns={this.columns}
-                        dataSource={users}
-                        pagination={false}
-                    />
-                </Spin>
+                <Table
+                    loading={gettingUsers}
+                    size="middle"
+                    rowKey={(record) => record._id}
+                    columns={this.columns}
+                    dataSource={users}
+                    pagination={false}
+                />
                 <PaginationComponent
                     pageSize={pageSize}
                     currentPage={currentPage}

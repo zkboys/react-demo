@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import './app.less';
+import './global.less';
 import configureStore from './store/configureStore';
 import * as Routers from './Router';
 import connectComponent from './utils/connectComponent.js';
