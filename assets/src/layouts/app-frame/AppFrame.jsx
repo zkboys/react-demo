@@ -1,4 +1,5 @@
 import 'antd/dist/antd.css';
+import classNames from 'classnames';
 import React, {Component} from 'react';
 import {message} from 'antd';
 import './style.less';
@@ -50,11 +51,22 @@ export class LayoutComponent extends Component {
             logout,
             toggleSideBar,
         } = this.props.actions;
-        // TODO 使用 classnames 重构
-        const collapsedClass = isSidebarCollapsed ? 'collapsed' : '';
-        const fullClass = sideBarHidden ? 'full' : '';
-        const pageHeaderFixedClass = pageHeaderFixed ? 'page-header-fixed' : '';
-        const pageHeaderHiddenClass = pageHeader.hidden ? 'page-header-hidden' : '';
+        const pageHeaderClassName = classNames({
+            fixed: true,
+            collapsed: isSidebarCollapsed,
+            full: sideBarHidden,
+            [pageStatus]: true,
+            [pageAnimationType]: true,
+        });
+        const appContentClassName = classNames({
+            'app-content': true,
+            collapsed: isSidebarCollapsed,
+            full: sideBarHidden,
+            [pageStatus]: true,
+            'page-header-fixed': pageHeaderFixed,
+            'page-header-hidden': pageHeader.hidden,
+            [pageAnimationType]: true,
+        });
 
         return (
             <div>
@@ -78,7 +90,7 @@ export class LayoutComponent extends Component {
                     // 防止启用动画时 app-content 会添加transform属性, pageHeader 固定失效，这里需要将 PageHeader提出来
                     pageHeaderFixed ?
                         <PageHeader
-                            className={`fixed ${collapsedClass} ${fullClass} ${pageStatus} ${pageAnimationType}`}
+                            className={pageHeaderClassName}
                             hidden={pageHeader.hidden}
                             title={pageHeader.title}
                             breadcrumb={pageHeader.breadcrumb}
@@ -87,7 +99,7 @@ export class LayoutComponent extends Component {
                         null
                 }
 
-                <div className={`app-content ${collapsedClass} ${fullClass} ${pageStatus} ${pageHeaderFixedClass} ${pageHeaderHiddenClass} ${pageAnimationType}`}>
+                <div className={appContentClassName}>
                     {
                         !pageHeaderFixed ?
                             <PageHeader
