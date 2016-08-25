@@ -50,7 +50,7 @@ export class LayoutComponent extends Component {
             logout,
             toggleSideBar,
         } = this.props.actions;
-
+        // TODO 使用 classnames 重构
         const collapsedClass = isSidebarCollapsed ? 'collapsed' : '';
         const fullClass = sideBarHidden ? 'full' : '';
         const pageHeaderFixedClass = pageHeaderFixed ? 'page-header-fixed' : '';
