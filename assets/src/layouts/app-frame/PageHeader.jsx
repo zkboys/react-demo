@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb} from 'antd';
 import {Link} from 'react-router';
+import classNames from 'classnames';
 import './style.less';
 import FAIcon from '../../components/faicon/FAIcon';
 
@@ -65,8 +66,14 @@ class PageHeader extends Component {
 
     render() {
         const {title, hidden, className} = this.props;
+        const pageHeaderClass = classNames({
+            'page-header': true,
+            [hidden]: hidden,
+            [className]: true,
+        });
+
         return (
-            <div className={`page-header ${hidden ? 'hidden' : ''} ${className}`}>
+            <div className={pageHeaderClass}>
                 <h2 className="header-title">{title}</h2>
                 {this.renderBreadcrumb()}
             </div>
