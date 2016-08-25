@@ -68,7 +68,7 @@ class PageHeader extends Component {
         const {title, hidden, className} = this.props;
         const pageHeaderClass = classNames({
             'page-header': true,
-            [hidden]: hidden,
+            hidden,
             [className]: true,
         });
 

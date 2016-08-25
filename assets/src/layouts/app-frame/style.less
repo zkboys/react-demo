@@ -261,6 +261,12 @@ body {
     z-index: 1000;
     background-color: #fff;
     box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.1);
+    &.collapsed {
+      left: @sideBarMinWidth ;
+    }
+    &.full {
+      left: 0;
+    }
   }
   &.collapsed {
     left: @sideBarMinWidth + @contentPadding;
