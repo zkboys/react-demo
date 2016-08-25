@@ -2,6 +2,7 @@
 var path = require('path')
 
 var proxyTables = {
+    // '/api/organization/users': 'http://localhost:3001', // 开发过程中，可以代理具体的url到后端开发机器上。
     // '/api/**': 'http://localhost:3001',
     '/api/**': 'http://wangshubin.com', // 要设置 options.changeOrigin = true;
 };
