@@ -1,3 +1,4 @@
+import {handleActions} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 
 let initialState = {
@@ -8,30 +9,26 @@ let initialState = {
     randomPageAnimation: false,
 };
 
-export default function (state = initialState, action) {
-    const {type, payload} = action;
-    switch (type) {
-    case types.SET_SETTING: {
+export default handleActions({
+    [types.SET_SETTING](state, action) {
+        const {payload} = action;
         return {
             ...state,
             ...payload,
         };
-    }
-    case types.TOGGLE_SIDE_BAR: {
+    },
+    [types.TOGGLE_SIDE_BAR](state) {
         const isSidebarCollapsed = !state.isSidebarCollapsed;
         return {
             ...state,
             isSidebarCollapsed,
         };
-    }
-    case types.GET_STATE_FROM_STORAGE: {
+    },
+    [types.GET_STATE_FROM_STORAGE](state, action) {
+        const {payload} = action;
         return {
             ...state,
             ...(payload.setting || initialState),
         };
-    }
-    default:
-        return state;
-    }
-}
-
+    },
+}, initialState);
