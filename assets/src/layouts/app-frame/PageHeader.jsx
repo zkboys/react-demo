@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Breadcrumb} from 'antd';
 import {Link} from 'react-router';
 import './style.less';
-import FAIcon from '../faicon/FAIcon';
+import FAIcon from '../../components/faicon/FAIcon';
 
 class PageHeader extends Component {
     static defaultProps = {

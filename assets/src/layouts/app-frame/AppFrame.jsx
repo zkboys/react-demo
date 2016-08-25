@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import React, {Component} from 'react';
 import {message} from 'antd';
 import './style.less';
-import NavBar from './SideBar';
+import SideBar from './SideBar';
 import Header from './Header';
-import PageHeader from '../../components/page-header/PageHeader';
+import PageHeader from './PageHeader';
 
 export class LayoutComponent extends Component {
     componentWillReceiveProps(nextProps) {
@@ -78,7 +78,7 @@ export class LayoutComponent extends Component {
                     user={user}
                     toggleSideBar={toggleSideBar}
                 />
-                <NavBar
+                <SideBar
                     menus={sideBarMenus}
                     collapsed={isSidebarCollapsed}
                     openKeys={openKeys}
