@@ -246,7 +246,7 @@ export class UserList extends Component {
 
         return (
             <div className="organization-user">
-                <div className="query-item-bar">
+                <div className="query-bar">
                     <Form inline onSubmit={this.handleSubmit}>
                         <FormItem label="登录名">
                             <Input placeholder="请输入登录名" {...getFieldProps('loginname')}/>
@@ -260,7 +260,6 @@ export class UserList extends Component {
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form>
                 </div>
-
                 <div className="tool-bar">
                     <Button type="primary" onClick={this.handleAdd}>添加</Button>
                 </div>
