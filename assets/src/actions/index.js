@@ -1,11 +1,11 @@
 import * as utils from './utils';
 import * as app from './app';
-import * as setting from './setting';
-import * as profileMessage from './profile-message';
-import * as profilePass from './profile-pass';
-import * as organizationUser from './organization-user';
-import * as organizationRole from './organization-role';
-import * as organization from './organization';
+import * as setting from './system/setting';
+import * as profileMessage from './system/message';
+import * as profilePass from './system/pass';
+import * as organizationUser from './organization/user';
+import * as organizationRole from './organization/role';
+import * as organization from './organization/organization';
 
 const actions = {
     organization,

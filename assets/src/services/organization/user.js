@@ -1,6 +1,6 @@
-import * as Storage from '../utils/storage';
-import * as request from './request';
-import config from '../configs';
+import * as Storage from '../../utils/storage';
+import * as request from '../request';
+import config from '../../configs';
 
 export function getUsersByParams(params) {
     return request.get('/organization/users', params)

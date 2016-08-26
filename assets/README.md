@@ -25,6 +25,7 @@ npm run build
 ## 文件命名规范
 - jax文件名首字母大写
 - js文件名首字母小写
+- layouts actions reducers services 通过同名文件夹进行对应，方便后期维护
 
 ## 代码规范
 - 尽量使用es6

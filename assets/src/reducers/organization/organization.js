@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
-import * as types from '../constants/actionTypes';
-import {convertToTree} from '../utils';
+import * as types from '../../constants/actionTypes';
+import {convertToTree} from '../../utils';
 
 let initialState = {
     gettingOrganizations: false,

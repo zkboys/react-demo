@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Icon, Popconfirm} from 'antd';
-import {hasPermission} from '../services/user';
+import {hasPermission} from '../services/organization/user';
 
 class Operator extends Component {
     static propTypes = {

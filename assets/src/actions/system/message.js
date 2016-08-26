@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
-import * as types from '../constants/actionTypes';
-import * as profileService from '../services/profile';
+import * as types from '../../constants/actionTypes';
+import * as profileService from '../../services/system/profile';
 
 export const updateUserMessage = createAction(types.UPDATE_USER_MESSAGE,
     async(userMessage) => await profileService.updateUserMessage(userMessage), // 返回一个promise实例

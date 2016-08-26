@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import deepCopy from 'deepcopy';
-import * as types from '../constants/actionTypes';
+import * as types from '../../constants/actionTypes';
 
 let initialState = {
     currentPage: 1,

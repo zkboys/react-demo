@@ -2,7 +2,7 @@ import {createAction} from 'redux-actions';
 import * as types from '../constants/actionTypes';
 import * as appService from '../services/app';
 import {session} from '../utils/storage';
-import {getCurrentLoginUser} from '../services/user';
+import {getCurrentLoginUser} from '../services/organization/user';
 
 export const logout = createAction(types.LOGOUT, async() => await appService.logout());
 export const getMenus = createAction(types.GET_MENUS, () => session.getItem('menus'));

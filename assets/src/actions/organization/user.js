@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
-import * as types from '../constants/actionTypes';
-import * as userService from '../services/user';
+import * as types from '../../constants/actionTypes';
+import * as userService from '../../services/organization/user';
 
 export const getUsersByParams = createAction(types.GET_USERS_BY_PARAMS,
     async(params) => await userService.getUsersByParams(params),

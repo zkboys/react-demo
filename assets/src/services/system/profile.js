@@ -1,4 +1,4 @@
-import * as request from './request';
+import * as request from '../request';
 
 export function updateUserMessage(userMessage) {
     return request.put('/system/message', userMessage)
