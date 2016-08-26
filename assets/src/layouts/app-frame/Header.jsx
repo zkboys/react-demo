@@ -4,7 +4,6 @@ import {Link} from 'react-router';
 import FAIcon from '../../components/faicon/FAIcon';
 import UserAvatar from '../../components/UserAvatar';
 
-
 class Header extends Component {
     static defaultProps = {
         menus: [],

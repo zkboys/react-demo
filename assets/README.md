@@ -557,10 +557,11 @@ componentDidMount() {
 
 ## TODO
 - [ ] webpack 打包速度优化，研究一下dll，关于配置 github上搜索 react webpack，看看其他项目webpack是怎么配置的，项目是如何组织的。
-- [ ] 端对端测试环境搭建
+- [x] 端对端测试环境搭建
 - [ ] 端对端测试写法
 - [x] 单元测试环境搭建。
 - [ ] 单元测试写法。
 - [ ] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦
 - [ ] 前后端分离，数据交互问题，crsf问题。
 - [ ] antd spin 组件消失时，有个500毫秒延迟，不知道官方什么时候能够提示可配置时间
+- [ ] 使用electron生成桌面应用
