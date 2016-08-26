@@ -288,6 +288,6 @@ export function mapStateToProps(state) {
     return {
         ...state.organizationUser,
         ...state.organizationRole,
-        ...state.organization,
+        ...state.organization.present,
     };
 }

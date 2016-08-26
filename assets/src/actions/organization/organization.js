@@ -12,3 +12,7 @@ export const getAllOrganizations = createAction(types.GET_ALL_ORGANIZATIONS,
         };
     }
 );
+
+export const setOrganizationTreeData = createAction(types.SET_ORGANIZATION_TREE_DATA);
+export const undoOrganization = createAction(types.UNDO_ORGANIZATION);
+export const redoOrganization = createAction(types.REDO_ORGANIZATION);

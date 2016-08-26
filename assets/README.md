@@ -550,6 +550,7 @@ componentDidMount() {
 - [redux-promise](https://github.com/acdlite/redux-promise)
 - [redux-thunk](https://github.com/gaearon/redux-thunk)
 - [react-router](https://github.com/reactjs/react-router)
+- [redux-undo](https://github.com/omnidan/redux-undo)
 - [nightwatchjs(端对端测试)](http://nightwatchjs.org/guide#usage)
 - [mochajs(单元测试)](http://mochajs.org/)
 - [react-test-utils](http://reactjs.cn/react/docs/test-utils.html)
