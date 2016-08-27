@@ -273,26 +273,23 @@ class Menu extends Component {
             <Spin spinning={gettingMenuTreeData}>
                 <div className="dev-menu">
                     <Row>
-                        <Col span={5}>
+                        <Col span={8}>
                             <div className="menu-tool-bar">
                                 <Button
                                     type="primary"
-                                    size="large"
                                     onClick={this.handleAddTopMenu}
                                 >
-                                    <Icon type="plus-circle-o"/>
+                                    <Icon type="plus-circle-o"/>添加顶级
                                 </Button>
                                 <Button
                                     type="primary"
-                                    size="large"
                                     loading={savingMenu}
                                     onClick={this.handleSave}
                                 >
-                                    <Icon type="save"/>
+                                    <Icon type="save"/>保存
                                 </Button>
                                 <Button
                                     type="ghost"
-                                    size="large"
                                     disabled={disableUndo}
                                     onClick={this.handleUndo}
                                 >
@@ -300,7 +297,6 @@ class Menu extends Component {
                                 </Button>
                                 <Button
                                     type="ghost"
-                                    size="large"
                                     disabled={disableRedo}
                                     onClick={this.handleRedo}
                                 >
@@ -318,21 +314,18 @@ class Menu extends Component {
                                 {this.renderTreeNode(menusTreeData)}
                             </Tree>
                         </Col>
-                        <Col span={9} style={{paddingTop: 48}}>
-                            <MenuEdit menusTreeData={menusTreeData} menu={menu} onChange={this.handleFormChange}/>
-                            <Row>
+                        <Col span={8}>
+                            <Row style={{marginBottom: 8}}>
                                 <Col offset="4">
-                                    <div className="node-tool-bar">
+                                    <div className="menu-tool-bar">
                                         <Button
                                             type="primary"
-                                            size="large"
                                             disabled={disableAddSub}
                                             onClick={this.handleAddSubMenu}
                                         >
                                             <Icon type="plus-circle-o"/>添加子级
                                         </Button>
                                         <Button
-                                            size="large"
                                             disabled={disableDelete}
                                             onClick={this.handleDelete}
                                         >
@@ -341,14 +334,14 @@ class Menu extends Component {
                                     </div>
                                 </Col>
                             </Row>
+                            <MenuEdit menusTreeData={menusTreeData} menu={menu} onChange={this.handleFormChange}/>
                         </Col>
-                        <Col span={10}>
+                        <Col span={8}>
                             <div className="menu-tool-bar" style={{marginBottom: 16}}>
                                 <Popover placement="rightBottom" title="添加内部功能" content={<MenuFunctionForm menusTreeData={menusTreeData} onSubmit={this.handleAddFunctionSubmit}/>} trigger="click">
                                     <Button
                                         disabled={disableAddFun}
                                         type="primary"
-                                        size="large"
                                     >
                                         <Icon type="plus-circle-o"/>添加内部功能
                                     </Button>

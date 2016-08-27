@@ -225,41 +225,37 @@ class Organization extends Component {
         return (
             <Spin spinning={gettingOrganizationTreeData}>
                 <div className="organization-org">
-                    <div className="org-tool-bar">
-                        <Button
-                            type="primary"
-                            size="large"
-                            onClick={this.handleAddTopOrg}
-                        >
-                            <Icon type="plus-circle-o"/>添加顶级
-                        </Button>
-                        <Button
-                            type="primary"
-                            size="large"
-                            loading={savingOrganization}
-                            onClick={this.handleSave}
-                        >
-                            <Icon type="save"/>保存
-                        </Button>
-                        <Button
-                            type="ghost"
-                            size="large"
-                            disabled={disableUndo}
-                            onClick={this.handleUndo}
-                        >
-                            <FAIcon type="fa-undo"/>
-                        </Button>
-                        <Button
-                            type="ghost"
-                            size="large"
-                            disabled={disableRedo}
-                            onClick={this.handleRedo}
-                        >
-                            <FAIcon type="fa-repeat"/>
-                        </Button>
-                    </div>
                     <Row>
-                        <Col span={6}>
+                        <Col span={8}>
+                            <div className="org-tool-bar">
+                                <Button
+                                    type="primary"
+                                    onClick={this.handleAddTopOrg}
+                                >
+                                    <Icon type="plus-circle-o"/>添加顶级
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    loading={savingOrganization}
+                                    onClick={this.handleSave}
+                                >
+                                    <Icon type="save"/>保存
+                                </Button>
+                                <Button
+                                    type="ghost"
+                                    disabled={disableUndo}
+                                    onClick={this.handleUndo}
+                                >
+                                    <FAIcon type="fa-undo"/>
+                                </Button>
+                                <Button
+                                    type="ghost"
+                                    disabled={disableRedo}
+                                    onClick={this.handleRedo}
+                                >
+                                    <FAIcon type="fa-repeat"/>
+                                </Button>
+                            </div>
                             <Tree
                                 defaultExpandAll
                                 openAnimation={{}}
@@ -271,21 +267,18 @@ class Organization extends Component {
                                 {this.renderTreeNode(organizationsTreeData)}
                             </Tree>
                         </Col>
-                        <Col span={12}>
-                            <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
-                            <Row>
+                        <Col span={8}>
+                            <Row style={{marginBottom: 8}}>
                                 <Col offset="4">
-                                    <div className="node-tool-bar">
+                                    <div className="org-tool-bar">
                                         <Button
                                             type="primary"
-                                            size="large"
                                             disabled={disableAddSub}
                                             onClick={this.handleAddSubOrg}
                                         >
                                             <Icon type="plus-circle-o"/>添加子级
                                         </Button>
                                         <Button
-                                            size="large"
                                             disabled={disableDelete}
                                             onClick={this.handleDelete}
                                         >
@@ -294,6 +287,7 @@ class Organization extends Component {
                                     </div>
                                 </Col>
                             </Row>
+                            <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
                         </Col>
                     </Row>
                     <Modal
