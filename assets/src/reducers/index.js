@@ -8,8 +8,10 @@ import organizationUser from './organization/user';
 import organizationRole from './organization/role';
 import organization from './organization/organization';
 import organizationEdit from './organization/organization-edit';
+import menuEdit from './dev/menu-edit';
 
 export default combineReducers({
+    menuEdit,
     organizationEdit,
     organization,
     organizationRole,

@@ -44,3 +44,11 @@ export const SAVE_ORGANIZATION = 'SAVE_ORGANIZATION';
 
 // role
 export const GET_ALL_ROLES = 'GET_ALL_ROLES';
+
+// menu
+
+export const SET_MENU_TREE_DATA = 'SET_MENU_TREE_DATA';
+export const GET_MENU_TREE_DATA = 'GET_MENU_TREE_DATA';
+export const UNDO_MENU = 'UNDO_MENU';
+export const REDO_MENU = 'REDO_MENU';
+export const SAVE_MENU = 'SAVE_MENU';

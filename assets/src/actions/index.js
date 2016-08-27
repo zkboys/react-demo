@@ -6,8 +6,10 @@ import * as profilePass from './system/pass';
 import * as organizationUser from './organization/user';
 import * as organizationRole from './organization/role';
 import * as organization from './organization/organization';
+import * as menu from './dev/menu';
 
 const actions = {
+    menu,
     organization,
     organizationRole,
     organizationUser,
