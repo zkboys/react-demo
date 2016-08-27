@@ -5,7 +5,7 @@ export function getAll() {
         .then(data => data);
 }
 
-export function save() {
-    return request.post('/organization/organizations')
+export function save(params) {
+    return request.post('/organization/organizations', params)
         .then(data => data);
 }

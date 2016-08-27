@@ -120,7 +120,9 @@ class Organization extends Component {
             }
         });
         loop(data);
-        actions.saveOrganization(painData);
+        actions.saveOrganization({
+            organizations: painData,
+        });
     }
 
     renderTreeNode = data => data.map((item) => {
