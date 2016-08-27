@@ -21,7 +21,7 @@ class OrganizationEdit extends Component {
         },
         formItemLayout: {
             labelCol: {span: 4},
-            wrapperCol: {span: 10},
+            wrapperCol: {span: 12},
         },
     }
 
