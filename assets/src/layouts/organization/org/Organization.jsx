@@ -214,7 +214,7 @@ class Organization extends Component {
     });
 
     render() {
-        const {present: {organizationsTreeData, savingOrganization, gettingOrganizationTreeData}, past, future} = this.props;
+        const {present: {organizationsTreeData, savingOrganization, gettingOrganizationTreeData, changed}, past, future} = this.props;
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         let organization = {};
@@ -222,6 +222,7 @@ class Organization extends Component {
         const {showEditModal, addTop, selectedKey} = this.state;
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
+        const disableSave = !changed;
         return (
             <Spin spinning={gettingOrganizationTreeData}>
                 <div className="organization-org">
@@ -236,6 +237,7 @@ class Organization extends Component {
                                 </Button>
                                 <Button
                                     type="primary"
+                                    disabled={disableSave}
                                     loading={savingOrganization}
                                     onClick={this.handleSave}
                                 >

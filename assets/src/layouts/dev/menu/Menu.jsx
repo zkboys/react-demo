@@ -259,7 +259,7 @@ class Menu extends Component {
     });
 
     render() {
-        const {present: {menusTreeData, savingMenu, gettingMenuTreeData}, past, future} = this.props;
+        const {present: {menusTreeData, savingMenu, gettingMenuTreeData, changed}, past, future} = this.props;
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         let menu = {};
@@ -268,6 +268,7 @@ class Menu extends Component {
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
         const disableAddFun = !selectedKey;
+        const disableSave = !changed;
         const functions = menu.functions;
         return (
             <Spin spinning={gettingMenuTreeData}>
@@ -283,6 +284,7 @@ class Menu extends Component {
                                 </Button>
                                 <Button
                                     type="primary"
+                                    disabled={disableSave}
                                     loading={savingMenu}
                                     onClick={this.handleSave}
                                 >
