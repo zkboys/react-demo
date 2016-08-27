@@ -22,3 +22,15 @@ export const getRolesByParams = createAction(types.GET_ROLES_BY_PARAMS,
         };
     }
 );
+
+export const deleteRole = createAction(types.DELETE_ROLE,
+    async(params) => await organizationRoleService.deleteRole(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
+            autoTipSuccess: '角色删除成功！',
+        };
+    }
+);
