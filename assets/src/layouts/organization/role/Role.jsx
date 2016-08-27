@@ -93,20 +93,23 @@ export class RoleList extends Component {
     }
 
     handleAdd = () => {
-        const {actions} = this.props;
+        const {actions, menusTreeData} = this.props;
         actions.showRoleEditModal({
             editModalTitle: '添加角色',
+            menusTreeData,
             role: {
                 name: '',
                 description: '',
+                permissions: [],
             },
         });
     }
 
     handleEdit = (role) => {
-        const {actions} = this.props;
+        const {actions, menusTreeData} = this.props;
         actions.showRoleEditModal({
             editModalTitle: '修改角色',
+            menusTreeData,
             role,
         });
     }
@@ -132,7 +135,9 @@ export class RoleList extends Component {
     }
 
     componentDidMount() {
+        const {actions} = this.props;
         this.search();
+        actions.getMenuTreeData();
     }
 
     render() {
@@ -180,5 +185,6 @@ export function mapStateToProps(state) {
     return {
         ...state.organizationRole,
         ...state.app,
+        ...state.menuEdit.present,
     };
 }

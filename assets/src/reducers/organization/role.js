@@ -7,11 +7,17 @@ let initialState = {
     roles: [],
     gettingRoles: false,
     deleting: {},
+    savingOrUpdatingRole: false,
     currentPage: 1,
     pageSize: 10,
     rolesByParams: {
         results: [],
         totalCount: 0,
+    },
+    showEditModal: false,
+    role: {
+        name: '',
+        description: '',
     },
 };
 
@@ -71,6 +77,67 @@ export default handleActions({
         return {
             ...state,
             deleting: {...state.deleting, [id]: loading},
+            rolesByParams,
+        };
+    },
+    [types.SHOW_ROLE_EDIT_MODAL](state, action) {
+        const {payload} = action;
+        return {
+            ...state,
+            ...payload,
+            showEditModal: true,
+        };
+    },
+    [types.HIDE_ROLE_EDIT_MODAL](state) {
+        return {
+            ...state,
+            showEditModal: false,
+        };
+    },
+    [types.ADD_ROLE](state, action) {
+        const {meta = {}, error, payload} = action;
+        const {sequence = {}} = meta;
+        const savingOrUpdatingRole = sequence.type === 'start';
+
+        if (savingOrUpdatingRole || error) {
+            return {
+                ...state,
+                savingOrUpdatingRole,
+            };
+        }
+
+        const rolesByParams = deepCopy(state.rolesByParams);
+        rolesByParams.results.unshift(payload);
+
+        return {
+            ...state,
+            savingOrUpdatingRole,
+            rolesByParams,
+        };
+    },
+    [types.UPDATE_ROLE](state, action) {
+        const {meta = {}, error} = action;
+        const {sequence = {}, params} = meta;
+        const savingOrUpdatingRole = sequence.type === 'start';
+
+        if (savingOrUpdatingRole || error) {
+            return {
+                ...state,
+                savingOrUpdatingRole,
+            };
+        }
+
+        const rolesByParams = deepCopy(state.rolesByParams);
+
+        rolesByParams.results.forEach((u, i, array) => {
+            if (u._id === params._id) {
+                array[i] = {...u, ...params};
+            }
+        });
+
+        return {
+            ...state,
+            savingOrUpdatingRole,
             rolesByParams,
         };
     },

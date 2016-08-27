@@ -46,6 +46,10 @@ export const SAVE_ORGANIZATION = 'SAVE_ORGANIZATION';
 export const GET_ALL_ROLES = 'GET_ALL_ROLES';
 export const GET_ROLES_BY_PARAMS = 'GET_ROLES_BY_PARAMS';
 export const DELETE_ROLE = 'DELETE_ROLE';
+export const SHOW_ROLE_EDIT_MODAL = 'SHOW_ROLE_EDIT_MODAL';
+export const HIDE_ROLE_EDIT_MODAL = 'HIDE_ROLE_EDIT_MODAL';
+export const ADD_ROLE = 'ADD_ROLE';
+export const UPDATE_ROLE = 'UPDATE_ROLE';
 
 // menu
 

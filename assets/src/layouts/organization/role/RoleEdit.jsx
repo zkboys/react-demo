@@ -1,55 +1,44 @@
 import React, {Component, PropTypes} from 'react';
-import {Form, Input, Switch, Icon, Select, Row, Col, TreeSelect, Radio, Button, Modal} from 'antd';
+import {Form, Input, Button, Modal, Tree} from 'antd';
+import FAIcon from '../../../components/faicon/FAIcon';
 import './style.less';
 import ValidationRule from '../../../services/validation-rule';
 
-const Option = Select.Option;
 const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+const TreeNode = Tree.TreeNode;
+const systemMenuKey = 'system';
 
-class UserEdit extends Component {
+class RoleEdit extends Component {
 
     static defaultProps = {
-        savingOrUpdatingUser: false,
+        savingOrUpdatingRole: false,
         showEditModal: false,
         editModalTitle: '',
-        user: {
+        menusTreeData: [],
+        role: {
             name: '',
-            loginname: '',
-            email: '',
-            mobile: '',
-            gender: '',
-            position: '',
-            role_id: '',
-            org_key: '',
-            is_locked: false,
+            description: '',
         },
-        organizations: [],
-        roles: [],
+        formItemLayout: {
+            labelCol: {span: 4},
+            wrapperCol: {span: 18},
+        },
     };
 
     static propTypes = {
         showEditModal: PropTypes.bool,
-        savingOrUpdatingUser: PropTypes.bool,
+        savingOrUpdatingRole: PropTypes.bool,
         editModalTitle: PropTypes.string,
-        user: PropTypes.shape({
+        menusTreeData: PropTypes.array,
+        role: PropTypes.shape({
             name: PropTypes.string.isRequired,
-            loginname: PropTypes.string.isRequired,
-            email: PropTypes.string.isRequired,
-            mobile: PropTypes.string.isRequired,
-            gender: PropTypes.string.isRequired,
-            position: PropTypes.string.isRequired,
-            role_id: PropTypes.string.isRequired,
-            org_key: PropTypes.string.isRequired,
-            is_locked: PropTypes.bool.isRequired,
+            description: PropTypes.string,
         }),
-        organizations: PropTypes.array,
-        roles: PropTypes.array,
     };
 
     handleModalCancel = () => {
         const {actions} = this.props;
-        actions.hideUserEditModal();
+        actions.hideRoleEditModal();
     }
 
     handleReset = (e) => {
@@ -62,97 +51,163 @@ class UserEdit extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {savingUser, form: {validateFieldsAndScroll}, actions, user} = this.props;
+        const {savingRole, form: {validateFieldsAndScroll}, actions, role} = this.props;
 
-        if (savingUser) return;
+        if (savingRole) return;
 
         const fields = [
             'name',
-            'loginname',
-            'email',
-            'mobile',
-            'gender',
-            'position',
-            'org_key',
-            'role_id',
-            'is_locked',
+            'description',
+            'permissions',
         ];
         validateFieldsAndScroll(fields, (errors, values) => {
             if (errors) {
                 return;
             }
-            let id = user && user._id;
+            let id = role && role._id;
             if (id) {
                 values._id = id;
-                actions.updateUser(values, () => {
-                    actions.hideUserEditModal();
+                actions.updateRole(values, () => {
+                    actions.hideRoleEditModal();
                     this.handleReset();
                 });
                 return;
             }
-            actions.addUser(values, () => {
-                actions.hideUserEditModal();
+            actions.addRole(values, () => {
+                actions.hideRoleEditModal();
                 this.handleReset();
             });
         });
     }
+    findNodeByKey = (data, key, callback) => {
+        data.forEach((item, index, arr) => {
+            if (item.key === key) {
+                return callback(item, index, arr);
+            }
+            if (item.children) {
+                return this.findNodeByKey(item.children, key, callback);
+            }
+        });
+    };
+    onCheck = (info, e) => {
+        const {menusTreeData, form: {setFieldsValue}} = this.props;
+        const checkedNodes = e.checkedNodes;
+        let permissions = new Set();
+        if (checkedNodes && checkedNodes.length) {
+            checkedNodes.forEach(checkNode => {
+                const key = checkNode.key;
+                this.findNodeByKey(menusTreeData, key, (node) => {
+                    const keys = [...(node.parentKeys || [])];
+                    keys.push(key);
+                    keys.forEach(k => {
+                        if (k !== undefined) {
+                            permissions.add(k);
+                        }
+                    });
+                });
+            });
+        }
+        setFieldsValue({
+            permissions: Array.from(permissions),
+        });
+    };
+    renderTreeNode = data => data.map((item) => {
+        let disable = {};
+        if (item.key === systemMenuKey || (item.parentKeys && item.parentKeys.indexOf(systemMenuKey) > -1)) {
+            disable.disableCheckbox = true;
+        }
+        if (item.children && item.children.length) {
+            return (
+                <TreeNode
+                    {...disable}
+                    key={item.key}
+                    title={<span><FAIcon type={item.icon}/> {item.text}</span>}
+                >
+                    {this.renderTreeNode(item.children)}
+                </TreeNode>
+            );
+        }
+        if (item.functions && item.functions.length) {
+            return (
+                <TreeNode
+                    {...disable}
+                    key={item.key}
+                    title={<span><FAIcon type={item.icon}/> {item.text}</span>}
+                >
+                    {item.functions.map(v => {
+                        v.parentKeys = [...item.parentKeys];
+                        v.parentKeys.push(item.key);
+                        return (
+                            <TreeNode
+                                key={v.key}
+                                title={<span>{v.name}</span>}
+                            />
+                        );
+                    })}
+                </TreeNode>
+            );
+        }
+        return (
+            <TreeNode
+                {...disable}
+                key={item.key}
+                title={<span><FAIcon type={item.icon}/> {item.text}</span>}
+            />
+        );
+    });
 
     render() {
-        const {form: {getFieldProps}, user, savingOrUpdatingUser, showEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
-        let ignoreValues = [];
+        let {form: {getFieldProps}, menusTreeData, formItemLayout, role, savingOrUpdatingRole, showEditModal, editModalTitle} = this.props;
+        menusTreeData = menusTreeData.filter(g => {
+            return g.key !== 'dev';
+        });
+        let defaultCheckedKeys = [];
+        const loop = d => d.forEach((item) => {
+            let disable = {};
+            if (item.key === systemMenuKey || (item.parentKeys && item.parentKeys.indexOf(systemMenuKey) > -1)) {
+                disable.disableCheckbox = true;
+                defaultCheckedKeys.push(item.key);
+            }
+            if (item.children && item.children.length) {
+                loop(item.children);
+            }
+            if (item.functions && item.functions.length) {
+                item.functions.forEach(v => {
+                    v.parentKeys = [...item.parentKeys];
+                    v.parentKeys.push(item.key);
+                    if (v.parentKeys.indexOf(systemMenuKey) > -1) {
+                        defaultCheckedKeys.push(item.key);
+                    }
+                });
+            }
+        });
+        loop(menusTreeData);
 
-        if (user._id) { // _id 存在，修改操作。
-            ignoreValues.push(user.loginname);
+        let ignoreValues = [];
+        if (role._id) { // _id 存在，修改操作。
+            ignoreValues.push(role.name);
         }
 
-        const nameProps = getFieldProps('name', {initialValue: user.name});
-        const loginnameProps = getFieldProps('loginname', {
-            initialValue: user.loginname,
+        const nameProps = getFieldProps('name', {
+            initialValue: role.name,
             rules: [
-                ValidationRule.required('登录名'),
-                ValidationRule.loginName(),
-                ValidationRule.checkLoginNameExist(ignoreValues),
+                ValidationRule.required('角色名'),
+                ValidationRule.checkRoleNameExist(ignoreValues),
             ],
         });
-        const emailProps = getFieldProps('email', {
-            initialValue: user.email,
-            rules: [
-                ValidationRule.email(),
-            ],
+        const descriptionProps = getFieldProps('description', {initialValue: role.description});
+        getFieldProps('permissions', {
+            initialValue: defaultCheckedKeys.concat(role.permissions),
         });
-        const mobileProps = getFieldProps('mobile', {
-            initialValue: user.mobile,
-            rules: [
-                ValidationRule.mobile(),
-            ],
+        let keys = role.permissions || [];
+        keys = keys.filter(v => {
+            let node = null;
+            this.findNodeByKey(menusTreeData, v, (n) => {
+                node = n;
+            });
+            return node && !((node.children && node.children.length) || (node.functions && node.functions.length));
         });
-        const genderProps = getFieldProps('gender', {
-            initialValue: user.gender,
-            rules: [],
-        });
-        const positionProps = getFieldProps('position', {
-            initialValue: user.position,
-            rules: [],
-        });
-        const roleProps = getFieldProps('role_id', {
-            initialValue: user.role_id,
-            rules: [
-                ValidationRule.required('角色'),
-            ],
-        });
-        const orgProps = getFieldProps('org_key', {
-            initialValue: user.org_key,
-            rules: [],
-        });
-        const isLockedProps = getFieldProps('is_locked', {
-            valuePropName: 'checked',
-            initialValue: user.is_locked,
-            rules: [],
-        });
-        const formItemLayout = {
-            labelCol: {span: 4},
-            wrapperCol: {span: 18},
-        };
+        keys = keys.concat(defaultCheckedKeys);
         return (
             <Modal
                 title={editModalTitle}
@@ -161,120 +216,45 @@ class UserEdit extends Component {
                 onCancel={this.handleModalCancel}
             >
                 <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem
-                                labelCol={{span: 8}}
-                                wrapperCol={{span: 16}}
-                                label="登录名："
-                                hasFeedback
-                            >
-                                <Input
-                                    {...loginnameProps}
-                                    placeholder="请输入登录名"
-                                />
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem
-                                labelCol={{span: 6}}
-                                wrapperCol={{span: 14}}
-                                label="用户名："
-                                hasFeedback
-                            >
-                                <Input
-                                    {...nameProps}
-                                    placeholder="请输入用户名"
-                                />
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem
-                                labelCol={{span: 8}}
-                                wrapperCol={{span: 16}}
-                                label="邮箱："
-                                hasFeedback
-                            >
-                                <Input
-                                    {...emailProps}
-                                    placeholder="请输入邮箱"
-                                />
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem
-                                labelCol={{span: 6}}
-                                wrapperCol={{span: 14}}
-                                label="电话："
-                                hasFeedback
-                            >
-                                <Input
-                                    {...mobileProps}
-                                    placeholder="请输入电话"
-                                />
-                            </FormItem>
-                        </Col>
-                    </Row>
+
                     <FormItem
                         {...formItemLayout}
-                        label="性别：">
-                        <RadioGroup {...genderProps}>
-                            <Radio value="male">男</Radio>
-                            <Radio value="female">女</Radio>
-                        </RadioGroup>
-                        <span><Icon type="info-circle-o"/> 暂不支持其它性别</span>
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="所属部门：">
-                        <TreeSelect
-                            dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
-                            placeholder="请选择部门"
-                            allowClear
-                            treeDefaultExpandAll
-                            treeData={organizationsTreeData}
-                            {...orgProps}
-                        />
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="职位：">
+                        label="角色名："
+                        hasFeedback
+                    >
                         <Input
-                            {...positionProps}
-                            placeholder="请输入职位"
+                            {...nameProps}
+                            placeholder="请输入角色名"
                         />
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label="角色：">
-                        <Select
-                            showSearch
-                            optionFilterProp="children"
-                            notFoundContent="无法找到"
-                            {...roleProps}
-                            placeholder="请选择角色"
+                        label="描述："
+                        hasFeedback
+                    >
+                        <Input
+                            type="textarea"
+                            {...descriptionProps}
+                            placeholder="描述"
+                        />
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="选择权限："
+                        hasFeedback
+                    >
+                        <Tree
+                            checkable
+                            defaultExpandedKeys={keys}
+                            defaultCheckedKeys={keys}
+                            onCheck={this.onCheck}
                         >
-                            {roles.map(r => {
-                                return (
-                                    <Option key={r._id} value={r._id}>{r.name}</Option>
-                                );
-                            })}
-                        </Select>
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="锁定：">
-                        <Switch
-                            {...isLockedProps}
-                            checkedChildren="是"
-                            unCheckedChildren="否"
-                        />
+                            {this.renderTreeNode(menusTreeData)}
+                        </Tree>
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>
                         <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>
-                        <Button type="primary" loading={savingOrUpdatingUser} htmlType="submit">确定</Button>
+                        <Button type="primary" loading={savingOrUpdatingRole} htmlType="submit">确定</Button>
                     </FormItem>
                 </Form>
             </Modal>
@@ -282,11 +262,9 @@ class UserEdit extends Component {
     }
 }
 
-export const LayoutComponent = Form.create()(UserEdit);
+export const LayoutComponent = Form.create()(RoleEdit);
 export function mapStateToProps(state) {
     return {
-        ...state.organizationUser,
         ...state.organizationRole,
-        ...state.organization,
     };
 }

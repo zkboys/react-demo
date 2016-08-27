@@ -34,3 +34,30 @@ export const deleteRole = createAction(types.DELETE_ROLE,
         };
     }
 );
+
+export const showRoleEditModal = createAction(types.SHOW_ROLE_EDIT_MODAL);
+export const hideRoleEditModal = createAction(types.HIDE_ROLE_EDIT_MODAL);
+
+export const addRole = createAction(types.ADD_ROLE,
+    async(params) => await organizationRoleService.addRole(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
+            autoTipSuccess: '添加成功！',
+        };
+    }
+);
+
+export const updateRole = createAction(types.UPDATE_ROLE,
+    async(params) => await organizationRoleService.updateRole(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
+            autoTipSuccess: '修改成功！',
+        };
+    }
+);
