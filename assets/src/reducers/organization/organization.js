@@ -29,6 +29,7 @@ export default handleActions({
             ...state,
             organizations: payload,
             organizationsTreeData,
+            gettingOrganizations,
         };
     },
 }, initialState);

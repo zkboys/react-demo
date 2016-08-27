@@ -35,6 +35,7 @@ const organization = handleActions({
             ...state,
             organizationsTreeData,
             changed: false,
+            gettingOrganizationTreeData,
         };
     },
 

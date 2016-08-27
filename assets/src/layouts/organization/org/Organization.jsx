@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Button, Tree, Icon, Modal} from 'antd';
+import {Row, Col, Button, Tree, Icon, Modal, Spin} from 'antd';
 import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
 import OrganizationEdit from './OrganizationEdit';
@@ -214,7 +214,7 @@ class Organization extends Component {
     });
 
     render() {
-        const {present: {organizationsTreeData, savingOrganization}, past, future} = this.props;
+        const {present: {organizationsTreeData, savingOrganization, gettingOrganizationTreeData}, past, future} = this.props;
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         let organization = {};
@@ -223,87 +223,90 @@ class Organization extends Component {
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
         return (
-            <div className="organization-org">
-                <div className="org-tool-bar">
-                    <Button
-                        type="primary"
-                        size="large"
-                        onClick={this.handleAddTopOrg}
-                    >
-                        <Icon type="plus-circle-o"/>添加顶级
-                    </Button>
-                    <Button
-                        type="primary"
-                        size="large"
-                        loading={savingOrganization}
-                        onClick={this.handleSave}
-                    >
-                        <Icon type="save"/>保存
-                    </Button>
-                    <Button
-                        type="ghost"
-                        size="large"
-                        disabled={disableUndo}
-                        onClick={this.handleUndo}
-                    >
-                        <FAIcon type="fa-undo"/>
-                    </Button>
-                    <Button
-                        type="ghost"
-                        size="large"
-                        disabled={disableRedo}
-                        onClick={this.handleRedo}
-                    >
-                        <FAIcon type="fa-repeat"/>
-                    </Button>
-                </div>
-                <Row>
-                    <Col span={6}>
-                        <Tree
-                            defaultExpandAll
-                            openAnimation={{}}
-                            draggable
-                            onDrop={this.onDrop}
-                            onSelect={this.handleTreeNodeClick}
-                            // onRightClick={this.handleRightClick}
+            <Spin spinning={gettingOrganizationTreeData}>
+                <div className="organization-org">
+                    <div className="org-tool-bar">
+                        <Button
+                            type="primary"
+                            size="large"
+                            onClick={this.handleAddTopOrg}
                         >
-                            {this.renderTreeNode(organizationsTreeData)}
-                        </Tree>
-                    </Col>
-                    <Col span={12}>
-                        <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
-                        <Row>
-                            <Col offset="4">
-                                <div className="node-tool-bar">
-                                    <Button
-                                        type="primary"
-                                        size="large"
-                                        disabled={disableAddSub}
-                                        onClick={this.handleAddSubOrg}
-                                    >
-                                        <Icon type="plus-circle-o"/>添加子级
-                                    </Button>
-                                    <Button
-                                        size="large"
-                                        disabled={disableDelete}
-                                        onClick={this.handleDelete}
-                                    >
-                                        <Icon type="delete"/>删除
-                                    </Button>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-                <Modal
-                    title={addTop ? '添加顶级组织' : '添加子级组织'}
-                    visible={showEditModal}
-                    footer=""
-                    onCancel={this.handleModalCancel}
-                >
-                    <OrganizationEdit organization={{key: String(new Date().getTime())}} onSubmit={this.handleAdd} showButtons/>
-                </Modal>
-            </div>
+                            <Icon type="plus-circle-o"/>添加顶级
+                        </Button>
+                        <Button
+                            type="primary"
+                            size="large"
+                            loading={savingOrganization}
+                            onClick={this.handleSave}
+                        >
+                            <Icon type="save"/>保存
+                        </Button>
+                        <Button
+                            type="ghost"
+                            size="large"
+                            disabled={disableUndo}
+                            onClick={this.handleUndo}
+                        >
+                            <FAIcon type="fa-undo"/>
+                        </Button>
+                        <Button
+                            type="ghost"
+                            size="large"
+                            disabled={disableRedo}
+                            onClick={this.handleRedo}
+                        >
+                            <FAIcon type="fa-repeat"/>
+                        </Button>
+                    </div>
+                    <Row>
+                        <Col span={6}>
+                            <Tree
+                                defaultExpandAll
+                                openAnimation={{}}
+                                draggable
+                                onDrop={this.onDrop}
+                                onSelect={this.handleTreeNodeClick}
+                                // onRightClick={this.handleRightClick}
+                            >
+                                {this.renderTreeNode(organizationsTreeData)}
+                            </Tree>
+                        </Col>
+                        <Col span={12}>
+                            <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
+                            <Row>
+                                <Col offset="4">
+                                    <div className="node-tool-bar">
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            disabled={disableAddSub}
+                                            onClick={this.handleAddSubOrg}
+                                        >
+                                            <Icon type="plus-circle-o"/>添加子级
+                                        </Button>
+                                        <Button
+                                            size="large"
+                                            disabled={disableDelete}
+                                            onClick={this.handleDelete}
+                                        >
+                                            <Icon type="delete"/>删除
+                                        </Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Modal
+                        title={addTop ? '添加顶级组织' : '添加子级组织'}
+                        visible={showEditModal}
+                        footer=""
+                        onCancel={this.handleModalCancel}
+                    >
+                        <OrganizationEdit organization={{key: String(new Date().getTime())}} onSubmit={this.handleAdd} showButtons/>
+                    </Modal>
+                </div>
+            </Spin>
+
         );
     }
 }
