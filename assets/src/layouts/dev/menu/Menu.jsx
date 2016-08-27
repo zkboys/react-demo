@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Button, Tree, Icon, Modal, Spin, Table, Popconfirm, Popover} from 'antd';
+import {Row, Col, Button, Tree, Icon, Spin, Table, Popconfirm, Popover} from 'antd';
 import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
 import MenuEdit from './MenuEdit';
@@ -11,7 +11,6 @@ const TreeNode = Tree.TreeNode;
 class Menu extends Component {
     state = {
         selectedKey: '',
-        showEditModal: false,
         addTop: false,
     };
 
@@ -139,21 +138,11 @@ class Menu extends Component {
     }
     handleAddTopMenu = () => {
         this.setState({
-            showEditModal: true,
             addTop: true,
         });
     }
     handleAddSubMenu = () => {
-        const {selectedKey} = this.state;
-        if (!selectedKey) {
-            Modal.info({
-                title: '提示',
-                content: '请选择一个组织',
-            });
-            return;
-        }
         this.setState({
-            showEditModal: true,
             addTop: false,
         });
     }
@@ -179,9 +168,6 @@ class Menu extends Component {
         }
 
         actions.setMenuTreeData(data);
-        this.setState({
-            showEditModal: false,
-        });
     }
     handleDelete = () => {
         const {selectedKey} = this.state;
@@ -220,11 +206,6 @@ class Menu extends Component {
         loop(data);
         actions.setMenuTreeData(data);
     };
-    handleModalCancel = () => {
-        this.setState({
-            showEditModal: false,
-        });
-    }
     handleAddFunctionSubmit = (values) => {
         const {present: {menusTreeData}, actions} = this.props;
         const {selectedKey} = this.state;
@@ -264,7 +245,7 @@ class Menu extends Component {
         const disableRedo = !future || !future.length;
         let menu = {};
         this.findNodeByKey(menusTreeData, this.state.selectedKey, node => menu = node);
-        const {showEditModal, addTop, selectedKey} = this.state;
+        const {addTop, selectedKey} = this.state;
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
         const disableAddFun = !selectedKey;
@@ -276,12 +257,28 @@ class Menu extends Component {
                     <Row>
                         <Col span={8}>
                             <div className="menu-tool-bar">
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleAddTopMenu}
+                                <Popover
+                                    placement="rightBottom"
+                                    title="添加顶级"
+                                    content={<MenuEdit
+                                        formItemLayout={{
+                                            labelCol: {span: 5},
+                                            wrapperCol: {span: 19},
+                                        }}
+                                        menusTreeData={menusTreeData}
+                                        menu={{key: addTop ? '' : `${selectedKey}-`}}
+                                        onSubmit={this.handleAdd}
+                                        showButtons
+                                    />}
+                                    trigger="click"
                                 >
-                                    <Icon type="plus-circle-o"/>添加顶级
-                                </Button>
+                                    <Button
+                                        type="primary"
+                                        onClick={this.handleAddTopMenu}
+                                    >
+                                        <Icon type="plus-circle-o"/>添加顶级
+                                    </Button>
+                                </Popover>
                                 <Button
                                     type="primary"
                                     disabled={disableSave}
@@ -320,13 +317,29 @@ class Menu extends Component {
                             <Row style={{marginBottom: 8}}>
                                 <Col offset="4">
                                     <div className="menu-tool-bar">
-                                        <Button
-                                            type="primary"
-                                            disabled={disableAddSub}
-                                            onClick={this.handleAddSubMenu}
+                                        <Popover
+                                            placement="rightBottom"
+                                            title="添加子级"
+                                            content={<MenuEdit
+                                                formItemLayout={{
+                                                    labelCol: {span: 5},
+                                                    wrapperCol: {span: 19},
+                                                }}
+                                                menusTreeData={menusTreeData}
+                                                menu={{key: addTop ? '' : `${selectedKey}-`}}
+                                                onSubmit={this.handleAdd}
+                                                showButtons
+                                            />}
+                                            trigger="click"
                                         >
-                                            <Icon type="plus-circle-o"/>添加子级
-                                        </Button>
+                                            <Button
+                                                type="primary"
+                                                disabled={disableAddSub}
+                                                onClick={this.handleAddSubMenu}
+                                            >
+                                                <Icon type="plus-circle-o"/>添加子级
+                                            </Button>
+                                        </Popover>
                                         <Button
                                             disabled={disableDelete}
                                             onClick={this.handleDelete}
@@ -386,19 +399,6 @@ class Menu extends Component {
                             />
                         </Col>
                     </Row>
-                    <Modal
-                        title={addTop ? '添加顶级组织' : '添加子级组织'}
-                        visible={showEditModal}
-                        footer=""
-                        onCancel={this.handleModalCancel}
-                    >
-                        <MenuEdit
-                            menusTreeData={menusTreeData}
-                            menu={{key: addTop ? '' : `${selectedKey}-`}}
-                            onSubmit={this.handleAdd}
-                            showButtons
-                        />
-                    </Modal>
                 </div>
             </Spin>
 

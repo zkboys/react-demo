@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Button, Tree, Icon, Modal, Spin} from 'antd';
+import {Row, Col, Button, Tree, Icon, Spin, Popover} from 'antd';
 import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
 import OrganizationEdit from './OrganizationEdit';
@@ -10,7 +10,6 @@ const TreeNode = Tree.TreeNode;
 class Organization extends Component {
     state = {
         selectedKey: '',
-        showEditModal: false,
         addTop: false,
     };
 
@@ -128,21 +127,11 @@ class Organization extends Component {
     }
     handleAddTopOrg = () => {
         this.setState({
-            showEditModal: true,
             addTop: true,
         });
     }
     handleAddSubOrg = () => {
-        const {selectedKey} = this.state;
-        if (!selectedKey) {
-            Modal.info({
-                title: '提示',
-                content: '请选择一个组织',
-            });
-            return;
-        }
         this.setState({
-            showEditModal: true,
             addTop: false,
         });
     }
@@ -168,9 +157,6 @@ class Organization extends Component {
         }
 
         actions.setOrganizationTreeData(data);
-        this.setState({
-            showEditModal: false,
-        });
     }
     handleDelete = () => {
         const {selectedKey} = this.state;
@@ -188,11 +174,6 @@ class Organization extends Component {
         };
         loop(data);
         actions.setOrganizationTreeData(data);
-    }
-    handleModalCancel = () => {
-        this.setState({
-            showEditModal: false,
-        });
     }
     renderTreeNode = data => data.map((item) => {
         if (item.children && item.children.length) {
@@ -219,7 +200,7 @@ class Organization extends Component {
         const disableRedo = !future || !future.length;
         let organization = {};
         this.findNodeByKey(organizationsTreeData, this.state.selectedKey, node => organization = node);
-        const {showEditModal, addTop, selectedKey} = this.state;
+        const {selectedKey} = this.state;
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
         const disableSave = !changed;
@@ -229,12 +210,29 @@ class Organization extends Component {
                     <Row>
                         <Col span={8}>
                             <div className="org-tool-bar">
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleAddTopOrg}
+                                <Popover
+                                    placement="rightBottom"
+                                    title="添加顶级"
+                                    content={<OrganizationEdit
+                                        formItemLayout={{
+                                            labelCol: {span: 5},
+                                            wrapperCol: {span: 19},
+                                        }}
+                                        organization={{key: String(new Date().getTime())}}
+                                        onSubmit={this.handleAdd}
+                                        showButtons/>
+                                    }
+                                    trigger="click"
                                 >
-                                    <Icon type="plus-circle-o"/>添加顶级
-                                </Button>
+
+                                    <Button
+                                        type="primary"
+                                        onClick={this.handleAddTopOrg}
+                                    >
+                                        <Icon type="plus-circle-o"/>添加顶级
+                                    </Button>
+                                </Popover>
+
                                 <Button
                                     type="primary"
                                     disabled={disableSave}
@@ -273,13 +271,28 @@ class Organization extends Component {
                             <Row style={{marginBottom: 8}}>
                                 <Col offset="4">
                                     <div className="org-tool-bar">
-                                        <Button
-                                            type="primary"
-                                            disabled={disableAddSub}
-                                            onClick={this.handleAddSubOrg}
+                                        <Popover
+                                            placement="rightBottom"
+                                            title="添加子级"
+                                            content={<OrganizationEdit
+                                                formItemLayout={{
+                                                    labelCol: {span: 5},
+                                                    wrapperCol: {span: 19},
+                                                }}
+                                                organization={{key: String(new Date().getTime())}}
+                                                onSubmit={this.handleAdd} showButtons/>
+                                            }
+                                            trigger="click"
                                         >
-                                            <Icon type="plus-circle-o"/>添加子级
-                                        </Button>
+
+                                            <Button
+                                                type="primary"
+                                                disabled={disableAddSub}
+                                                onClick={this.handleAddSubOrg}
+                                            >
+                                                <Icon type="plus-circle-o"/>添加子级
+                                            </Button>
+                                        </Popover>
                                         <Button
                                             disabled={disableDelete}
                                             onClick={this.handleDelete}
@@ -292,14 +305,6 @@ class Organization extends Component {
                             <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
                         </Col>
                     </Row>
-                    <Modal
-                        title={addTop ? '添加顶级组织' : '添加子级组织'}
-                        visible={showEditModal}
-                        footer=""
-                        onCancel={this.handleModalCancel}
-                    >
-                        <OrganizationEdit organization={{key: String(new Date().getTime())}} onSubmit={this.handleAdd} showButtons/>
-                    </Modal>
                 </div>
             </Spin>
 

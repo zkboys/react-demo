@@ -21,6 +21,10 @@ class MenuEdit extends Component {
         },
         onReset() {
         },
+        formItemLayout: {
+            labelCol: {span: 4},
+            wrapperCol: {span: 10},
+        },
     }
 
     static propTypes = {}
@@ -102,8 +106,9 @@ class MenuEdit extends Component {
             }
         }
     };
+
     render() {
-        const {form: {getFieldProps}, menu, showButtons} = this.props;
+        let {form: {getFieldProps}, menu, showButtons, formItemLayout} = this.props;
 
         const keyProps = getFieldProps('key', {
             initialValue: menu.key,
@@ -129,10 +134,6 @@ class MenuEdit extends Component {
             initialValue: menu.icon,
             onChange: this.handleChange,
         });
-        const formItemLayout = {
-            labelCol: {span: 4},
-            wrapperCol: {span: 10},
-        };
         return (
             <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
                 <FormItem
@@ -177,7 +178,7 @@ class MenuEdit extends Component {
                 </FormItem>
                 {
                     showButtons ?
-                        <FormItem wrapperCol={{span: 12, offset: 7}}>
+                        <FormItem wrapperCol={{offset: formItemLayout.labelCol.span}}>
                             <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>
                             <Button type="primary" htmlType="submit">确定</Button>
                         </FormItem>
