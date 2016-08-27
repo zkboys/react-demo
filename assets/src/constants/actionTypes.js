@@ -44,6 +44,7 @@ export const SAVE_ORGANIZATION = 'SAVE_ORGANIZATION';
 
 // role
 export const GET_ALL_ROLES = 'GET_ALL_ROLES';
+export const GET_ROLES_BY_PARAMS = 'GET_ROLES_BY_PARAMS';
 
 // menu
 

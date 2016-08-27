@@ -8,7 +8,17 @@ export const getAllRoles = createAction(types.GET_ALL_ROLES,
         return {
             resolved,
             rejected,
-            autoTipError: '获取角色失败',
+        };
+    }
+);
+
+export const getRolesByParams = createAction(types.GET_ROLES_BY_PARAMS,
+    async(params) => await organizationRoleService.getRolesByParams(params),
+    (params, resolved, rejected) => {
+        return {
+            params,
+            resolved,
+            rejected,
         };
     }
 );
