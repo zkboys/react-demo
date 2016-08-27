@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input} from 'antd';
+import {Form, Input, Button} from 'antd';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -12,6 +12,7 @@ class OrganizationEdit extends Component {
             text: '',
             remark: '',
         },
+        showButtons: false,
         onSubmit() {
         },
         onChange() {
@@ -47,9 +48,17 @@ class OrganizationEdit extends Component {
             if (onSubmit) {
                 onSubmit(values);
             }
+            this.handleReset();
         });
     };
 
+    handleReset = (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        this.props.form.resetFields();
+    }
     handleChange = () => {
         const {onChange, form: {validateFields}} = this.props;
         if (onChange) {
@@ -67,7 +76,7 @@ class OrganizationEdit extends Component {
     }
 
     render() {
-        const {form: {getFieldProps}, organization} = this.props;
+        const {form: {getFieldProps}, organization, showButtons} = this.props;
 
         const keyProps = getFieldProps('key', {
             initialValue: organization.key,
@@ -97,7 +106,7 @@ class OrganizationEdit extends Component {
             wrapperCol: {span: 10},
         };
         return (
-            <Form horizontal>
+            <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
                 <FormItem
                     {...formItemLayout}
                     label="key："
@@ -106,10 +115,6 @@ class OrganizationEdit extends Component {
                 >
                     <Input
                         {...keyProps}
-                        onChange={(e) => {
-                            keyProps.onChange(e);
-                            this.handleSubmit(e);
-                        }}
                         placeholder="唯一不可重复。"
                     />
                 </FormItem>
@@ -120,10 +125,6 @@ class OrganizationEdit extends Component {
                 >
                     <Input
                         {...textProps}
-                        onChange={(e) => {
-                            textProps.onChange(e);
-                            this.handleSubmit(e);
-                        }}
                         placeholder="请输入组织名称"
                     />
                 </FormItem>
@@ -134,10 +135,6 @@ class OrganizationEdit extends Component {
                     hasFeedback>
                     <Input
                         {...descriptionProps}
-                        onChange={(e) => {
-                            descriptionProps.onChange(e);
-                            this.handleSubmit(e);
-                        }}
                         placeholder="请输入组织描述"
                     />
                 </FormItem>
@@ -148,13 +145,19 @@ class OrganizationEdit extends Component {
                     hasFeedback>
                     <Input
                         {...remarkProps}
-                        onChange={(e) => {
-                            remarkProps.onChange(e);
-                            this.handleSubmit(e);
-                        }}
                         placeholder="请输入备注"
                     />
                 </FormItem>
+                {
+                    showButtons ?
+                        <FormItem wrapperCol={{span: 12, offset: 7}}>
+                            <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>
+                            <Button type="primary" htmlType="submit">确定</Button>
+                        </FormItem>
+                        :
+                        null
+                }
+
             </Form>
         );
     }

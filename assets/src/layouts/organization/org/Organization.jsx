@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Button, Tree, Icon} from 'antd';
+import {Row, Col, Button, Tree, Icon, Modal} from 'antd';
 import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
 import OrganizationEdit from './OrganizationEdit';
@@ -10,6 +10,8 @@ const TreeNode = Tree.TreeNode;
 class Organization extends Component {
     state = {
         selectedKey: '',
+        showEditModal: false,
+        addTop: false,
     };
 
     static defaultProps = {
@@ -124,7 +126,74 @@ class Organization extends Component {
             organizations: painData,
         });
     }
+    handleAddTopOrg = () => {
+        this.setState({
+            showEditModal: true,
+            addTop: true,
+        });
+    }
+    handleAddSubOrg = () => {
+        const {selectedKey} = this.state;
+        if (!selectedKey) {
+            Modal.info({
+                title: '提示',
+                content: '请选择一个组织',
+            });
+            return;
+        }
+        this.setState({
+            showEditModal: true,
+            addTop: false,
+        });
+    }
+    handleAdd = (values) => {
+        const {addTop, selectedKey} = this.state;
+        const {present: {organizationsTreeData}, actions} = this.props;
+        const data = deepCopy(organizationsTreeData);
+        let parentKey = selectedKey;
+        const newNode = {
+            parentKey,
+            ...values,
+        };
+        if (addTop) {
+            newNode.parentKey = undefined;
+            data.push(newNode);
+        } else {
+            this.findNodeByKey(data, parentKey, (item) => {
+                if (!item.children) {
+                    item.children = [];
+                }
+                item.children.push(newNode);
+            });
+        }
 
+        actions.setOrganizationTreeData(data);
+        this.setState({
+            showEditModal: false,
+        });
+    }
+    handleDelete = () => {
+        const {selectedKey} = this.state;
+        const {present: {organizationsTreeData}, actions} = this.props;
+        const data = deepCopy(organizationsTreeData);
+        let loop = (d) => {
+            d.forEach((v, i, arr) => {
+                if (v.key === selectedKey) {
+                    arr.splice(i, 1);
+                }
+                if (v.children && v.children.length) {
+                    loop(v.children);
+                }
+            });
+        };
+        loop(data);
+        actions.setOrganizationTreeData(data);
+    }
+    handleModalCancel = () => {
+        this.setState({
+            showEditModal: false,
+        });
+    }
     renderTreeNode = data => data.map((item) => {
         if (item.children && item.children.length) {
             return (
@@ -150,6 +219,9 @@ class Organization extends Component {
         const disableRedo = !future || !future.length;
         let organization = {};
         this.findNodeByKey(organizationsTreeData, this.state.selectedKey, node => organization = node);
+        const {showEditModal, addTop, selectedKey} = this.state;
+        const disableAddSub = !selectedKey;
+        const disableDelete = !selectedKey;
         return (
             <div className="organization-org">
                 <div className="org-tool-bar">
@@ -159,20 +231,6 @@ class Organization extends Component {
                         onClick={this.handleAddTopOrg}
                     >
                         <Icon type="plus-circle-o"/>添加顶级
-                    </Button>
-                    <Button
-                        type="primary"
-                        size="large"
-                        onClick={this.handleAddTopOrg}
-                    >
-                        <Icon type="plus-circle-o"/>添加子级
-                    </Button>
-                    <Button
-                        type="primary"
-                        size="large"
-                        onClick={this.handleAddTopOrg}
-                    >
-                        <Icon type="delete"/>删除
                     </Button>
                     <Button
                         type="primary"
@@ -214,8 +272,37 @@ class Organization extends Component {
                     </Col>
                     <Col span={12}>
                         <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
+                        <Row>
+                            <Col offset="4">
+                                <div className="node-tool-bar">
+                                    <Button
+                                        type="primary"
+                                        size="large"
+                                        disabled={disableAddSub}
+                                        onClick={this.handleAddSubOrg}
+                                    >
+                                        <Icon type="plus-circle-o"/>添加子级
+                                    </Button>
+                                    <Button
+                                        size="large"
+                                        disabled={disableDelete}
+                                        onClick={this.handleDelete}
+                                    >
+                                        <Icon type="delete"/>删除
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
+                <Modal
+                    title={addTop ? '添加顶级组织' : '添加子级组织'}
+                    visible={showEditModal}
+                    footer=""
+                    onCancel={this.handleModalCancel}
+                >
+                    <OrganizationEdit organization={{key: String(new Date().getTime())}} onSubmit={this.handleAdd} showButtons/>
+                </Modal>
             </div>
         );
     }
