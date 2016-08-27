@@ -242,8 +242,8 @@ export class UserList extends Component {
     }
 
     render() {
-        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize} = this.props;
-
+        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize, user} = this.props;
+        const showAddBtn = user && user.permissions && user.permissions.indexOf('user-add') > -1;
         return (
             <div className="organization-user">
                 <div className="query-bar">
@@ -261,7 +261,11 @@ export class UserList extends Component {
                     </Form>
                 </div>
                 <div className="tool-bar">
-                    <Button type="primary" onClick={this.handleAdd}>添加</Button>
+                    {
+                        showAddBtn ?
+                            <Button type="primary" onClick={this.handleAdd}>添加</Button>
+                            : null
+                    }
                 </div>
                 <Table
                     loading={gettingUsers}
@@ -289,5 +293,6 @@ export function mapStateToProps(state) {
         ...state.organizationUser,
         ...state.organizationRole,
         ...state.organization,
+        ...state.app,
     };
 }
