@@ -7,8 +7,10 @@ import profilePass from './system/pass';
 import organizationUser from './organization/user';
 import organizationRole from './organization/role';
 import organization from './organization/organization';
+import organizationEdit from './organization/organization-edit';
 
 export default combineReducers({
+    organizationEdit,
     organization,
     organizationRole,
     organizationUser,

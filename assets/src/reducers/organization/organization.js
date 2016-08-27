@@ -1,5 +1,4 @@
 import {handleActions} from 'redux-actions';
-import undoable, {includeAction} from 'redux-undo';
 import * as types from '../../constants/actionTypes';
 import {convertToTree} from '../../utils';
 
@@ -9,7 +8,7 @@ let initialState = {
     organizationsTreeData: [],
 };
 
-const organization = handleActions({
+export default handleActions({
     [types.GET_ALL_ORGANIZATIONS](state, action) {
         const {meta = {}, error, payload} = action;
         const {sequence = {}} = meta;
@@ -32,19 +31,4 @@ const organization = handleActions({
             organizationsTreeData,
         };
     },
-
-    [types.SET_ORGANIZATION_TREE_DATA](state, action) {
-        const {payload} = action;
-        return {
-            ...state,
-            organizationsTreeData: payload,
-        };
-    },
 }, initialState);
-
-export default undoable(organization, {
-    filter: includeAction([types.SET_ORGANIZATION_TREE_DATA]),
-    limit: 10,
-    undoType: types.UNDO_ORGANIZATION,
-    redoType: types.REDO_ORGANIZATION,
-});

@@ -14,10 +14,21 @@ class Organization extends Component {
     };
 
     static propTypes = {};
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
 
     componentDidMount() {
-        const {actions} = this.props;
-        actions.getAllOrganizations();
+        const {actions, route} = this.props;
+        const {router} = this.context;
+        actions.getOrganizationTreeData();
+        router.setRouteLeaveHook(route, (/* nextLocation */) => {
+            const {present: {changed}} = this.props;
+            if (changed) {
+                return '您有未保存的内容，确认要离开？';
+            }
+            return true;
+        });
     }
 
     findNodeByKey = (data, key, callback) => {
@@ -112,7 +123,7 @@ class Organization extends Component {
 
     render() {
         const {present: {organizationsTreeData}, past, future} = this.props;
-        const disableUndo = !past || !past.length; // 第一次次有空值情况
+        const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         return (
             <div className="organization-org">
@@ -139,7 +150,7 @@ class Organization extends Component {
                                     size="large"
                                     onClick={this.handleAddTopOrg}
                                 >
-                                    <Icon type="delete" />删除
+                                    <Icon type="delete"/>删除
                                 </Button>
                                 <Button
                                     type="primary"
@@ -186,6 +197,6 @@ class Organization extends Component {
 export const LayoutComponent = Organization;
 export function mapStateToProps(state) {
     return {
-        ...state.organization,
+        ...state.organizationEdit,
     };
 }

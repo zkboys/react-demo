@@ -8,11 +8,18 @@ export const getAllOrganizations = createAction(types.GET_ALL_ORGANIZATIONS,
         return {
             resolved,
             rejected,
-            autoTipError: '获取组织失败',
         };
     }
 );
-
+export const getOrganizationTreeData = createAction(types.GET_ORGANIZATION_TREE_DATA,
+    async() => await organizationService.getAllOrganizations(),
+    (resolved, rejected) => {
+        return {
+            resolved,
+            rejected,
+        };
+    }
+);
 export const setOrganizationTreeData = createAction(types.SET_ORGANIZATION_TREE_DATA);
 export const undoOrganization = createAction(types.UNDO_ORGANIZATION);
 export const redoOrganization = createAction(types.REDO_ORGANIZATION);
