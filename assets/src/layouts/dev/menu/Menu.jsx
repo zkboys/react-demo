@@ -86,7 +86,6 @@ class Menu extends Component {
         this.findNodeByKey(data, selectedKey, (item) => {
             selectNodeData = item;
         });
-        console.log(selectNodeData);
         const functions = selectNodeData.functions;
         this.setState({
             selectedKey,
@@ -351,7 +350,7 @@ class Menu extends Component {
                                         type="primary"
                                         size="large"
                                     >
-                                        添加内部功能
+                                        <Icon type="plus-circle-o"/>添加内部功能
                                     </Button>
                                 </Popover>
                             </div>
