@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import {Row, Col, Button, Tree, Icon} from 'antd';
 import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
+import OrganizationEdit from './OrganizationEdit';
 import './style.less';
 
 const TreeNode = Tree.TreeNode;
 
 class Organization extends Component {
-    state = {};
+    state = {
+        selectedKey: '',
+    };
 
     static defaultProps = {
         organizationsTreeData: [],
@@ -73,22 +76,9 @@ class Organization extends Component {
     };
 
     handleTreeNodeClick = (selectedKeys) => {
-        let data = [...this.state.gData];
         let selectedKey = selectedKeys[0];
-        let selectNodeData;
-        this.findNodeByKey(data, selectedKey, (item) => {
-            selectNodeData = item;
-        });
-        if (!selectNodeData) return;
-        const {setFieldsValue} = this.props.form;
         this.setState({
-            disableEditRemark: selectNodeData.children && selectNodeData.children.length && selectNodeData.parentKey,
-        });
-        setFieldsValue({
-            key: selectNodeData.key,
-            text: selectNodeData.text,
-            remark: selectNodeData.remark,
-            description: selectNodeData.description,
+            selectedKey,
         });
     };
 
@@ -100,6 +90,37 @@ class Organization extends Component {
     handleRedo = () => {
         const {actions} = this.props;
         actions.redoOrganization();
+    }
+
+    handleFormChange = (values) => {
+        const {present: {organizationsTreeData}, actions} = this.props;
+        const data = deepCopy(organizationsTreeData);
+        this.findNodeByKey(data, values.key, (item) => {
+            item.remark = values.remark;
+            item.description = values.description;
+            item.text = values.text;
+        });
+        actions.setOrganizationTreeData(data);
+    }
+
+    handleSave = () => {
+        const {present: {organizationsTreeData}, actions} = this.props;
+        const data = deepCopy(organizationsTreeData);
+        let painData = [];
+        const loop = d => d.forEach((item) => {
+            painData.push({
+                key: item.key,
+                parentKey: item.parentKey,
+                name: item.text,
+                description: item.description,
+                remark: item.remark,
+            });
+            if (item.children && item.children.length) {
+                loop(item.children);
+            }
+        });
+        loop(data);
+        actions.saveOrganization(painData);
     }
 
     renderTreeNode = data => data.map((item) => {
@@ -122,71 +143,75 @@ class Organization extends Component {
     });
 
     render() {
-        const {present: {organizationsTreeData}, past, future} = this.props;
+        const {present: {organizationsTreeData, savingOrganization}, past, future} = this.props;
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
+        let organization = {};
+        this.findNodeByKey(organizationsTreeData, this.state.selectedKey, node => organization = node);
         return (
             <div className="organization-org">
+                <div className="org-tool-bar">
+                    <Button
+                        type="primary"
+                        size="large"
+                        onClick={this.handleAddTopOrg}
+                    >
+                        <Icon type="plus-circle-o"/>添加顶级
+                    </Button>
+                    <Button
+                        type="primary"
+                        size="large"
+                        onClick={this.handleAddTopOrg}
+                    >
+                        <Icon type="plus-circle-o"/>添加子级
+                    </Button>
+                    <Button
+                        type="primary"
+                        size="large"
+                        onClick={this.handleAddTopOrg}
+                    >
+                        <Icon type="delete"/>删除
+                    </Button>
+                    <Button
+                        type="primary"
+                        size="large"
+                        loading={savingOrganization}
+                        onClick={this.handleSave}
+                    >
+                        <Icon type="save"/>保存
+                    </Button>
+                    <Button
+                        type="ghost"
+                        size="large"
+                        disabled={disableUndo}
+                        onClick={this.handleUndo}
+                    >
+                        <FAIcon type="fa-undo"/>
+                    </Button>
+                    <Button
+                        type="ghost"
+                        size="large"
+                        disabled={disableRedo}
+                        onClick={this.handleRedo}
+                    >
+                        <FAIcon type="fa-repeat"/>
+                    </Button>
+                </div>
                 <Row>
-                    <Col span={12} style={{textAlign: 'right'}}>
-                        <div style={{textAlign: 'left', display: 'inline-block'}}>
-                            <div className="org-tool-bar">
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    onClick={this.handleAddTopOrg}
-                                >
-                                    <Icon type="plus-circle-o"/>添加顶级
-                                </Button>
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    onClick={this.handleAddTopOrg}
-                                >
-                                    <Icon type="plus-circle-o"/>添加子级
-                                </Button>
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    onClick={this.handleAddTopOrg}
-                                >
-                                    <Icon type="delete"/>删除
-                                </Button>
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    onClick={this.handleSave}
-                                >
-                                    <Icon type="save"/>保存
-                                </Button>
-                                <Button
-                                    type="ghost"
-                                    size="large"
-                                    disabled={disableUndo}
-                                    onClick={this.handleUndo}
-                                >
-                                    <FAIcon type="fa-undo"/>
-                                </Button>
-                                <Button
-                                    type="ghost"
-                                    size="large"
-                                    disabled={disableRedo}
-                                    onClick={this.handleRedo}
-                                >
-                                    <FAIcon type="fa-repeat"/>
-                                </Button>
-                            </div>
-                            <Tree
-                                defaultExpandAll
-                                openAnimation={{}}
-                                draggable
-                                onDrop={this.onDrop}
-                                onSelect={this.handleTreeNodeClick}
-                                // onRightClick={this.handleRightClick}
-                            >
-                                {this.renderTreeNode(organizationsTreeData)}
-                            </Tree>
-                        </div>
+                    <Col span={6}>
+                        <Tree
+                            defaultExpandAll
+                            openAnimation={{}}
+                            draggable
+                            onDrop={this.onDrop}
+                            onSelect={this.handleTreeNodeClick}
+                            // onRightClick={this.handleRightClick}
+                        >
+                            {this.renderTreeNode(organizationsTreeData)}
+                        </Tree>
+                    </Col>
+                    <Col span={12}>
+                        <OrganizationEdit organization={organization} onChange={this.handleFormChange}/>
                     </Col>
                 </Row>
             </div>

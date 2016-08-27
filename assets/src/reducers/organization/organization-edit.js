@@ -5,6 +5,7 @@ import {convertToTree} from '../../utils';
 
 let initialState = {
     gettingOrganizationTreeData: false,
+    savingOrganization: false,
     organizationsTreeData: [],
     changed: false,
 };
@@ -43,6 +44,23 @@ const organization = handleActions({
             ...state,
             organizationsTreeData: payload,
             changed: true,
+        };
+    },
+    [types.SAVE_ORGANIZATION](state, action) {
+        const {meta = {}, error} = action;
+        const {sequence = {}} = meta;
+        const savingOrganization = sequence.type === 'start';
+
+        if (savingOrganization || error) {
+            return {
+                ...state,
+                savingOrganization,
+            };
+        }
+        return {
+            ...state,
+            changed: false,
+            savingOrganization,
         };
     },
 }, initialState);

@@ -6,35 +6,92 @@ const FormItem = Form.Item;
 
 class OrganizationEdit extends Component {
 
-    static defaultProps = {}
+    static defaultProps = {
+        organization: {
+            key: '',
+            text: '',
+            remark: '',
+        },
+        onSubmit() {
+        },
+        onChange() {
+        },
+        onReset() {
+        },
+    }
+
     static propTypes = {}
+
+    componentWillReceiveProps(nextProps) {
+        // 为了使撤销，tree和from能够同步
+        const currentOrg = this.props.organization;
+        const nextOrg = nextProps.organization;
+        const {setFieldsValue} = this.props.form;
+        const valueKeys = ['key', 'text', 'description', 'remark'];
+        valueKeys.forEach(vk => {
+            if (currentOrg[vk] !== nextOrg[vk]) {
+                setFieldsValue({
+                    [vk]: nextOrg[vk],
+                });
+            }
+        });
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.form.validateFields((errors, values) => {
+        const {onSubmit, form: {validateFields}} = this.props;
+        validateFields((errors, values) => {
             if (errors) {
                 return;
             }
-            console.log(values);
+            if (onSubmit) {
+                onSubmit(values);
+            }
         });
     };
 
+    handleChange = () => {
+        const {onChange, form: {validateFields}} = this.props;
+        if (onChange) {
+            setTimeout(() => {
+                validateFields((errors, values) => {
+                    if (errors) {
+                        return;
+                    }
+                    if (onChange) {
+                        onChange(values);
+                    }
+                });
+            }, 0);
+        }
+    }
+
     render() {
-        const {getFieldProps} = this.props.form;
+        const {form: {getFieldProps}, organization} = this.props;
 
         const keyProps = getFieldProps('key', {
+            initialValue: organization.key,
             rules: [
                 {required: true, message: 'key 不能为空！'},
             ],
+            onChange: this.handleChange,
         });
 
         const textProps = getFieldProps('text', {
+            initialValue: organization.text,
             rules: [
                 {required: true, min: 2, message: '标题至少为 2 个字符'},
             ],
+            onChange: this.handleChange,
         });
-        const descriptionProps = getFieldProps('description');
-        const remarkProps = getFieldProps('remark');
+        const descriptionProps = getFieldProps('description', {
+            initialValue: organization.description,
+            onChange: this.handleChange,
+        });
+        const remarkProps = getFieldProps('remark', {
+            initialValue: organization.remark,
+            onChange: this.handleChange,
+        });
         const formItemLayout = {
             labelCol: {span: 4},
             wrapperCol: {span: 10},
