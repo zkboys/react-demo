@@ -57,6 +57,23 @@ export function hasParent(rows, row) {
     let parentKey = row.parentKey;
     return rows.find(r => r.key === parentKey);
 }
+
+/**
+ * 根据key从树形结构数据中获取节点
+ * @param treeData
+ * @param key
+ */
+export function findNodeByKey(treeData, key) {
+    for (let item of treeData) {
+        if (item.key === key) {
+            return item;
+        }
+        if (item.children) {
+            return findNodeByKey(item.children, key);
+        }
+    }
+}
+
 /**
  * js构造树方法。
  * @param rows 具有key，parentKey关系的扁平数据结构，标题字段为text
@@ -130,6 +147,7 @@ export function getHeaderMenus(menusData) {
     menus.forEach((headMenu) => headMenu.path = getFirstPath(headMenu, menusData) || '/');
     return menus;
 }
+
 /**
  * 根据url获取当前头部导航菜单
  * @param headerMenus
@@ -156,6 +174,7 @@ export function getCurrentSidebarMenuByUrl(menusData = []) {
         }
     }
 }
+
 /**
  * 获得一个指定范围内的随机数
  * @param min

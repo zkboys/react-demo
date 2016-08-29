@@ -3,6 +3,7 @@ import {Form, Input, Button, Modal, Tree} from 'antd';
 import FAIcon from '../../../components/faicon/FAIcon';
 import './style.less';
 import ValidationRule from '../../../services/validation-rule';
+import {findNodeByKey} from '../../../utils';
 
 const FormItem = Form.Item;
 const TreeNode = Tree.TreeNode;
@@ -14,10 +15,11 @@ class RoleEdit extends Component {
         savingOrUpdatingRole: false,
         showEditModal: false,
         editModalTitle: '',
-        menusTreeData: [],
+        permissionTreeData: [],
         role: {
             name: '',
             description: '',
+            permissions: [],
         },
         formItemLayout: {
             labelCol: {span: 4},
@@ -29,10 +31,11 @@ class RoleEdit extends Component {
         showEditModal: PropTypes.bool,
         savingOrUpdatingRole: PropTypes.bool,
         editModalTitle: PropTypes.string,
-        menusTreeData: PropTypes.array,
+        permissionTreeData: PropTypes.array,
         role: PropTypes.shape({
             name: PropTypes.string.isRequired,
             description: PropTypes.string,
+            permissions: PropTypes.array,
         }),
     };
 
@@ -79,32 +82,24 @@ class RoleEdit extends Component {
             });
         });
     }
-    findNodeByKey = (data, key, callback) => {
-        data.forEach((item, index, arr) => {
-            if (item.key === key) {
-                return callback(item, index, arr);
-            }
-            if (item.children) {
-                return this.findNodeByKey(item.children, key, callback);
-            }
-        });
-    };
     onCheck = (info, e) => {
-        const {menusTreeData, form: {setFieldsValue}} = this.props;
+        const {permissionTreeData, form: {setFieldsValue}} = this.props;
         const checkedNodes = e.checkedNodes;
         let permissions = new Set();
         if (checkedNodes && checkedNodes.length) {
             checkedNodes.forEach(checkNode => {
                 const key = checkNode.key;
-                this.findNodeByKey(menusTreeData, key, (node) => {
+                permissions.add(key);
+                // 添加父级key
+                const node = findNodeByKey(permissionTreeData, key);
+                if (node) {
                     const keys = [...(node.parentKeys || [])];
-                    keys.push(key);
                     keys.forEach(k => {
                         if (k !== undefined) {
                             permissions.add(k);
                         }
                     });
-                });
+                }
             });
         }
         setFieldsValue({
@@ -127,26 +122,6 @@ class RoleEdit extends Component {
                 </TreeNode>
             );
         }
-        if (item.functions && item.functions.length) {
-            return (
-                <TreeNode
-                    {...disable}
-                    key={item.key}
-                    title={<span><FAIcon type={item.icon}/> {item.text}</span>}
-                >
-                    {item.functions.map(v => {
-                        v.parentKeys = [...item.parentKeys];
-                        v.parentKeys.push(item.key);
-                        return (
-                            <TreeNode
-                                key={v.key}
-                                title={<span>{v.name}</span>}
-                            />
-                        );
-                    })}
-                </TreeNode>
-            );
-        }
         return (
             <TreeNode
                 {...disable}
@@ -156,32 +131,29 @@ class RoleEdit extends Component {
         );
     });
 
-    render() {
-        let {form: {getFieldProps}, menusTreeData, formItemLayout, role, savingOrUpdatingRole, showEditModal, editModalTitle} = this.props;
-        menusTreeData = menusTreeData.filter(g => {
-            return g.key !== 'dev';
-        });
+    getDefaultCheckedKeys = () => {
+        const {permissionTreeData} = this.props;
         let defaultCheckedKeys = [];
         const loop = d => d.forEach((item) => {
-            let disable = {};
             if (item.key === systemMenuKey || (item.parentKeys && item.parentKeys.indexOf(systemMenuKey) > -1)) {
-                disable.disableCheckbox = true;
                 defaultCheckedKeys.push(item.key);
             }
             if (item.children && item.children.length) {
                 loop(item.children);
             }
-            if (item.functions && item.functions.length) {
-                item.functions.forEach(v => {
-                    v.parentKeys = [...item.parentKeys];
-                    v.parentKeys.push(item.key);
-                    if (v.parentKeys.indexOf(systemMenuKey) > -1) {
-                        defaultCheckedKeys.push(item.key);
-                    }
-                });
-            }
         });
-        loop(menusTreeData);
+        loop(permissionTreeData);
+
+        return defaultCheckedKeys;
+    }
+
+    render() {
+        let {form: {getFieldProps, getFieldValue}, permissionTreeData, formItemLayout, role, savingOrUpdatingRole, showEditModal, editModalTitle} = this.props;
+        permissionTreeData = permissionTreeData.filter(g => {
+            return g.key !== 'dev';
+        });
+
+        let defaultCheckedKeys = this.getDefaultCheckedKeys();
 
         let ignoreValues = [];
         if (role._id) { // _id 存在，修改操作。
@@ -195,19 +167,13 @@ class RoleEdit extends Component {
                 ValidationRule.checkRoleNameExist(ignoreValues),
             ],
         });
+
         const descriptionProps = getFieldProps('description', {initialValue: role.description});
-        getFieldProps('permissions', {
-            initialValue: defaultCheckedKeys.concat(role.permissions),
+        const permissionsProps = getFieldProps('permissions', {
+            initialValue: [...defaultCheckedKeys, ...role.permissions],
         });
-        let keys = role.permissions || [];
-        keys = keys.filter(v => {
-            let node = null;
-            this.findNodeByKey(menusTreeData, v, (n) => {
-                node = n;
-            });
-            return node && !((node.children && node.children.length) || (node.functions && node.functions.length));
-        });
-        keys = keys.concat(defaultCheckedKeys);
+
+        let keys = getFieldValue('permissions');
         return (
             <Modal
                 title={editModalTitle}
@@ -243,13 +209,17 @@ class RoleEdit extends Component {
                         label="选择权限："
                         hasFeedback
                     >
+                        <Input
+                            type="hidden"
+                            {...permissionsProps}
+                        />
                         <Tree
                             checkable
                             defaultExpandedKeys={keys}
                             defaultCheckedKeys={keys}
                             onCheck={this.onCheck}
                         >
-                            {this.renderTreeNode(menusTreeData)}
+                            {this.renderTreeNode(permissionTreeData)}
                         </Tree>
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>

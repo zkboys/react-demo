@@ -1,6 +1,17 @@
 import {createAction} from 'redux-actions';
 import * as types from '../../constants/actionTypes';
 import * as organizationRoleService from '../../services/organization/role';
+import * as menuService from '../../services/dev/menu';
+
+export const getPermissionTreeData = createAction(types.GET_PERMISSION_TREE_DATA,
+    async() => await menuService.getAll(),
+    (resolved, rejected) => {
+        return {
+            resolved,
+            rejected,
+        };
+    }
+);
 
 export const getAllRoles = createAction(types.GET_ALL_ROLES,
     async() => await organizationRoleService.getAllRoles(),
