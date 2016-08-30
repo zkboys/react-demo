@@ -43,18 +43,23 @@ class MenuFunctionFrom extends Component {
         const data = this.props.menusTreeData;
         let isFind = false;
         let loop = (d) => {
-            d.forEach((v) => {
+            for (let v of d) {
+                if (v.key === value) {
+                    isFind = true;
+                    return;
+                }
                 if (v.functions && v.functions.length) {
-                    v.functions.forEach((f) => {
+                    for (let f of v.functions) {
                         if (f.key === value) {
                             isFind = true;
+                            return;
                         }
-                    });
+                    }
                 }
                 if (v.children && v.children.length) {
                     loop(v.children);
                 }
-            });
+            }
         };
         loop(data);
 
@@ -64,6 +69,7 @@ class MenuFunctionFrom extends Component {
             callback();
         }
     };
+
     render() {
         const {form: {getFieldProps}, fun} = this.props;
 
@@ -78,7 +84,7 @@ class MenuFunctionFrom extends Component {
         const nameProps = getFieldProps('name', {
             initialValue: fun.name,
             rules: [
-                {required: true},
+                {required: true, message: '名称 不能为空！'},
             ],
         });
         const descriptionProps = getFieldProps('description', {

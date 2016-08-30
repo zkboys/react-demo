@@ -13,3 +13,14 @@ export const updateUserMessage = createAction(types.UPDATE_USER_MESSAGE,
         };
     }
 );
+
+export const saveUserPass = createAction(types.UPDATE_USER_PASS,
+    async(userPass) => await profileService.updateUserPass(userPass),
+    (userPass, resolved, rejected) => {
+        return {
+            resolved,
+            rejected,
+            autoTipSuccess: '密码修改成功',
+        };
+    }
+);

@@ -85,11 +85,13 @@ class Menu extends Component {
         this.findNodeByKey(data, selectedKey, (item) => {
             selectNodeData = item;
         });
-        const functions = selectNodeData.functions;
-        this.setState({
-            selectedKey,
-            functions,
-        });
+        if (selectNodeData) {
+            const functions = selectNodeData.functions;
+            this.setState({
+                selectedKey,
+                functions,
+            });
+        }
     };
 
     handleUndo = () => {

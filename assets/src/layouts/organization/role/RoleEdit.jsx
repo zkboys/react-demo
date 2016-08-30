@@ -54,7 +54,13 @@ class RoleEdit extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {savingRole, form: {validateFieldsAndScroll}, actions, role} = this.props;
+        const {
+            savingRole,
+            form: {validateFieldsAndScroll},
+            actions,
+            role,
+            permissionTreeData,
+        } = this.props;
 
         if (savingRole) return;
 
@@ -76,6 +82,15 @@ class RoleEdit extends Component {
                 });
                 return;
             }
+            let permissions = new Set();
+            values.permissions.forEach(p => {
+                permissions.add(p);
+                const node = findNodeByKey(permissionTreeData, p);
+                if (node && node.parentKeys) {
+                    node.parentKeys.forEach(k => permissions.add(k));
+                }
+            });
+            values.permissions = Array.from(permissions);
             actions.addRole(values, () => {
                 actions.hideRoleEditModal();
                 this.handleReset();
@@ -83,23 +98,13 @@ class RoleEdit extends Component {
         });
     }
     onCheck = (info, e) => {
-        const {permissionTreeData, form: {setFieldsValue}} = this.props;
+        const {form: {setFieldsValue}} = this.props;
         const checkedNodes = e.checkedNodes;
         let permissions = new Set();
         if (checkedNodes && checkedNodes.length) {
             checkedNodes.forEach(checkNode => {
                 const key = checkNode.key;
                 permissions.add(key);
-                // 添加父级key
-                const node = findNodeByKey(permissionTreeData, key);
-                if (node) {
-                    const keys = [...(node.parentKeys || [])];
-                    keys.forEach(k => {
-                        if (k !== undefined) {
-                            permissions.add(k);
-                        }
-                    });
-                }
             });
         }
         setFieldsValue({
@@ -131,30 +136,41 @@ class RoleEdit extends Component {
         );
     });
 
-    getDefaultCheckedKeys = () => {
-        const {permissionTreeData} = this.props;
-        let defaultCheckedKeys = [];
+    getTreeCheckedKeys = () => {
+        let checkedKeys = [];
+        const {role: {permissions}, permissionTreeData} = this.props;
         const loop = d => d.forEach((item) => {
             if (item.key === systemMenuKey || (item.parentKeys && item.parentKeys.indexOf(systemMenuKey) > -1)) {
-                defaultCheckedKeys.push(item.key);
+                checkedKeys.push(item.key);
+            }
+
+            const functions = item.functions;
+            if (functions && functions.length) {
+                const funs = functions.filter(f => permissions.indexOf(f.key) > -1).map(f => f.key);
+                checkedKeys = checkedKeys.concat(funs);
             }
             if (item.children && item.children.length) {
                 loop(item.children);
             }
         });
         loop(permissionTreeData);
-
-        return defaultCheckedKeys;
+        return checkedKeys;
     }
 
     render() {
-        let {form: {getFieldProps, getFieldValue}, permissionTreeData, formItemLayout, role, savingOrUpdatingRole, showEditModal, editModalTitle} = this.props;
+        let {
+            form: {getFieldProps, getFieldValue},
+            permissionTreeData,
+            formItemLayout,
+            role,
+            savingOrUpdatingRole,
+            showEditModal,
+            editModalTitle,
+        } = this.props;
+
         permissionTreeData = permissionTreeData.filter(g => {
             return g.key !== 'dev';
         });
-
-        let defaultCheckedKeys = this.getDefaultCheckedKeys();
-
         let ignoreValues = [];
         if (role._id) { // _id 存在，修改操作。
             ignoreValues.push(role.name);
@@ -170,7 +186,7 @@ class RoleEdit extends Component {
 
         const descriptionProps = getFieldProps('description', {initialValue: role.description});
         const permissionsProps = getFieldProps('permissions', {
-            initialValue: [...defaultCheckedKeys, ...role.permissions],
+            initialValue: this.getTreeCheckedKeys(),
         });
 
         let keys = getFieldValue('permissions');
@@ -216,7 +232,7 @@ class RoleEdit extends Component {
                         <Tree
                             checkable
                             defaultExpandedKeys={keys}
-                            defaultCheckedKeys={keys}
+                            checkedKeys={keys}
                             onCheck={this.onCheck}
                         >
                             {this.renderTreeNode(permissionTreeData)}

@@ -25,7 +25,7 @@ npm run build
 ## 文件命名规范
 - jax文件名首字母大写
 - js文件名首字母小写
-- layouts actions reducers services 通过同名文件夹进行对应，方便后期维护
+- layouts actions reducers services 通过同名文件夹进行对应，方便后期维护，layouts要严格按照url结构对应，actions reducers services对应到大的模块即可
 
 ## 代码规范
 - 尽量使用es6
@@ -568,4 +568,5 @@ componentDidMount() {
 - [ ] 前后端分离，数据交互问题，crsf问题。
 - [ ] antd spin 组件消失时，有个500毫秒延迟，不知道官方什么时候能够提示可配置时间
 - [ ] 使用electron生成桌面应用
-- [ ] 角色管理，权限树选中的bug
+- [x] 角色管理，权限树选中的bug
+- [ ] redux 结构，actions全局，actionTypes全局，随着项目模块增多，这两个全局会越来越大，维护起来会不会是个问题？

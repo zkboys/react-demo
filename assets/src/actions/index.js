@@ -1,8 +1,7 @@
 import * as utils from './utils';
 import * as app from './app';
 import * as setting from './system/setting';
-import * as profileMessage from './system/message';
-import * as profilePass from './system/pass';
+import * as profileMessage from './system/profile';
 import * as organizationUser from './organization/user';
 import * as organizationRole from './organization/role';
 import * as organization from './organization/organization';
@@ -13,7 +12,6 @@ const actions = {
     organization,
     organizationRole,
     organizationUser,
-    profilePass,
     profileMessage,
     app,
     setting,
