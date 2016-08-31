@@ -10,8 +10,8 @@ var proxyTables = {
 module.exports = {
     build: {
         env: require('./prod.env.js'),
-        index: path.resolve(__dirname, '../dist/index.html'),
-        sigin: path.resolve(__dirname, '../dist/signin.html'),
+        index: path.resolve(__dirname, '../../dist/index.html'),
+        sigin: path.resolve(__dirname, '../../dist/signin.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',

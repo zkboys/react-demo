@@ -18,7 +18,7 @@ start(){
     if [ ! -z $pids ]; then
         echo 'server is already running'
     else
-        PORT=7000 nohup node build/server/app-server.js  > output 2>&1 &
+        PORT=7000 nohup node server/app-server.js  > output 2>&1 &
         echo 'server is running at port:7000 runmod:development'
     fi
 }
