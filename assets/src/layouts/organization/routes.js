@@ -5,10 +5,8 @@ export default [
         path: '/organization/users',
         getComponent: (nextState, cb) => {
             require.ensure([], (require) => {
-                // TODO 判断是否要执行cb？
-                if (location.pathname !== nextState.location.pathname) {
-                    return;
-                }
+                // 由于异步的原因，这里要判断当前浏览器地址与组件的对应关系
+                if (window.location.pathname !== nextState.location.pathname) return;
                 cb(null, connectComponent(require('./user/UserList')));
             });
         },
