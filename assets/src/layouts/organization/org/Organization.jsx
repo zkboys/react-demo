@@ -4,6 +4,7 @@ import deepCopy from 'deepcopy';
 import FAIcon from '../../../components/faicon/FAIcon';
 import OrganizationEdit from './OrganizationEdit';
 import './style.less';
+import {findNodeByKey} from '../../../utils';
 
 const TreeNode = Tree.TreeNode;
 
@@ -35,38 +36,27 @@ class Organization extends Component {
         });
     }
 
-    findNodeByKey = (data, key, callback) => {
-        data.forEach((item, index, arr) => {
-            if (item.key === key) {
-                return callback(item, index, arr);
-            }
-            if (item.children) {
-                return this.findNodeByKey(item.children, key, callback);
-            }
-        });
-    };
-
     onDrop = (info) => {
         const dropKey = info.node.props.eventKey;
         const dragKey = info.dragNode.props.eventKey;
         const {present: {organizationsTreeData}, actions} = this.props;
         const data = deepCopy(organizationsTreeData);
         let dragObj;
-        this.findNodeByKey(data, dragKey, (item, index, arr) => {
+        findNodeByKey(data, dragKey, (item, index, arr) => {
             arr.splice(index, 1);
             dragObj = item;
         });
         if (info.dropToGap) {
             let ar;
             let i;
-            this.findNodeByKey(data, dropKey, (item, index, arr) => {
+            findNodeByKey(data, dropKey, (item, index, arr) => {
                 dragObj.parentKey = item.parentKey;
                 ar = arr;
                 i = index;
             });
             ar.splice(i, 0, dragObj);
         } else {
-            this.findNodeByKey(data, dropKey, (item) => {
+            findNodeByKey(data, dropKey, (item) => {
                 item.children = item.children || [];
                 // where to insert 示例添加到尾部，可以是随意位置
                 dragObj.parentKey = item.key;
@@ -96,7 +86,7 @@ class Organization extends Component {
     handleFormChange = (values) => {
         const {present: {organizationsTreeData}, actions} = this.props;
         const data = deepCopy(organizationsTreeData);
-        this.findNodeByKey(data, values.key, (item) => {
+        findNodeByKey(data, values.key, (item) => {
             item.remark = values.remark;
             item.description = values.description;
             item.text = values.text;
@@ -148,7 +138,7 @@ class Organization extends Component {
             newNode.parentKey = undefined;
             data.push(newNode);
         } else {
-            this.findNodeByKey(data, parentKey, (item) => {
+            findNodeByKey(data, parentKey, (item) => {
                 if (!item.children) {
                     item.children = [];
                 }
@@ -199,7 +189,7 @@ class Organization extends Component {
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         let organization = {};
-        this.findNodeByKey(organizationsTreeData, this.state.selectedKey, node => organization = node);
+        findNodeByKey(organizationsTreeData, this.state.selectedKey, node => organization = node);
         const {selectedKey} = this.state;
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;

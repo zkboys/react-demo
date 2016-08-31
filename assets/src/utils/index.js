@@ -60,16 +60,20 @@ export function hasParent(rows, row) {
 
 /**
  * 根据key从树形结构数据中获取节点
- * @param treeData
+ * @param data
  * @param key
+ * @param callback
+ * @returns {*}
  */
-export function findNodeByKey(treeData, key) {
-    for (let item of treeData) {
+export function findNodeByKey(data, key, callback) {
+    for (let index = 0; index < data.length; index++) {
+        const item = data[index];
+        const arr = data;
         if (item.key === key) {
-            return item;
+            return callback(item, index, arr);
         }
         if (item.children) {
-            return findNodeByKey(item.children, key);
+            return findNodeByKey(item.children, key, callback);
         }
     }
 }
@@ -159,6 +163,11 @@ export function getCurrentHeaderMenuByUrl(headerMenus = []) {
     return headerMenus.find(hm => headerMenuCurrentKey === hm.key);
 }
 
+/**
+ * 根据url获取当前左侧菜单
+ * @param menusData
+ * @returns {*|T}
+ */
 export function getCurrentSidebarMenuByUrl(menusData = []) {
     let currentPath = location.pathname;
     let currentHeaderMenu = getCurrentHeaderMenuByUrl(getHeaderMenus(menusData));

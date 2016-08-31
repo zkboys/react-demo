@@ -85,10 +85,11 @@ class RoleEdit extends Component {
             let permissions = new Set();
             values.permissions.forEach(p => {
                 permissions.add(p);
-                const node = findNodeByKey(permissionTreeData, p);
-                if (node && node.parentKeys) {
-                    node.parentKeys.forEach(k => permissions.add(k));
-                }
+                findNodeByKey(permissionTreeData, p, node => {
+                    if (node && node.parentKeys) {
+                        node.parentKeys.forEach(k => permissions.add(k));
+                    }
+                });
             });
             values.permissions = Array.from(permissions);
             actions.addRole(values, () => {

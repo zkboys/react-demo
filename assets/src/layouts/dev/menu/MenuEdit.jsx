@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Input, Button} from 'antd';
+import {findNodeByKey} from '../../../utils';
 
 const createForm = Form.create;
 const FormItem = Form.Item;
@@ -80,23 +81,14 @@ class MenuEdit extends Component {
             }, 0);
         }
     }
-    findNodeByKey = (data, key, callback) => {
-        data.forEach((item, index, arr) => {
-            if (item.key === key) {
-                return callback(item, index, arr);
-            }
-            if (item.children) {
-                return this.findNodeByKey(item.children, key, callback);
-            }
-        });
-    };
+
     nodeExists = (rule, value, callback) => {
         if (!value) {
             callback();
         } else {
             const data = [...this.props.menusTreeData];
             let isFind = false;
-            this.findNodeByKey(data, value, () => {
+            findNodeByKey(data, value, () => {
                 isFind = true;
             });
             if (isFind && value !== this.props.menu.key) {

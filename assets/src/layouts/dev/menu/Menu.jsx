@@ -5,6 +5,7 @@ import FAIcon from '../../../components/faicon/FAIcon';
 import MenuEdit from './MenuEdit';
 import MenuFunctionForm from './MenuFunctionForm';
 import './style.less';
+import {findNodeByKey} from '../../../utils';
 
 const TreeNode = Tree.TreeNode;
 
@@ -36,38 +37,27 @@ class Menu extends Component {
         });
     }
 
-    findNodeByKey = (data, key, callback) => {
-        data.forEach((item, index, arr) => {
-            if (item.key === key) {
-                return callback(item, index, arr);
-            }
-            if (item.children) {
-                return this.findNodeByKey(item.children, key, callback);
-            }
-        });
-    };
-
     onDrop = (info) => {
         const dropKey = info.node.props.eventKey;
         const dragKey = info.dragNode.props.eventKey;
         const {present: {menusTreeData}, actions} = this.props;
         const data = deepCopy(menusTreeData);
         let dragObj;
-        this.findNodeByKey(data, dragKey, (item, index, arr) => {
+        findNodeByKey(data, dragKey, (item, index, arr) => {
             arr.splice(index, 1);
             dragObj = item;
         });
         if (info.dropToGap) {
             let ar;
             let i;
-            this.findNodeByKey(data, dropKey, (item, index, arr) => {
+            findNodeByKey(data, dropKey, (item, index, arr) => {
                 dragObj.parentKey = item.parentKey;
                 ar = arr;
                 i = index;
             });
             ar.splice(i, 0, dragObj);
         } else {
-            this.findNodeByKey(data, dropKey, (item) => {
+            findNodeByKey(data, dropKey, (item) => {
                 item.children = item.children || [];
                 // where to insert 示例添加到尾部，可以是随意位置
                 dragObj.parentKey = item.key;
@@ -82,7 +72,7 @@ class Menu extends Component {
         const data = deepCopy(menusTreeData);
         const selectedKey = selectedKeys[0];
         let selectNodeData;
-        this.findNodeByKey(data, selectedKey, (item) => {
+        findNodeByKey(data, selectedKey, (item) => {
             selectNodeData = item;
         });
         if (selectNodeData) {
@@ -107,7 +97,7 @@ class Menu extends Component {
     handleFormChange = (values) => {
         const {present: {menusTreeData}, actions} = this.props;
         const data = deepCopy(menusTreeData);
-        this.findNodeByKey(data, values.key, (item) => {
+        findNodeByKey(data, values.key, (item) => {
             item.path = values.path;
             item.icon = values.icon;
             item.text = values.text;
@@ -161,7 +151,7 @@ class Menu extends Component {
             newNode.parentKey = undefined;
             data.push(newNode);
         } else {
-            this.findNodeByKey(data, parentKey, (item) => {
+            findNodeByKey(data, parentKey, (item) => {
                 if (!item.children) {
                     item.children = [];
                 }
@@ -213,7 +203,7 @@ class Menu extends Component {
         const {selectedKey} = this.state;
         const data = deepCopy(menusTreeData);
 
-        this.findNodeByKey(data, selectedKey, (item) => {
+        findNodeByKey(data, selectedKey, (item) => {
             if (!item.functions) {
                 item.functions = [];
             }
@@ -246,7 +236,7 @@ class Menu extends Component {
         const disableUndo = !past || !past.length;
         const disableRedo = !future || !future.length;
         let menu = {};
-        this.findNodeByKey(menusTreeData, this.state.selectedKey, node => menu = node);
+        findNodeByKey(menusTreeData, this.state.selectedKey, node => menu = node);
         const {addTop, selectedKey} = this.state;
         const disableAddSub = !selectedKey;
         const disableDelete = !selectedKey;
