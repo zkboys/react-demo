@@ -13,7 +13,7 @@ class RoleEdit extends Component {
 
     static defaultProps = {
         savingOrUpdatingRole: false,
-        showEditModal: false,
+        showRoleEditModal: false,
         editModalTitle: '',
         permissionTreeData: [],
         role: {
@@ -28,7 +28,7 @@ class RoleEdit extends Component {
     };
 
     static propTypes = {
-        showEditModal: PropTypes.bool,
+        showRoleEditModal: PropTypes.bool,
         savingOrUpdatingRole: PropTypes.bool,
         editModalTitle: PropTypes.string,
         permissionTreeData: PropTypes.array,
@@ -165,7 +165,7 @@ class RoleEdit extends Component {
             formItemLayout,
             role,
             savingOrUpdatingRole,
-            showEditModal,
+            showRoleEditModal,
             editModalTitle,
         } = this.props;
 
@@ -194,7 +194,7 @@ class RoleEdit extends Component {
         return (
             <Modal
                 title={editModalTitle}
-                visible={showEditModal}
+                visible={showRoleEditModal}
                 footer=""
                 onCancel={this.handleModalCancel}
             >

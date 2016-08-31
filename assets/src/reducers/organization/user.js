@@ -14,7 +14,7 @@ let initialState = {
         results: [],
         totalCount: 0,
     },
-    showEditModal: false,
+    showUserEditModal: false,
     editModalTitle: '',
     user: {
         name: '',
@@ -162,13 +162,13 @@ export default handleActions({
         return {
             ...state,
             ...payload,
-            showEditModal: true,
+            showUserEditModal: true,
         };
     },
     [types.HIDE_USER_EDIT_MODAL](state) {
         return {
             ...state,
-            showEditModal: false,
+            showUserEditModal: false,
         };
     },
 }, initialState);

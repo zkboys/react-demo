@@ -16,7 +16,7 @@ let initialState = {
         results: [],
         totalCount: 0,
     },
-    showEditModal: false,
+    showRoleEditModal: false,
     role: {
         name: '',
         description: '',
@@ -126,13 +126,13 @@ export default handleActions({
         return {
             ...state,
             ...payload,
-            showEditModal: true,
+            showRoleEditModal: true,
         };
     },
     [types.HIDE_ROLE_EDIT_MODAL](state) {
         return {
             ...state,
-            showEditModal: false,
+            showRoleEditModal: false,
         };
     },
     [types.ADD_ROLE](state, action) {

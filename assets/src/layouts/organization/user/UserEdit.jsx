@@ -11,7 +11,7 @@ class UserEdit extends Component {
 
     static defaultProps = {
         savingOrUpdatingUser: false,
-        showEditModal: false,
+        showUserEditModal: false,
         editModalTitle: '',
         user: {
             name: '',
@@ -29,7 +29,7 @@ class UserEdit extends Component {
     };
 
     static propTypes = {
-        showEditModal: PropTypes.bool,
+        showUserEditModal: PropTypes.bool,
         savingOrUpdatingUser: PropTypes.bool,
         editModalTitle: PropTypes.string,
         user: PropTypes.shape({
@@ -98,7 +98,7 @@ class UserEdit extends Component {
     }
 
     render() {
-        const {form: {getFieldProps}, user, savingOrUpdatingUser, showEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
+        const {form: {getFieldProps}, user, savingOrUpdatingUser, showUserEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
         let ignoreValues = [];
 
         if (user._id) { // _id 存在，修改操作。
@@ -156,7 +156,7 @@ class UserEdit extends Component {
         return (
             <Modal
                 title={editModalTitle}
-                visible={showEditModal}
+                visible={showUserEditModal}
                 footer=""
                 onCancel={this.handleModalCancel}
             >
