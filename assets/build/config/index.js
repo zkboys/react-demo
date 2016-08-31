@@ -12,7 +12,7 @@ module.exports = {
         env: require('./prod.env.js'),
         index: path.resolve(__dirname, '../../dist/index.html'),
         sigin: path.resolve(__dirname, '../../dist/signin.html'),
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsRoot: path.resolve(__dirname, '../../dist'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         productionSourceMap: true,
