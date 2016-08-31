@@ -7,7 +7,7 @@ var siteRootPath = __dirname;
 var viewsPath = path.join(siteRootPath, '../dist');
 var staticPath = path.join(siteRootPath, '../dist');
 var proxyMiddleware = require('http-proxy-middleware')
-var config = require('../config')
+var config = require('../build/config')
 var proxyTable = config.dev.proxyTable
 var port = process.env.PORT || 7000;
 
