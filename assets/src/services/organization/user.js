@@ -47,6 +47,10 @@ export function getCurrentLoginUser() {
     const currentLoginUser = Storage.session.getItem('currentLoginUser');
     const pathName = location.pathname;
     if (!currentLoginUser) {
+        if (process.env.NODE_ENV === 'development') {
+            location.href = config.signInPath;
+            return currentLoginUser;
+        }
         request
             .post('/signout')
             .then(() => location.href = pathName, () => location.href = config.signInPath);
