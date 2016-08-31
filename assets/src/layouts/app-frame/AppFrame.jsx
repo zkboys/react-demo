@@ -36,7 +36,7 @@ export class LayoutComponent extends Component {
                 this.setState({
                     loading: true,
                 });
-            }, 100); // 给100ms时间，过滤掉从缓存中获取js的情况
+            }, 10); // 给10ms时间，过滤掉从缓存中获取js的情况
         });
         PubSubMsg.subscribe('end-fetching-component', () => {
             actions.setPageStatus('entered');
