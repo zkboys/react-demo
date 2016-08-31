@@ -3,7 +3,7 @@ import connectComponent from '../../utils/connectComponent.js';
 export default [
     {
         path: '/system/profile/pass',
-        getComponent: (location, cb) => {
+        getComponent: (nextState, cb) => {
             require.ensure([], (require) => {
                 cb(null, connectComponent(require('./profile/Pass')));
             });
@@ -11,7 +11,7 @@ export default [
     },
     {
         path: '/system/profile/message',
-        getComponent: (location, cb) => {
+        getComponent: (nextState, cb) => {
             require.ensure([], (require) => {
                 cb(null, connectComponent(require('./profile/Message')));
             });
@@ -19,7 +19,7 @@ export default [
     },
     {
         path: '/system/settings',
-        getComponent: (location, cb) => {
+        getComponent: (nextState, cb) => {
             require.ensure([], (require) => {
                 cb(null, connectComponent(require('./setting/Setting')));
             });
