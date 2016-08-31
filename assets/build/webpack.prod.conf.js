@@ -66,7 +66,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             chunksSortMode: 'dependency'
         }),
         new HtmlWebpackPlugin({
-            chunks: ['signIn'],
+            chunks: ['signIn', 'vendor', 'manifest'],
             favicon: 'favicon.png',
             filename: process.env.NODE_ENV === 'testing'
                 ? 'signin.html'

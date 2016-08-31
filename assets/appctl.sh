@@ -9,7 +9,7 @@ usage(){
     exit 1;
 }
 get_pid(){
-    now_pids=`ps -ef|grep "dev-server.js"|grep -v grep|awk ' ''{print $2}'`
+    now_pids=`ps -ef|grep "app-server.js"|grep -v grep|awk ' ''{print $2}'`
     echo $now_pids
 }
 # start app
@@ -18,7 +18,7 @@ start(){
     if [ ! -z $pids ]; then
         echo 'server is already running'
     else
-        PORT=7000 NODE_ENV=development nohup node build/dev-server.js  > output 2>&1 &
+        PORT=7000 nohup node build/server/app-server.js  > output 2>&1 &
         echo 'server is running at port:7000 runmod:development'
     fi
 }
