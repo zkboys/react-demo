@@ -3,7 +3,7 @@ import * as types from '../../constants/actionTypes';
 
 let initialState = {
     isSidebarCollapsed: false,
-    usePageWitchAnimation: true,
+    usePageWitchAnimation: false,
     pageHeaderFixed: true,
     pageAnimationType: 'right',
     randomPageAnimation: false,

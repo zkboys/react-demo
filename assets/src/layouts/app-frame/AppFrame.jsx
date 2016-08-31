@@ -1,13 +1,18 @@
 import 'antd/dist/antd.css';
 import classNames from 'classnames';
 import React, {Component} from 'react';
-import {message} from 'antd';
+import {message, Spin} from 'antd';
 import './style.less';
 import SideBar from './SideBar';
 import Header from './Header';
 import PageHeader from './PageHeader';
+import PubSubMsg from '../../utils/pubsubmsg';
 
 export class LayoutComponent extends Component {
+    state = {
+        loading: false,
+    };
+
     componentWillReceiveProps(nextProps) {
         if (this.props.toast.id !== nextProps.toast.id) {
             const {text, type} = nextProps.toast;
@@ -20,6 +25,27 @@ export class LayoutComponent extends Component {
                 message.warning(text);
             }
         }
+    }
+
+    showLoading = 0;
+
+    componentWillMount() {
+        const {actions} = this.props;
+        PubSubMsg.subscribe('start-fetching-component', () => {
+            this.showLoading = setTimeout(() => {
+                this.setState({
+                    loading: true,
+                });
+            }, 0);
+        });
+        PubSubMsg.subscribe('end-fetching-component', () => {
+            actions.setPageStatus('entered');
+            // 没有显示loading就不显示，页面js已经加载之后就不存在异步了。
+            clearTimeout(this.showLoading);
+            this.setState({
+                loading: false,
+            });
+        });
     }
 
     componentDidMount() {
@@ -70,6 +96,13 @@ export class LayoutComponent extends Component {
             [pageAnimationType]: true,
         });
 
+        const loadingComponentClassName = classNames({
+            'loading-component': true,
+            collapsed: isSidebarCollapsed,
+            full: sideBarHidden,
+            show: this.state.loading,
+        });
+
         return (
             <div>
                 <Header
@@ -113,6 +146,9 @@ export class LayoutComponent extends Component {
                             null
                     }
                     {children}
+                </div>
+                <div className={loadingComponentClassName}>
+                    <Spin spinning size="large"/>
                 </div>
             </div>
         );

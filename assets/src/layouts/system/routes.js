@@ -1,10 +1,14 @@
 import connectComponent from '../../utils/connectComponent.js';
+import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '../../utils/route-utils';
 
 export default [
     {
         path: '/system/profile/pass',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./profile/Pass')));
             });
         },
@@ -12,7 +16,10 @@ export default [
     {
         path: '/system/profile/message',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./profile/Message')));
             });
         },
@@ -20,7 +27,10 @@ export default [
     {
         path: '/system/settings',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./setting/Setting')));
             });
         },

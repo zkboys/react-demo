@@ -1,12 +1,14 @@
 import connectComponent from '../../utils/connectComponent.js';
+import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '../../utils/route-utils';
 
 export default [
     {
         path: '/organization/users',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
-                // 由于异步的原因，这里要判断当前浏览器地址与组件的对应关系
-                if (window.location.pathname !== nextState.location.pathname) return;
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./user/UserList')));
             });
         },
@@ -14,7 +16,10 @@ export default [
     {
         path: '/organization/organizations',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./org/Organization')));
             });
         },
@@ -22,7 +27,10 @@ export default [
     {
         path: '/organization/roles',
         getComponent: (nextState, cb) => {
+            startFetchingComponent();
             require.ensure([], (require) => {
+                if (!shouldComponentMount(nextState)) return;
+                endFetchingComponent();
                 cb(null, connectComponent(require('./role/Role')));
             });
         },

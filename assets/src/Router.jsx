@@ -90,7 +90,7 @@ export class LayoutComponent extends Component {
         if (usePageWitchAnimation) {
             setTimeout(() => {
                 actions.autoSetPageHeaderStatus();
-                actions.setPageStatus('entered');
+                // actions.setPageStatus('entered');
 
                 if (oriOnEnter) {
                     oriOnEnter(nextState, replace, callback);
@@ -99,6 +99,11 @@ export class LayoutComponent extends Component {
                     callback();
                 }
             }, switchDuring);
+            return;
+        }
+
+        if (oriOnEnter) {
+            oriOnEnter(nextState, replace, callback);
         } else {
             scrollDom.scrollTop = 0;
             callback();

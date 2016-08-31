@@ -240,6 +240,34 @@
 
 }
 
+.loading-component {
+  display: none;
+  position: fixed;
+  left: @sideBarMaxWidth;
+  top: @headerHeight;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 0;
+  z-index: 9999;
+  text-align: center;
+  background: rgba(255, 255, 255, 1);
+  &.collapsed {
+    left: @sideBarMinWidth;
+  }
+  &.full {
+    left: 0;
+  }
+  &.show {
+    display: block;
+  }
+  & .ant-spin{
+    position:absolute;
+    left: 50%;
+    top: 30%;
+  }
+}
+
 /*页面头部*/
 .page-header {
   border-bottom: 1px solid @borderColor;
@@ -258,7 +286,7 @@
     background-color: #fff;
     box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.1);
     &.collapsed {
-      left: @sideBarMinWidth ;
+      left: @sideBarMinWidth;
     }
     &.full {
       left: 0;
