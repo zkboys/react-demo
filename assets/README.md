@@ -442,6 +442,22 @@ react-router改成如下写法就可以按需加载:
 ```
 *注：按需加载的模块，就不要重复import，否则不会单独生成文件，按需加载会失效。*
 
+
+## 自定义routes-loader 
+简化routes.js文件异步获取component写法，自定义了一个routes-loader,源码：`build/routes-loader.js`,作用：
+```
+* 添加 startFetchingComponent，shouldComponentMount，endFetchingComponent hock，这三个方法来自于 src/utils/route-utils
+* 组件使用connectComponent与redux做链接
+* asyncComponent: './user/UserList', ===> getComponent: (nextState, cb) => {
+                                             startFetchingComponent();
+                                             require.ensure([], (require) => {
+                                                 if (!shouldComponentMount(nextState)) return;
+                                                 endFetchingComponent();
+                                                 cb(null, connectComponent(require('./user/UserList')));
+                                             });
+                                         },
+```
+
 ## 页面头部设置
 默认根据菜单状态自动设置头部
 ```javascript
@@ -530,21 +546,6 @@ componentDidMount() {
 ## 后端实现
 一般不需要任何处理，如果需要，可以区分开发模式或者线上模式，进行处理。
  
-## 自定义routes-loader 
-简化routes.js文件异步获取component写法，自定义了一个routes-loader,源码：`build/routes-loader.js`,作用：
-```
-* 添加 startFetchingComponent，shouldComponentMount，endFetchingComponent hock，这三个方法来自于 src/utils/route-utils
-* 组件使用connectComponent与redux做链接
-* asyncComponent: './user/UserList', ===> getComponent: (nextState, cb) => {
-                                             startFetchingComponent();
-                                             require.ensure([], (require) => {
-                                                 if (!shouldComponentMount(nextState)) return;
-                                                 endFetchingComponent();
-                                                 cb(null, connectComponent(require('./user/UserList')));
-                                             });
-                                         },
-```
-
 ## 坑
 - webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
     ```javascript
