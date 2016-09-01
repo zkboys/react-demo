@@ -1,16 +1,18 @@
 /*
-* 自定义路由loader
-* 添加 startFetchingComponent，shouldComponentMount，endFetchingComponent hock，这三个方法来自于 src/utils/route-utils
-* 组件使用connectComponent与redux做链接
-* asyncComponent: './user/UserList', ===> getComponent: (nextState, cb) => {
-                                             startFetchingComponent();
-                                             require.ensure([], (require) => {
-                                                 if (!shouldComponentMount(nextState)) return;
-                                                 endFetchingComponent();
-                                                 cb(null, connectComponent(require('./user/UserList')));
-                                             });
-                                         },
-* */
+ * 自定义路由loader
+ * 添加 startFetchingComponent，shouldComponentMount，endFetchingComponent hock，这三个方法来自于 src/utils/route-utils
+ * 组件使用connectComponent与redux做链接
+ * asyncComponent: './user/UserList',
+ * ===>
+ * getComponent: (nextState, cb) => {
+ *     startFetchingComponent();
+ *     require.ensure([], (require) => {
+ *         if (!shouldComponentMount(nextState)) return;
+ *         endFetchingComponent();
+ *         cb(null, connectComponent(require('./user/UserList')));
+ *     });
+ * },
+ * */
 function getComponentString(componentPath) {
     return "getComponent: (nextState, cb) => {"
         + "startFetchingComponent();"
