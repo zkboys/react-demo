@@ -42,8 +42,14 @@ module.exports = {
     module: {
         preLoaders: [
             {
-                test: /\.js(x)*$/,
+                test: /\.js(x)*$^[routes.js]/,
                 loader: 'eslint',
+                include: projectRoot,
+                exclude: /node_modules/
+            },
+            {
+                test: /routes\.js$/,
+                loader: path.join(__dirname, './routes-loader') + '!eslint',
                 include: projectRoot,
                 exclude: /node_modules/
             }
