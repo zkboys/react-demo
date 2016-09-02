@@ -135,7 +135,8 @@ render() {
     src/layout/home.js
     export function mapStateToProps(state) {
         return {
-            ...state.home // 这个home指的就是 combineReducers中的key
+            ...state.home, // 这个home指的就是 combineReducers中的key
+            ...state.app // 如果使用 ... home和app中如果有同名属性，app会覆盖home，可以通过调整...state.app，和...state.home得顺序，决定当前页面使用谁的属性。
         };
     }
     

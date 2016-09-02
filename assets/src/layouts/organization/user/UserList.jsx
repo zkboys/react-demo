@@ -279,9 +279,9 @@ export class UserList extends Component {
 export const LayoutComponent = Form.create()(UserList);
 export function mapStateToProps(state) {
     return {
-        ...state.organizationUser,
         ...state.organizationRole,
         ...state.organization,
         ...state.app,
+        ...state.organizationUser,
     };
 }
