@@ -143,11 +143,18 @@ render() {
 - action负责准备数据，数据来源：
     - 调用action方法时传入的参数
     - action内部调用service异步请求获得的数据
-    - storage中获取数据
-    - 其他数据来源
+    - storage/cookie中获取数据
 - reducer为纯函数，负责处理数据，要对state做deepcopy，返回一个新的数据，不要直接操作state，不会涉及异步，不要调用services中方法，不操作Storage，单纯的获取action的数据之后，做进一步处理。
 - store负责将数据以pros形式传递给component，以及通过中间件对数据统一处理。
 - 组件，调用触发action，获取store处理过的数据，不发送ajax，不操作storage，单纯的展示数据。
+- 适当的区分哪些数据需要redux处理，哪些数据直接使用state，不要为了redux而redux
+    - 哪些数据适合使用redux处理？
+        - 异步数据（包括ajax，websocket，异步状态loading等）
+        - 来自cookie/localStorage等其他存储的数据
+        - 多组件公用数据
+        - 多组件间通信数据
+    - 哪些数据直接使用组件内部state即可？
+        - 不涉及组件外数据修改（比如ajax修改后端数据），不被其他任何外部组件使用的数据，比如：点击显示隐藏modal；点击展开收起div等控制内部状态的数据。
 
 ### action：
 - action 使用的是`redux-actions`模块构建的 `Flux Standard Action`
@@ -519,9 +526,9 @@ componentDidMount() {
 ```
 
 ## React 组件封装
-总结几个组件封装注意事项
+总结基于redux组件封装的几个注意事项
 
-- 无状态：内部不使用state（不可避免例外），数据全部冲从props获取，尽量定义无状态组件
+- 无状态：内部不使用state（不可避免例外），数据全部从props获取，尽量定义无状态组件
 - 不发送ajax请求：组件内部不要使用ajax获取数据，数据和loading状态都通过props传入
 - 简化接口：优化传入的props，props个数尽量少，props命名语义化
 - 合理默认props
@@ -540,10 +547,10 @@ componentDidMount() {
 - 提供webpackd evserver功能，加快rebuild速度，提供热刷新，热重载功能等
 - 前端请求反向代理到后端服务器，使前端开发过程中就能请求后端真实接口
 - 如果后端使用cookie实现session 和 用户登录，使用fetch时，要携带cookie
-- `build/config/index.js`中可以单独配置所需的代理,跟后端对接口的时候，可以在`build/config/index.js`文件中配置，代理到后端的开发机器上，方便对接新的口，其他功能可以代理到测试服务器，后者开发服务起上。
+- `build/config/index.js`中可以单独配置所需的代理,跟后端对接口的时候，可以在`build/config/index.js`文件中配置，代理到后端的开发机器上，方便对接新的口，其他功能可以代理到测试服务器，或者开发服务起上。
 
 
-## 后端实现
+### 后端实现
 一般不需要任何处理，如果需要，可以区分开发模式或者线上模式，进行处理。
  
 ## 坑
@@ -579,11 +586,11 @@ componentDidMount() {
 - [ ] 端对端测试写法
 - [x] 单元测试环境搭建。
 - [ ] 单元测试写法。
-- [ ] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦
-- [ ] 前后端分离，数据交互问题，crsf问题。
+- [x] 编写一个脚本（手脚架），用来生成 type action service reducer jsx，每次新加功能都要手动创建，比较烦。 *通用性不是很好控制，暂时不做*
+- [x] 前后端分离，数据交互问题，crsf问题。*后端dev模式启动时，不启用crsf*
 - [ ] antd spin 组件消失时，有个500毫秒延迟，不知道官方什么时候能够提示可配置时间
 - [ ] 使用electron生成桌面应用
 - [x] 角色管理，权限树选中的bug
 - [ ] redux 结构，actions全局，actionTypes全局，随着项目模块增多，这两个全局会越来越大，维护起来会不会是个问题？
-- [x] 由于异步加载具体页面的js，网路慢情况下，页面切换，会在之前页面停顿很长时间，开速点击切换不同的页面，会出现串页情况（异步引起的。）
-- [ ] 哪些数据需要redux处理，哪些数据不需要redux处理，直接使用组件内部state即可？
+- [x] 由于异步加载具体页面的js，网路慢情况下，页面切换，会在之前页面停顿很长时间，开速点击切换不同的页面，会出现串页情况（异步引起的。） *路由中加了几个hock*
+- [x] 哪些数据需要redux处理，哪些数据不需要redux处理，直接使用组件内部state即可？ *此文档中有介绍*
