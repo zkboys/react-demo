@@ -97,11 +97,6 @@ export class RoleList extends Component {
         actions.showRoleEditModal({
             editModalTitle: '添加角色',
             permissionTreeData,
-            role: {
-                name: '',
-                description: '',
-                permissions: [],
-            },
         });
     }
 

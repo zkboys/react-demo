@@ -159,6 +159,9 @@ export default handleActions({
     },
     [types.SHOW_USER_EDIT_MODAL](state, action) {
         const {payload} = action;
+        if (!payload.user) {
+            payload.user = initialState.user;
+        }
         return {
             ...state,
             ...payload,

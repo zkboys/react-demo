@@ -9,6 +9,6 @@ export default [
     },
     {
         path: '/organization/roles',
-        asyncComponent: './role/Role',
+        asyncComponent: './role/RoleList',
     },
 ];

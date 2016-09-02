@@ -189,17 +189,6 @@ export class UserList extends Component {
         const {actions} = this.props;
         actions.showUserEditModal({
             editModalTitle: '添加人员',
-            user: {
-                name: '',
-                loginname: '',
-                email: '',
-                mobile: '',
-                gender: '',
-                position: '',
-                role_id: '',
-                org_key: '',
-                is_locked: false,
-            },
         });
     }
 

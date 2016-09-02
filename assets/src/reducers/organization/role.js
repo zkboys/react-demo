@@ -123,6 +123,9 @@ export default handleActions({
     },
     [types.SHOW_ROLE_EDIT_MODAL](state, action) {
         const {payload} = action;
+        if (!payload.role) {
+            payload.role = initialState.role;
+        }
         return {
             ...state,
             ...payload,
