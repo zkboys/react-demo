@@ -114,6 +114,7 @@ render() {
 
 ## React context与props区别
 [官网介绍context](https://facebook.github.io/react/docs/context.html)
+
 - props，给直接子组件传递数据，如果多层，要一层一层显示的传递
 - context， 给后代组件传递数据，子组件只要声明contextTypes，就可以获取组件树context中的数据,相当于整个组件树中的全局变量。
 - 尽量不要使用context，会使组件结构变得复杂。
