@@ -68,56 +68,141 @@ Autobinding: When creating callbacks in JavaScript, you usually need to explicit
 
 新的ES6写法如果要实现this还指向当前对象,有三种写法:个人感觉箭头函数写法最优雅.
 ```javascript
-第一种:this._handleClick.bind(this)
+第一种:this.handleClick.bind(this)
 
-_handleClick(e) {
+handleClick(e) {
     console.log(this);
 }
 render() {
     return (
         <div>
-            <h1 onClick={this._handleClick.bind(this)}>点击</h1>
+            <h1 onClick={this.handleClick.bind(this)}>点击</h1>
         </div>
     );
 }
-第二种:this._handleClick = this._handleClick.bind(this)
+
+
+第二种:this.handleClick = this.handleClick.bind(this)
 
 constructor(props) {
     super(props);
-    this._handleClick = this._handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this)
 }
-_handleClick(e) {
+handleClick(e) {
     console.log(this);
 }
 render() {
     return (
         <div>
-            <h1 onClick={this._handleClick}>点击</h1>
+            <h1 onClick={this.handleClick}>点击</h1>
         </div>
     );
 }
-第三种:_handleClick = (e) => {}
 
-_handleClick = (e) => {
+
+第三种:handleClick = (e) => {}
+
+handleClick = (e) => {
     // 使用箭头函数(arrow function)
     console.log(this);
 }
 render() {
     return (
         <div>
-            <h1 onClick={this._handleClick}>点击</h1>
+            <h1 onClick={this.handleClick}>点击</h1>
         </div>
     );
 }
 
 ```
+## React 组件函数命名
+- 事件处理统一使用`handleXxxClick` `handleXxxChange`方式命名，Xxx指操作对象，Click/Change指事件类型，如果组件比较简单，Xxx可以省略，直接写成`handleClick即可`,示例如下：
+    ```js
+    handleSubmit = () => {}
+    
+    handleModalOk = () => {}
+    
+    handleNameChange =　() => {}
+    
+    handleCloseClick = () => {}
+    
+    ```
 
+- 构造渲染内容，统一使用`renderXxx`方式命名，示例如下：
+    ```js
+    renderUserList = () => {} // 渲染用户列表
+    
+    renderJobOptions = () => {} // 渲染工作下拉option
+    ```
+    
 ## React context与props区别
 [官网介绍context](https://facebook.github.io/react/docs/context.html)
 
 - props，给直接子组件传递数据，如果多层，要一层一层显示的传递
 - context， 给后代组件传递数据，子组件只要声明contextTypes，就可以获取组件树context中的数据,相当于整个组件树中的全局变量。
 - 尽量不要使用context，会使组件结构变得复杂。
+
+## React propTypes
+记录一下propTypes，方便查阅
+```js
+static propTypes =  {
+   // 可以声明 prop 为指定的 JS 基本类型。默认
+   // 情况下，这些 prop 都是可传可不传的。
+   optionalArray: React.PropTypes.array,
+   optionalBool: React.PropTypes.bool,
+   optionalFunc: React.PropTypes.func,
+   optionalNumber: React.PropTypes.number,
+   optionalObject: React.PropTypes.object,
+   optionalString: React.PropTypes.string,
+
+   // 所有可以被渲染的对象：数字，
+   // 字符串，DOM 元素或包含这些类型的数组。
+   optionalNode: React.PropTypes.node,
+
+   // React 元素
+   optionalElement: React.PropTypes.element,
+
+   // 用 JS 的 instanceof 操作符声明 prop 为类的实例。
+   optionalMessage: React.PropTypes.instanceOf(Message),
+
+   // 用 enum 来限制 prop 只接受指定的值。
+   optionalEnum: React.PropTypes.oneOf(['News', 'Photos']),
+
+   // 指定的多个对象类型中的一个
+   optionalUnion: React.PropTypes.oneOfType([
+     React.PropTypes.string,
+     React.PropTypes.number,
+     React.PropTypes.instanceOf(Message)
+   ]),
+
+   // 指定类型组成的数组
+   optionalArrayOf: React.PropTypes.arrayOf(React.PropTypes.number),
+
+   // 指定类型的属性构成的对象
+   optionalObjectOf: React.PropTypes.objectOf(React.PropTypes.number),
+
+   // 特定形状参数的对象
+   optionalObjectWithShape: React.PropTypes.shape({
+     color: React.PropTypes.string,
+     fontSize: React.PropTypes.number
+   }),
+
+   // 以后任意类型加上 `isRequired` 来使 prop 不可空。
+   requiredFunc: React.PropTypes.func.isRequired,
+
+   // 不可空的任意类型
+   requiredAny: React.PropTypes.any.isRequired,
+
+   // 自定义验证器。如果验证失败需要返回一个 Error 对象。不要直接
+   // 使用 `console.warn` 或抛异常，因为这样 `oneOfType` 会失效。
+   customProp: function(props, propName, componentName) {
+     if (!/matchme/.test(props[propName])) {
+       return new Error('Validation failed!');
+     }
+   }
+ },
+```
+
 
 ## 关于redux
 项目分了很多层次，可以提高代码复用，actions可以被各个页面组件和reducers复用，services可以被actions复用
@@ -566,7 +651,7 @@ componentDidMount() {
 - npm run unit 报错 ReferenceError: Can't find variable: webpackJsonp， 原因： unit单元测试，css 不能使用ExtractTextPlugin
 - object-assign 是将多个对象合并成一个对象，并没有deepcopy的作用，如果需要deepcopy的场景，要使用deepcopy。
 
-## 文档链接
+## 相关文档链接
 - [react](http://reactjs.cn/)
 - [react-native](http://reactnative.cn/)
 - [redux](http://cn.redux.js.org/)
