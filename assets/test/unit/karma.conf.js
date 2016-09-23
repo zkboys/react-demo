@@ -22,6 +22,12 @@ var webpackConfig = merge(baseConfig, {
             },
         ]
     },
+    externals: {
+        'cheerio': 'window',
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': require('../../build/config/test.env')

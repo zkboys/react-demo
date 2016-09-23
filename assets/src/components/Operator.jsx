@@ -3,6 +3,9 @@ import {Icon, Popconfirm} from 'antd';
 import {hasPermission} from '../services/organization/user';
 
 class Operator extends Component {
+    static defaultProps = {
+        items: [],
+    }
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.shape({
             onClick: PropTypes.func.isRequired,
