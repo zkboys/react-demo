@@ -68,12 +68,11 @@ export function hasParent(rows, row) {
 export function findNodeByKey(data, key, callback) {
     for (let index = 0; index < data.length; index++) {
         const item = data[index];
-        const arr = data;
         if (item.key === key) {
-            return callback(item, index, arr);
+            return callback(item, index, data);
         }
         if (item.children) {
-            return findNodeByKey(item.children, key, callback);
+            findNodeByKey(item.children, key, callback);
         }
     }
 }
