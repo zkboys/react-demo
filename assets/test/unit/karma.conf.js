@@ -22,7 +22,7 @@ var webpackConfig = merge(baseConfig, {
             },
         ]
     },
-    externals: {
+    externals: { // this for enzyme, For more detail see http://airbnb.io/enzyme/docs/guides/karma.html
         'cheerio': 'window',
         'react/addons': true,
         'react/lib/ExecutionEnvironment': true,
