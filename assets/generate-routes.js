@@ -5,9 +5,11 @@
  * */
 var fs = require('fs');
 var path = require('path');
+
 var pagePath = path.join(__dirname, './src');
 var allRoutesPath = path.join(__dirname, './src/allRoutes.js');
 var routesFileName = 'routes.js';
+
 var result = getRoutes(pagePath);
 var imports = result.imports;
 var routesNames = result.routesNames;
