@@ -1,9 +1,9 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import promiseMiddleware from './promiseMiddleware';
-import asyncActionCallbackMiddleware from './asyncActionCallbackMiddleware';
-import utilsMiddleware from './utilsMiddleware';
-import syncReducerToAsyncStorage from './syncReducerToLocalStorage';
+import promiseMiddleware from './promise-middleware';
+import asyncActionCallbackMiddleware from './async-action-callback-middleware';
+import utilsMiddleware from './utils-middleware';
+import syncReducerToAsyncStorage from './sync-reducer-to-local-storage-middleware';
 import reducers from '../reducers';
 
 

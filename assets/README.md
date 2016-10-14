@@ -23,8 +23,8 @@ npm run build
 - 单页面应用，组件化，模块化
 
 ## 文件命名规范
-- jax文件名首字母大写
-- js文件名首字母小写
+- jax文件名驼峰命名法
+- js文件名小写英文+连字符（减号）
 - layouts actions reducers services 通过同名文件夹进行对应，方便后期维护，layouts要严格按照url结构对应，actions reducers services对应到大的模块即可
 
 ## 代码规范
@@ -119,22 +119,22 @@ render() {
 - 事件处理统一使用`handleXxxClick` `handleXxxChange`方式命名，Xxx指操作对象，Click/Change指事件类型，如果组件比较简单，Xxx可以省略，直接写成`handleClick即可`,示例如下：
     ```js
     handleSubmit = () => {}
-    
+
     handleModalOk = () => {}
-    
+
     handleNameChange =　() => {}
-    
+
     handleCloseClick = () => {}
-    
+
     ```
 
 - 构造渲染内容，统一使用`renderXxx`方式命名，示例如下：
     ```js
     renderUserList = () => {} // 渲染用户列表
-    
+
     renderJobOptions = () => {} // 渲染工作下拉option
     ```
-    
+
 ## React context与props区别
 [官网介绍context](https://facebook.github.io/react/docs/context.html)
 
@@ -210,14 +210,14 @@ static propTypes =  {
 - 各个页面（组件）通过`const {actions} = this.props`获取actions对象，然后调用`actions.xxx()` 触发action；
 - 各个页面（组件）要export出两个变量`LayoutComponent`和`mapStateToProps`；使用`src/utils/connectComponent.js`使组件与redux做链接时会用到；
 - `mapStateToProps` 用于指定redux的state中哪部分数据用于当前组件，由于reducer的`combineReducers`方法包装之后，将各个reducer的state存放在对应的key中，key指的是combineReducers包装时指定的key，比如：
-    
+
     ```javascript
     // src/reducers/index.js
     export default combineReducers({
         home, // 这个home就是key，es6写法
         utils,
     });
-    
+
     src/layout/home.js
     export function mapStateToProps(state) {
         return {
@@ -225,7 +225,7 @@ static propTypes =  {
             ...state.app // 如果使用 ... home和app中如果有同名属性，app会覆盖home，可以通过调整...state.app，和...state.home得顺序，决定当前页面使用谁的属性。
         };
     }
-    
+
     ```
 - action负责准备数据，数据来源：
     - 调用action方法时传入的参数
@@ -283,8 +283,8 @@ export const testAsync = createAction(
 ```
 
 ### 异步写法
-异步是使用`src/store/promiseMiddleware.js`中间件进行处理的
-一本异步action其实是触发了两次reducer，第一次标记异步开始，reducer可以获取相应的标记，第二次异步完成，返回数据。具体可以参考`promiseMiddleware.js`源码
+异步是使用`src/store/promise-middleware.js`中间件进行处理的
+一本异步action其实是触发了两次reducer，第一次标记异步开始，reducer可以获取相应的标记，第二次异步完成，返回数据。具体可以参考`promise-middleware.js`源码
 
 #### action异步写法
 ```javascript
@@ -361,7 +361,7 @@ export default handleActions({
         const {sequence = {}} = meta;
         const loading = sequence.type === 'start';
 
-        // loading 要反应到页面上， 
+        // loading 要反应到页面上，
         // error由middleware处理，全局message提示，或者各个页面添加回调处理
         if (loading || error) {
             return {
@@ -382,12 +382,12 @@ export default handleActions({
 
 ### redux中的异常处理
 - 基于`flux-standard-action` 规范，异常action返回结构为：`{..., payload: error, error: true, ...}`
-- `utilsMiddleware.js`会统一截获处理异常（无论异步还是同步）， 会根据 `meta.autoTipError`来确定是否全局提示处理异常信息
-- `asyncActionCallbackMiddleware.js` 会调用actions的回调函数，给具体页面处理异常的机会
+- `utils-middleware.js`会统一截获处理异常（无论异步还是同步）， 会根据 `meta.autoTipError`来确定是否全局提示处理异常信息
+- `async-action-callback-middleware.js` 会调用actions的回调函数，给具体页面处理异常的机会
 
 
 #### 异步异常
-异步操作统一使用的是promise，异常捕获在`src/store/promiseMiddleware.js`中间件中，一旦异步操作出现异常，action将传递给相应的reducer`{..., payload: error, error: true, ...}`
+异步操作统一使用的是promise，异常捕获在`src/store/promise-middleware.js`中间件中，一旦异步操作出现异常，action将传递给相应的reducer`{..., payload: error, error: true, ...}`
 
 #### 同步异常
 如果`action`返回的`payload`是一个`Error`对象，`redux-actions`，将自动设置`action.error`为`true`
@@ -396,7 +396,7 @@ export default handleActions({
 ## 路由&菜单
 做大型应用时，route比较多，写在一个routes.js文件中，一是routes.js会过于庞大，不好维护，二是团队协作时，很容易产生冲突。
 因此每个模块的路由，写在自己的模块下(以routes.js命名)，无法在各个模块routes.js中定义的router，统一在`src/routes.js`中定义。
-所有的路由最终通过脚本规整到`src/allRoutes.js`文件下。新增路由文件`routes.js`后要执行`npm run route`重新生成`src/allRoutes.js`文件
+所有的路由最终通过脚本规整到`src/all-routes.js`文件下。新增路由文件`routes.js`后要执行`npm run route`重新生成`src/all-routes.js`文件
 
 - 系统会根据url同步页面下状态：
     - 头部导航选中状态
@@ -413,7 +413,7 @@ export default handleActions({
     ```
     node后端路由配置（routes.js）：
     router.get('*', function (req, res, next) {
-        // ajax请求 抛出404,其他请求直接render index.html 
+        // ajax请求 抛出404,其他请求直接render index.html
         res.render('index.html');
     });
     ```
@@ -447,11 +447,11 @@ export default handleActions({
 ```
 菜单结构：
 系统 # system
-    -用户管理 # user 
+    -用户管理 # user
         -添加用户
         -用户列表
 
-对应的菜单为  
+对应的菜单为
 
 列表页：
 http:localhost:8080/users
@@ -537,7 +537,7 @@ react-router改成如下写法就可以按需加载:
 *注：按需加载的模块，就不要重复import，否则不会单独生成文件，按需加载会失效。*
 
 
-## 自定义routes-loader 
+## 自定义routes-loader
 简化routes.js文件异步获取component写法，自定义了一个routes-loader,源码：`build/routes-loader.js`,作用：
 ```
 * 添加 startFetchingComponent，shouldComponentMount，endFetchingComponent hock，这三个方法来自于 src/utils/route-utils
@@ -639,7 +639,7 @@ componentDidMount() {
 
 ### 后端实现
 一般不需要任何处理，如果需要，可以区分开发模式或者线上模式，进行处理。
- 
+
 ## 坑
 - webpack配置，allChunks要设置为true，否则 webpack异步方式加载的组件 样式无法引入 坑！！！
     ```javascript

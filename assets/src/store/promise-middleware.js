@@ -17,7 +17,7 @@ export default function promiseMiddleware({dispatch}) {
         const id = _.uniqueId();
 
         if (isPromise(payload)) {
-            dispatch({
+            dispatch({ // 先调用reducer，通知reducer异步开始
                 ...action,
                 payload: undefined,
                 meta: {
@@ -29,7 +29,7 @@ export default function promiseMiddleware({dispatch}) {
                 },
             });
 
-            return payload.then(
+            return payload.then( // 异步结束时，再次调用reducer，分为成功或失败
                 result => dispatch({
                     ...action,
                     payload: result,

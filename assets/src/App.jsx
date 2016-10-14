@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import './global.less';
-import configureStore from './store/configureStore';
+import configureStore from './store/configure-store';
 import * as Routers from './Router';
 import connectComponent from './utils/connectComponent.js';
 

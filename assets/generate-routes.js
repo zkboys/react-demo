@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 
 var pagePath = path.join(__dirname, './src');
-var allRoutesPath = path.join(__dirname, './src/allRoutes.js');
+var allRoutesPath = path.join(__dirname, './src/all-routes.js');
 var routesFileName = 'routes.js';
 
 var result = getRoutes(pagePath);

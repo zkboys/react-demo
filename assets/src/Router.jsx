@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Router, browserHistory} from 'react-router';
-import pageRouts from './allRoutes';
+import pageRouts from './all-routes';
 import * as AppFrame from './layouts/app-frame/AppFrame';
 import * as Home from './layouts/home/Home';
 import connectComponent from './utils/connectComponent.js';

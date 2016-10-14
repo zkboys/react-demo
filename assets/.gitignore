@@ -22,7 +22,7 @@ desktop.ini
 
 .idea
 public/upload/*
-src/allRoutes.js
+src/all-routes.js
 build/config/proxy-table.js
 *.sublime-project
 *.sublime-workspace
