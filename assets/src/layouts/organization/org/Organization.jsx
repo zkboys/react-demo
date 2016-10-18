@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col, Button, Tree, Icon, Spin, Popover} from 'antd';
-import deepCopy from 'deepcopy';
+import _ from 'lodash';
 import FAIcon from '../../../components/faicon/FAIcon';
 import OrganizationEdit from './OrganizationEdit';
 import './style.less';
@@ -40,7 +40,7 @@ class Organization extends Component {
         const dropKey = info.node.props.eventKey;
         const dragKey = info.dragNode.props.eventKey;
         const {present: {organizationsTreeData}, actions} = this.props;
-        const data = deepCopy(organizationsTreeData);
+        const data = _.cloneDeep(organizationsTreeData);
         let dragObj;
         findNodeByKey(data, dragKey, (item, index, arr) => {
             arr.splice(index, 1);
@@ -85,7 +85,7 @@ class Organization extends Component {
 
     handleFormChange = (values) => {
         const {present: {organizationsTreeData}, actions} = this.props;
-        const data = deepCopy(organizationsTreeData);
+        const data = _.cloneDeep(organizationsTreeData);
         findNodeByKey(data, values.key, (item) => {
             item.remark = values.remark;
             item.description = values.description;
@@ -96,7 +96,7 @@ class Organization extends Component {
 
     handleSave = () => {
         const {present: {organizationsTreeData}, actions} = this.props;
-        const data = deepCopy(organizationsTreeData);
+        const data = _.cloneDeep(organizationsTreeData);
         let painData = [];
         const loop = d => d.forEach((item) => {
             painData.push({
@@ -128,7 +128,7 @@ class Organization extends Component {
     handleAdd = (values) => {
         const {addTop, selectedKey} = this.state;
         const {present: {organizationsTreeData}, actions} = this.props;
-        const data = deepCopy(organizationsTreeData);
+        const data = _.cloneDeep(organizationsTreeData);
         let parentKey = selectedKey;
         const newNode = {
             parentKey,
@@ -151,7 +151,7 @@ class Organization extends Component {
     handleDelete = () => {
         const {selectedKey} = this.state;
         const {present: {organizationsTreeData}, actions} = this.props;
-        const data = deepCopy(organizationsTreeData);
+        const data = _.cloneDeep(organizationsTreeData);
         let loop = (d) => {
             d.forEach((v, i, arr) => {
                 if (v.key === selectedKey) {

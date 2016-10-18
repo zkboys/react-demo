@@ -1,5 +1,5 @@
 import {handleActions} from 'redux-actions';
-import deepCopy from 'deepcopy';
+import _ from 'lodash';
 import * as types from '../../constants/actionTypes';
 
 let initialState = {
@@ -60,7 +60,7 @@ export default handleActions({
                 switchingLock: {...state.switchingLock, [id]: loading},
             };
         }
-        const users = deepCopy(state.users);
+        const users = _.cloneDeep(state.users);
         users.results.forEach(u => {
             if (u._id === payload._id) {
                 u.is_locked = !payload.is_locked;
@@ -84,7 +84,7 @@ export default handleActions({
             };
         }
 
-        const users = deepCopy(state.users);
+        const users = _.cloneDeep(state.users);
         users.results.unshift(payload);
 
         return {
@@ -105,7 +105,7 @@ export default handleActions({
             };
         }
 
-        const users = deepCopy(state.users);
+        const users = _.cloneDeep(state.users);
 
         users.results.forEach((u, i, array) => {
             if (u._id === params._id) {
@@ -132,7 +132,7 @@ export default handleActions({
             };
         }
 
-        const users = deepCopy(state.users);
+        const users = _.cloneDeep(state.users);
         users.results = users.results.filter(u => {
             return u._id !== id;
         });

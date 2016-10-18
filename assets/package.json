@@ -33,7 +33,6 @@
     "classnames": "^2.2.5",
     "connect-history-api-fallback": "^1.1.0",
     "css-loader": "^0.23.1",
-    "deepcopy": "^0.6.3",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^10.0.0",
     "eslint-friendly-formatter": "^2.0.5",

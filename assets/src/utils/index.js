@@ -1,4 +1,4 @@
-import deepCopy from 'deepcopy';
+import _ from 'lodash';
 
 /**
  * 获取cookie
@@ -85,8 +85,8 @@ export function findNodeByKey(data, key, callback) {
  */
 export function convertToTree(rows, parentNode) {
     // 这个函数会被多次调用，对rows做深拷贝，否则会产生副作用。
-    rows = deepCopy(rows);
-    parentNode = deepCopy(parentNode);
+    rows = _.cloneDeep(rows);
+    parentNode = _.cloneDeep(parentNode);
 
     let nodes = [];
     if (parentNode) {

@@ -1,5 +1,5 @@
 import {handleActions} from 'redux-actions';
-import deepCopy from 'deepcopy';
+import _ from 'lodash';
 import * as types from '../../constants/actionTypes';
 import {convertToTree} from '../../utils';
 
@@ -41,7 +41,7 @@ export default handleActions({
                 item.functions.forEach(fun => {
                     fun.text = fun.name;
                     fun.parentKey = item.key;
-                    fun.parentKeys = deepCopy(item.parentKeys || []);
+                    fun.parentKeys = _.cloneDeep(item.parentKeys || []);
                     fun.parentKeys.push(item.key);
                 });
 
@@ -110,7 +110,7 @@ export default handleActions({
             };
         }
 
-        const rolesByParams = deepCopy(state.rolesByParams);
+        const rolesByParams = _.cloneDeep(state.rolesByParams);
         rolesByParams.results = rolesByParams.results.filter(u => {
             return u._id !== id;
         });
@@ -150,7 +150,7 @@ export default handleActions({
             };
         }
 
-        const rolesByParams = deepCopy(state.rolesByParams);
+        const rolesByParams = _.cloneDeep(state.rolesByParams);
         rolesByParams.results.unshift(payload);
 
         return {
@@ -171,7 +171,7 @@ export default handleActions({
             };
         }
 
-        const rolesByParams = deepCopy(state.rolesByParams);
+        const rolesByParams = _.cloneDeep(state.rolesByParams);
 
         rolesByParams.results.forEach((u, i, array) => {
             if (u._id === params._id) {

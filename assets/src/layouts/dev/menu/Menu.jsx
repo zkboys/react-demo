@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Row, Col, Button, Tree, Icon, Spin, Table, Popconfirm, Popover} from 'antd';
-import deepCopy from 'deepcopy';
+import _ from 'lodash';
 import FAIcon from '../../../components/faicon/FAIcon';
 import MenuEdit from './MenuEdit';
 import MenuFunctionForm from './MenuFunctionForm';
 import './style.less';
-import {findNodeByKey} from '../../../utils';
+import {findNodeByKey} from '../../../utils/index';
 
 const TreeNode = Tree.TreeNode;
 
@@ -41,7 +41,7 @@ class Menu extends Component {
         const dropKey = info.node.props.eventKey;
         const dragKey = info.dragNode.props.eventKey;
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         let dragObj;
         findNodeByKey(data, dragKey, (item, index, arr) => {
             arr.splice(index, 1);
@@ -69,7 +69,7 @@ class Menu extends Component {
 
     handleTreeNodeClick = (selectedKeys) => {
         const {present: {menusTreeData}} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         const selectedKey = selectedKeys[0];
         let selectNodeData;
         findNodeByKey(data, selectedKey, (item) => {
@@ -96,7 +96,7 @@ class Menu extends Component {
 
     handleFormChange = (values) => {
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         findNodeByKey(data, values.key, (item) => {
             item.path = values.path;
             item.icon = values.icon;
@@ -107,7 +107,7 @@ class Menu extends Component {
 
     handleSave = () => {
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         let painData = [];
         const loop = d => d.forEach((item) => {
             painData.push({
@@ -141,7 +141,7 @@ class Menu extends Component {
     handleAdd = (values) => {
         const {addTop, selectedKey} = this.state;
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         let parentKey = selectedKey;
         const newNode = {
             parentKey,
@@ -164,7 +164,7 @@ class Menu extends Component {
     handleDelete = () => {
         const {selectedKey} = this.state;
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         let loop = (d) => {
             d.forEach((v, i, arr) => {
                 if (v.key === selectedKey) {
@@ -180,7 +180,7 @@ class Menu extends Component {
     }
     handleFunctionDelete = (functionKey) => {
         const {present: {menusTreeData}, actions} = this.props;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
         let loop = (d) => {
             d.forEach((v) => {
                 if (v.functions && v.functions.length) {
@@ -201,7 +201,7 @@ class Menu extends Component {
     handleAddFunctionSubmit = (values) => {
         const {present: {menusTreeData}, actions} = this.props;
         const {selectedKey} = this.state;
-        const data = deepCopy(menusTreeData);
+        const data = _.cloneDeep(menusTreeData);
 
         findNodeByKey(data, selectedKey, (item) => {
             if (!item.functions) {
