@@ -393,6 +393,90 @@ export default handleActions({
 如果`action`返回的`payload`是一个`Error`对象，`redux-actions`，将自动设置`action.error`为`true`
 自己可以在action中，使用`try-catch`处理？？？
 
+### 将数据存储到localStorage中
+开发过程中只需要在action中添加sync标记即可实现state存储到localStorage。
+以及src/actions/utils.js 的 getStateFromStorage 方法中维护对应的sync，即可同步localStorage到state中。
+
+action中通过 metaCreator 的 sync 属性来标记这个action相关的state是否存储到localStorage中。其中sync将会作为存储数据的key
+```js
+export const setSettings = createAction(types.SET_SETTING, data => data, () => ({sync: 'setting'}));
+```
+
+使用 sync-reducer-to-local-storage-middleware.js 中间件进行存储操作：
+```js
+import {isFSA} from 'flux-standard-action';
+import * as types from '../constants/actionTypes';
+import * as storage from '../utils/storage';
+
+export default ({dispatch, getState}) => next => action => {
+    if (!isFSA(action)) {
+        return next(action);
+    }
+
+    const {meta = {}, sequence = {}, error, payload} = action;
+    const {sync} = meta;
+
+    if (action.type === types.SYNC_STATE_TO_STORAGE) {
+        let state = getState();
+        try {
+            storage.setItem(payload, state[payload]);
+        } catch (err) {
+            /* eslint-disable */
+            console.warn(err);
+        }
+    }
+
+    if (!sync || sequence.type === 'start' || error) {
+        return next(action);
+    }
+
+    next(action);
+
+    setTimeout(() => {
+        dispatch({
+            type: types.SYNC_STATE_TO_STORAGE,
+            payload: sync,
+        });
+    }, 16);
+};
+
+```
+
+项目启动的时候，会在src/layouts/app-frame/AppFrame.jsx 中调用 actions.getStateFromStorage(); 方法，将localStorage中的数据同步到state中
+
+actions.getStateFromStorage(); 在 src/actions/utils.js中实现：
+```js
+// 同步本地数据到state中
+export const getStateFromStorage = createAction(types.GET_STATE_FROM_STORAGE, () => {
+    return Storage.multiGet(['setting']); // action 中使用sync标记的同时，这里也需要对应的添加，否则无法同不会来
+}, (resolved, rejected) => {
+    return {
+        resolved,
+        rejected,
+    };
+});
+```
+
+### 撤销&重做
+
+通过 [redux-undo](https://github.com/omnidan/redux-undo) 可以实现撤销&重做功能
+ 
+通过undoable 对reducer进行包装，就可以实现撤销&重做功能
+```
+import undoable, {includeAction} from 'redux-undo';
+
+... 
+
+export default undoable(organization, {
+    filter: includeAction([types.SET_ORGANIZATION_TREE_DATA]),
+    limit: 10,
+    undoType: types.UNDO_ORGANIZATION,
+    redoType: types.REDO_ORGANIZATION,
+});
+
+```
+
+
 ## 路由&菜单
 做大型应用时，route比较多，写在一个routes.js文件中，一是routes.js会过于庞大，不好维护，二是团队协作时，很容易产生冲突。
 因此每个模块的路由，写在自己的模块下(以routes.js命名)，无法在各个模块routes.js中定义的router，统一在`src/routes.js`中定义。
