@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var config = require('../config');
-var UserProxy = require('../proxy').User;
+var UserProxy = require('../proxy/User');
 
 /**
  * 需要登录
@@ -45,8 +45,7 @@ function gen_session(user, res) {
 exports.gen_session = gen_session;
 
 // 验证用户是否登录
-exports.authUser = function (req, res, next) {
-
+exports.authUser = async function (req, res, next) {
     // Ensure current_user always has defined.
     res.locals.current_user = null;
 
@@ -56,7 +55,6 @@ exports.authUser = function (req, res, next) {
         req.session.user = new UserModel(mockUser);
         return next();
     }
-
     if (req.session.user) {
         res.locals.current_user = req.session.user = new UserModel(req.session.user);
         return next();
@@ -67,12 +65,12 @@ exports.authUser = function (req, res, next) {
         }
         var auth = auth_token.split('$$$$');
         var user_id = auth[0];
-        UserProxy.getUserById(user_id, (error, user) => {
-            if (error) {
-                return next(error);
-            }
+        try{
+            const user = UserProxy.getUserById(user_id);
             res.locals.current_user = req.session.user = new UserModel(user);
             return next();
-        });
+        }catch(error) {
+            return next(error);
+        }
     }
 };

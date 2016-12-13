@@ -41,6 +41,9 @@ var auth = require('./middlewares/auth');
 var requestLog = require('./middlewares/request_log');
 var renderLog = require('./middlewares/render_log');
 
+// 对res进行扩展方法
+var resExtend = require('./middlewares/res-extend');
+
 var routes = require('./routes/index');
 
 var config = require('./config');
@@ -84,6 +87,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
+
+app.use(resExtend.resExtend);
 
 app.use(auth.authUser); // 验证用户是否登录，从session中或者cookie中获取用户
 app.use(auth.blockUser()); // 验证用户是否被锁定

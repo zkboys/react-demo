@@ -1,34 +1,20 @@
 var models = require('../models');
-var User = models.User;
+var UserModel = models.User;
 
-exports.getUserById = function (id, callback) {
-    if (!id) {
-        return callback();
-    }
-    User.findOne({_id: id}, callback);
+exports.getUserById = function (id) {
+    return UserModel.findOne({_id: id});
 };
 
-exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
-    var user = new User();
-    user.name = loginname;
-    user.loginname = loginname;
-    user.pass = pass;
-    user.email = email;
-    user.avatar = avatar_url;
-    user.active = active || false;
-
-    user.save(callback);
+exports.newAndSave = function (user) {
+    return new UserModel(user).save();
 };
-
 
 exports.getUserByLoginName = function (loginName) {
-    return new Promise((resolve, reject) => {
-        User.findOne({'loginname': new RegExp('^' + loginName + '$', "i"), is_deleted: false}, (error, user) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(user);
-            }
-        });
-    });
+    return UserModel.findOne({'loginname': new RegExp('^' + loginName + '$', "i"), is_deleted: false});
 };
+
+
+exports.getUserByLoginNameFromAllUsers = function (loginName) {
+    return UserModel.findOne({'loginname': new RegExp('^' + loginName + '$', "i")});
+};
+

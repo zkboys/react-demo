@@ -15,5 +15,11 @@ mongoose.plugin(BaseModel);
 
 // models
 require('./user');
+require('./menu');
+require('./role');
 
+
+exports.Menu = mongoose.model('Menu');
+exports.Role = mongoose.model('Role');
 exports.User = mongoose.model('User');
+
