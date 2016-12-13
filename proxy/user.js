@@ -21,6 +21,14 @@ exports.newAndSave = function (name, loginname, pass, email, avatar_url, active,
 };
 
 
-exports.getUserByLoginName = function (loginName, callback) {
-    User.findOne({'loginname': new RegExp('^' + loginName + '$', "i"), is_deleted: false}, callback);
+exports.getUserByLoginName = function (loginName) {
+    return new Promise((resolve, reject) => {
+        User.findOne({'loginname': new RegExp('^' + loginName + '$', "i"), is_deleted: false}, (error, user) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(user);
+            }
+        });
+    });
 };

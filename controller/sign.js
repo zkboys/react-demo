@@ -7,12 +7,11 @@ var User = require('../proxy/user');
  * @param {HttpResponse} res
  * @param {Function} next
  */
-exports.login = function (req, res, next) {
+exports.login = async function (req, res, next) {
     var loginname = req.body.name;
     var pass = req.body.pass;
     console.log(loginname, pass);
-    User.getUserByLoginName("1", (err, user) => {
-        console.log(err, user);
-    });
+    const user = await User.getUserByLoginName("1");
+    console.log(user);
     res.send({ok: true});
 };
