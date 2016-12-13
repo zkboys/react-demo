@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env PORT=3001 cross-env NODE_ENV=development supervisor --harmony  -i ./node_moduls,./assets app.js",
+    "dev": "cross-env PORT=3001 cross-env NODE_ENV=development ./node_modules/.bin/supervisor --harmony  -i ./node_moduls,./assets app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
