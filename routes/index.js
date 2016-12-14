@@ -57,7 +57,7 @@ router.delete('/api/organization/roles', userRequired, permission('role-delete')
 
 router.get('*', userRequired, function (req, res, next) {
     //  根据约定 区分不同得请求类型，返回不同的数据。
-    if (req.path.indexOf('/api') === 0 || req.path.indexOf('/static') === 0) {
+    if (req.path.indexOf('/api') === 0 || req.path.indexOf('/public') === 0) {
         return res.sendError({
             status: 404,
             message: '您访问的资源不存在',

@@ -75,7 +75,7 @@ exports.authUser = async function (req, res, next) {
 
     if (req.session && req.session.user) {
         req.session.lastVisitAt = new Date().getTime();
-        res.locals.current_user = req.session.user = new UserModel(req.session.user);
+        res.locals.current_user = req.session.user;
         return next();
     }
 
@@ -94,8 +94,28 @@ exports.authUser = async function (req, res, next) {
         if (role) {
             user.permissions = role.permissions;
         }
+        const sessionUser = {
+            _id: user._id,
+            name: user.name,
+            loginname: user.loginname,
+            email: user.email,
+            mobile: user.mobile,
+            gender: user.gender,
+            position: user.position,
+            org_key: user.org_key,
+            role_id: user.role_id,
+            pass: user.pass,
+            salt: user.salt,
+            update_at: user.update_at,
+            create_at: user.create_at,
+            is_deleted: user.is_deleted,
+            is_locked: user.is_locked,
+            is_first_login: user.is_first_login,
+            permissions: user.permissions,
+        };
+
         req.session.lastVisitAt = new Date().getTime();
-        res.locals.current_user = req.session.user = new UserModel(user);
+        res.locals.current_user = req.session.user = sessionUser;
         return next();
     } catch (error) {
         return next(error);

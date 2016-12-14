@@ -58,7 +58,7 @@ app.engine('html', require('ejs-mate'));
 app.enable('trust proxy');
 
 // 静态资源文件
-app.use('/static', express.static(path.join(__dirname, 'public/static')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // 各种log
 require('colors'); // 扩展了string，使输出控制台的文字有颜色
