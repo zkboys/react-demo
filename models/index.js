@@ -17,9 +17,11 @@ mongoose.plugin(BaseModel);
 require('./user');
 require('./menu');
 require('./role');
+require('./organization');
 
 
 exports.Menu = mongoose.model('Menu');
 exports.Role = mongoose.model('Role');
 exports.User = mongoose.model('User');
+exports.Organization = mongoose.model('Organization');
 

@@ -10,10 +10,8 @@ const urlPrefix = config.apiPath;
  * @returns {{}}
  */
 function filterParams(params = {}) {
-    /*
-     const dom = document.querySelector('meta[name="csrf-token"]');
-     params._csrf = dom && dom.getAttribute('content');
-     */
+    const dom = document.querySelector('meta[name="csrf-token"]');
+    params._csrf = dom && dom.getAttribute('content');
     return params;
 }
 

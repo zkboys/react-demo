@@ -2,13 +2,22 @@ var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var config = require('../config');
 var UserProxy = require('../proxy/User');
+var RoleProxy = require('../proxy/Role');
 
 /**
  * 需要登录
  */
 exports.userRequired = function (req, res, next) {
     if (!req.session || !req.session.user || !req.session.user._id) {
-        return res.status(403).send('需要登录！');
+
+        req.session && (req.session._loginReferer = req.headers.referer);
+        if (req.path.indexOf('/api') === 0) {
+            return res.sendError({
+                status: 401,
+                message: '需要登录',
+            });
+        }
+        return res.redirect('/signin');
     }
     next();
 };
@@ -19,8 +28,11 @@ exports.blockUser = function () {
             return next();
         }
 
-        if (req.session.user && req.session.user.is_block && req.method !== 'GET') {
-            return res.status(403).send('您已被管理员屏蔽了。有疑问请联系 @alsotang。');
+        if (req.session && req.session.user && req.session.user.is_block && req.method !== 'GET') {
+            return res.sendError({
+                status: 403,
+                message: '您已被管理员屏蔽了。有疑问请联系管理员',
+            });
         }
         next();
     };
@@ -31,7 +43,7 @@ exports.blockUser = function () {
  * @param user
  * @param res
  */
-function gen_session(user, res) {
+exports.generateUserCookie = function (user, res) {
     var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
     var opts = {
         path: '/',
@@ -40,11 +52,9 @@ function gen_session(user, res) {
         httpOnly: true
     };
     res.cookie(config.auth_cookie_name, auth_token, opts); //cookie 有效期30天
-}
+};
 
-exports.gen_session = gen_session;
-
-// 验证用户是否登录
+// 获取用户
 exports.authUser = async function (req, res, next) {
     // Ensure current_user always has defined.
     res.locals.current_user = null;
@@ -55,22 +65,39 @@ exports.authUser = async function (req, res, next) {
         req.session.user = new UserModel(mockUser);
         return next();
     }
-    if (req.session.user) {
+    // session 过期
+    if (req.session.lastVisitAt && (new Date().getTime() - req.session.lastVisitAt >= config.session_time_out)) {
+        // req.session.destroy(); // destroy之后无法使用req.session._loginReferer = req.path;
+        req.session.user = null;
+        res.clearCookie(config.auth_cookie_name, {path: '/'});
+        return next();
+    }
+
+    if (req.session && req.session.user) {
+        req.session.lastVisitAt = new Date().getTime();
         res.locals.current_user = req.session.user = new UserModel(req.session.user);
         return next();
-    } else {
-        var auth_token = req.signedCookies[config.auth_cookie_name];
-        if (!auth_token) {
-            return next();
+    }
+
+    var auth_token = req.signedCookies[config.auth_cookie_name];
+    if (!auth_token) {
+        return next();
+    }
+    var auth = auth_token.split('$$$$');
+    var user_id = auth[0];
+    if (!user_id || user_id === 'undefined') {
+        return next();
+    }
+    try {
+        const user = await UserProxy.getUserById(user_id);
+        const role = await RoleProxy.getRoleById(user.role_id);
+        if (role) {
+            user.permissions = role.permissions;
         }
-        var auth = auth_token.split('$$$$');
-        var user_id = auth[0];
-        try{
-            const user = UserProxy.getUserById(user_id);
-            res.locals.current_user = req.session.user = new UserModel(user);
-            return next();
-        }catch(error) {
-            return next(error);
-        }
+        req.session.lastVisitAt = new Date().getTime();
+        res.locals.current_user = req.session.user = new UserModel(user);
+        return next();
+    } catch (error) {
+        return next(error);
     }
 };

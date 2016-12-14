@@ -51,14 +51,14 @@ var logger = require('./common/logger');
 
 var app = express();
 // html 文件
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public'));
 // app.set('view engine', 'ejs');
 app.set('view engine', 'html');
 app.engine('html', require('ejs-mate'));
 app.enable('trust proxy');
 
 // 静态资源文件
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'public/static')));
 
 // 各种log
 require('colors'); // 扩展了string，使输出控制台的文字有颜色
@@ -78,16 +78,15 @@ app.use(cookieParser(config.session_secret));
 app.use(compress());
 app.use(session({
     secret: config.session_secret,
-    store: new RedisStore({
-        port: config.redis_port,
-        host: config.redis_host,
-        db: config.redis_db,
-        pass: config.redis_password,
-    }),
+    // store: new RedisStore({
+    //     port: config.redis_port,
+    //     host: config.redis_host,
+    //     db: config.redis_db,
+    //     pass: config.redis_password,
+    // }),
     resave: false,
     saveUninitialized: false,
 }));
-
 app.use(resExtend.resExtend);
 
 app.use(auth.authUser); // 验证用户是否登录，从session中或者cookie中获取用户
@@ -95,20 +94,20 @@ app.use(auth.blockUser()); // 验证用户是否被锁定
 
 
 if (!config.debug) {
-    // TODO 这个csurf 要处理一下
     app.use(function (req, res, next) {
-        if (req.path === '/api' || req.path.indexOf('/api') === -1) {
-            csurf()(req, res, next);
-            return;
-        }
-        next();
+        csurf()(req, res, next);
     });
+
     app.set('view cache', true);
 }
 
+app.use(function (req, res, next) {
+    res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
+    next();
+});
+
 // routes
 app.use('/', routes);
-
 
 // error handler
 if (config.debug) {
@@ -128,6 +127,7 @@ if (config.debug) {
         });
     });
 }
+
 
 if (!module.parent) {
     app.listen(config.port, function () {

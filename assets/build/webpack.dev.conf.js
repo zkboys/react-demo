@@ -44,14 +44,16 @@ module.exports = merge(baseWebpackConfig, {
             favicon: 'favicon.png',
             filename: 'index.html',
             template: 'index.html',
-            inject: true
+            inject: true,
+            csrf: '<%= csrf %>'
         }),
         new HtmlWebpackPlugin({
             chunks: ['signIn'],
             favicon: 'favicon.png',
             filename: 'signin.html',
             template: 'signin.html',
-            inject: true
+            inject: true,
+            csrf: '<%= csrf %>'
         })
     ]
 })

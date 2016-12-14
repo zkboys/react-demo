@@ -1,4 +1,5 @@
-var MenuModel = require('../models').Menu;
+const config = require('../config');
+const MenuModel = require('../models').Menu;
 
 /**
  * 获取所有菜单
@@ -23,7 +24,7 @@ exports.updateAllMenus = function (newMenu) {
  * @returns {Query|T|*}
  */
 exports.getMenusByUser = function (user) {
-    if (user.loginname === 'admin') { // 登录名为admin的用户拥有所有权限
+    if (user.loginname === config.admin_name) { // 登录名为admin的用户拥有所有权限
         return MenuModel.find({});
     } else {
         return MenuModel.find({'key': {'$in': user.permissions}});

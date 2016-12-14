@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <meta content="_csrf" name="csrf-param">
+    <meta content="<%= csrf %>" name="csrf-token">
 </head>
 <body>
 <h1>Index</h1>
+<button id="button">发送请求</button>
+<script src="//cdn.bootcss.com/jquery/3.1.1/core.js"></script>
+<script>
+    $(function () {
+        $('#button').click(function() {
+            alert(123);
+        });
+    });
+</script>
 </body>
 </html>

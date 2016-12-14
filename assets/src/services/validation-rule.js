@@ -67,6 +67,7 @@ export default {
                         callback();
                     })
                     .catch(err => {
+                        console.log(err);
                         return callback([new Error((err && err.body && err.body.message) || '未知系统错误')]);
                     });
             },

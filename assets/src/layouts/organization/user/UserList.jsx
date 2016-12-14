@@ -231,8 +231,8 @@ export class UserList extends Component {
     }
 
     render() {
-        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize, user} = this.props;
-        const showAddBtn = user && user.permissions && user.permissions.indexOf('user-add') > -1;
+        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize, currentUser} = this.props;
+        const showAddBtn = currentUser && currentUser.permissions && currentUser.permissions.indexOf('user-add') > -1;
         return (
             <div className="organization-user">
                 <div className="query-bar">
@@ -283,5 +283,6 @@ export function mapStateToProps(state) {
         ...state.organization,
         ...state.app,
         ...state.organizationUser,
+        currentUser: state.app.user,
     };
 }
