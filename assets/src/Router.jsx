@@ -90,10 +90,11 @@ export class LayoutComponent extends Component {
         if (usePageWitchAnimation) {
             setTimeout(() => {
                 actions.autoSetPageHeaderStatus();
+
                 setTimeout(() => {
                     actions.setPageStatus('entered');
                 }, switchDuring);
-                console.log(123);
+
                 if (oriOnEnter) {
                     oriOnEnter(nextState, replace, callback);
                 } else {

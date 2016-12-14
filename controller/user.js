@@ -196,13 +196,11 @@ exports.resetPass = async function (req, res, next) {
     var userId = req.body.id;
     try {
         const user = await UserProxy.getUserById(userId);
-
-        if (user) {
+        if (!user) {
             return res.sendError('重置密码失败');
         }
 
         const pass = user.loginname[0] + '123456';
-
         user.pass = await tools.bhash(pass + user.salt);
         user.is_first_login = true;
 
