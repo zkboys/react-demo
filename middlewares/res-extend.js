@@ -19,13 +19,17 @@ exports.resExtend = function (req, res, next) {
     };
 
     res.sendError = function (options) {
-        if (arguments.length === 1 && typeof arguments[0] === 'string') {
-            return res.status(400).send({error: null, message: arguments[0]});
+        if (typeof options === 'string') {
+            return res.status(400).send({error: null, message: options});
+        }
+
+        if (options instanceof Error) {
+            return res.status(400).send({error: null, message: options.message});
         }
 
         const error = options.error;
         const status = options.status || 400;
-        const message = options.message;
+        const message = options.message || error && error.message;
 
         if (error) {
             logger.error(error);

@@ -101,7 +101,7 @@ function handleLogin() {
         })
         .catch((err) => {
             if (err && err.body) {
-                showError(err.body.message);
+                showError(err.body.message || (err.body.error && err.body.error.message));
             } else {
                 showError();
             }
@@ -143,7 +143,7 @@ function handleResetPass() {
         })
         .catch((err) => {
             if (err && err.body) {
-                showError(err.body.message);
+                showError(err.body.message || (err.body.error && err.body.error.message));
             } else {
                 showError();
             }

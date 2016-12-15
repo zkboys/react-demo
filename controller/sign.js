@@ -9,59 +9,26 @@ const config = require('../config');
 const authMiddleWare = require('../middlewares/auth');
 const trim = _.trim;
 
+const userService = require('../service/user');
+
+
 exports.login = async function (req, res, next) {
-    const loginname = trim(req.body.name);
-    const pass = trim(req.body.pass);
-    if (!loginname || !pass) {
-        return res.sendError({
-            message: '登录名或者密码不能为空',
-            status: 422,
-        });
-    }
+    const loginName = req.body.name;
+    const pass = req.body.pass;
+
     try {
-        const user = await UserProxy.getUserByLoginName(loginname);
-        if (!user) {
-            return res.sendError({
-                message: '用户名或密码错误',
-                status: 422,
-            });
-        }
-        if (user.is_locked) {
-            return res.sendError({
-                message: '您已经被管理员屏蔽，如有疑问，请与管理员联系',
-                status: 422,
-            });
-        }
-
-        const hashedPass = user.pass;
-        const isPassOk = await tools.bcompare(pass + user.salt, hashedPass);
-
-        if (!isPassOk) {
-            return res.sendError({
-                message: '用户名或密码错误',
-                status: 422,
-            });
-        }
+        const user = await userService.login(loginName, pass);
+        user.permissions = await userService.getUserPermissions(user);
+        const menus = await userService.getUserMenus(user);
         const refer = req.session._loginReferer || '/';
 
         // 清除上一个session
         req.session.destroy();
         authMiddleWare.generateUserCookie(user, res);
-        const role = await RoleProxy.getRoleById(user.role_id);
-        if (role) {
-            user.permissions = role.permissions;
-        }
 
-        const safeUser = getSafeUser(user);
-        const menus = await MenuProxy.getMenusByUser(user);
-
-        res.send({refer: refer, user: safeUser, menus: menus});
+        res.send({refer, user, menus});
     } catch (error) {
-        return res.sendError({
-            error,
-            message: '登录失败',
-            status: 422,
-        });
+        res.sendError(error)
     }
 };
 
