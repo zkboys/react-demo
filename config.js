@@ -4,6 +4,7 @@ const config = {
     debug: isDebug,
     hostname: '127.0.0.1',
     port: process.env.PORT || 3000,
+
     // mongodb 配置
     db: 'mongodb://127.0.0.1/org_dev',
 

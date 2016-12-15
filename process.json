@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "app-3000",
+      "script": "app.js",
+      "node_args": "--harmony",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT":3000
+      },
+      "watch": true,
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
+    }
+  ]
+}
