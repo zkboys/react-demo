@@ -8,14 +8,14 @@ const logger = require('../common/logger');
 exports.resExtend = function (req, res, next) {
 
     res.render404 = function (error) {
-        return res.status(404).render('notify/notify', {error: error});
+        return res.status(404).render('notify', {error: error});
     };
 
     res.renderError = function (error, statusCode) {
         if (statusCode === undefined) {
             statusCode = 400;
         }
-        return res.status(statusCode).render('notify/notify', {error: error});
+        return res.status(statusCode).render('notify', {error: error});
     };
 
     res.sendError = function (options) {
@@ -31,9 +31,10 @@ exports.resExtend = function (req, res, next) {
             logger.error(error);
         }
         return res.status(status).send({error, message});
-    }
+    };
+
     res.sendSuccess = function () {
         return res.send({success: true});
-    }
+    };
     next();
 };

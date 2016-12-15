@@ -1,4 +1,3 @@
-var mongoose = require('mongoose');
 var config = require('../config');
 var UserProxy = require('../proxy/User');
 var RoleProxy = require('../proxy/Role');
