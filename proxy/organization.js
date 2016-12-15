@@ -13,6 +13,7 @@ exports.getAllOrganizations = function () {
  * @returns {Promise.<TResult>|Promise|*}
  */
 exports.updateAllOrganizations = function (newOrganizations) {
+    // TODO 应该用事务处理
     return OrganizationModel.remove({}).then(() => {
         return OrganizationModel.create(newOrganizations);
     });

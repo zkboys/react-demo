@@ -109,9 +109,10 @@ app.use(function (req, res, next) {
 // routes
 app.use('/', routes);
 
-// error handler
+// error handler 只能捕获同步错误，无法捕获异步错误
 if (config.debug) {
     app.use(function (err, req, res, next) {
+        logger.error(err);
         res.status(err.status || 500);
         return res.status(500).send({
             message: err.message,

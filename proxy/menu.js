@@ -14,6 +14,7 @@ exports.getAllMenus = function () {
  * @returns {Promise|Promise.<TResult>|*}
  */
 exports.updateAllMenus = function (newMenu) {
+    // TODO 应该用事务处理
     return MenuModel.remove({}).then(() => {
         return MenuModel.create(newMenu);
     });

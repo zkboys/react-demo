@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var UserModel = mongoose.model('User');
 var config = require('../config');
 var UserProxy = require('../proxy/User');
 var RoleProxy = require('../proxy/Role');
@@ -62,7 +61,7 @@ exports.authUser = async function (req, res, next) {
     // debug模式下创建虚拟用户
     if (config.debug && req.cookies['mock_user']) {
         var mockUser = JSON.parse(req.cookies['mock_user']);
-        req.session.user = new UserModel(mockUser);
+        req.session.user = mockUser;
         return next();
     }
     // session 过期
