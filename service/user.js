@@ -35,10 +35,6 @@ exports.getUserByLoginNameAndPass = async function (loginName, pass) {
     if (!isPassOk) {
         throw new ServiceError(message.loginNamePassInvalid);
     }
-
-    for (let p in user) {
-        console.log(p);
-    }
     return user;
 };
 /**
