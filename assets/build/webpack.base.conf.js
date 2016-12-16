@@ -4,7 +4,7 @@ var config = require('./config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 
-var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["antd", [{"libraryName": "antd", "style": true}]]];
+var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["import", [{ "libraryName": "antd", "style": "css" }]]];
 if (process.env.NODE_ENV === 'testing') {
     babelPlugins.unshift('__coverage__');
 }

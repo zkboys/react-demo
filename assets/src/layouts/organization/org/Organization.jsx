@@ -205,8 +205,8 @@ class Organization extends Component {
                                     title="添加顶级"
                                     content={<OrganizationEdit
                                         formItemLayout={{
-                                            labelCol: {span: 5},
-                                            wrapperCol: {span: 19},
+                                            labelCol: {span: 6},
+                                            wrapperCol: {span: 18},
                                         }}
                                         organization={{key: String(new Date().getTime())}}
                                         onSubmit={this.handleAdd}
@@ -266,8 +266,8 @@ class Organization extends Component {
                                             title="添加子级"
                                             content={<OrganizationEdit
                                                 formItemLayout={{
-                                                    labelCol: {span: 5},
-                                                    wrapperCol: {span: 19},
+                                                    labelCol: {span: 6},
+                                                    wrapperCol: {span: 18},
                                                 }}
                                                 organization={{key: String(new Date().getTime())}}
                                                 onSubmit={this.handleAdd} showButtons/>

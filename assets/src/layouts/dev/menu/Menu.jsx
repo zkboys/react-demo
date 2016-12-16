@@ -254,8 +254,8 @@ class Menu extends Component {
                                     title="添加顶级"
                                     content={<MenuEdit
                                         formItemLayout={{
-                                            labelCol: {span: 5},
-                                            wrapperCol: {span: 19},
+                                            labelCol: {span: 6},
+                                            wrapperCol: {span: 18},
                                         }}
                                         menusTreeData={menusTreeData}
                                         menu={{key: addTop ? '' : `${selectedKey}-`}}
@@ -314,8 +314,8 @@ class Menu extends Component {
                                             title="添加子级"
                                             content={<MenuEdit
                                                 formItemLayout={{
-                                                    labelCol: {span: 5},
-                                                    wrapperCol: {span: 19},
+                                                    labelCol: {span: 6},
+                                                    wrapperCol: {span: 18},
                                                 }}
                                                 menusTreeData={menusTreeData}
                                                 menu={{key: addTop ? '' : `${selectedKey}-`}}
