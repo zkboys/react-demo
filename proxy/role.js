@@ -72,7 +72,7 @@ exports.delete = function (id) {
  * @param data
  * @returns {Promise|*}
  */
-exports.newAndSave = function (data) {
+exports.addRole = function (data) {
     return new RoleModel(data).save();
 };
 

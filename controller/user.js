@@ -3,7 +3,7 @@ const UserService = require('../service/user');
 
 exports.addAndSave = controller(async function (req, res, next) {
     const user = req.body;
-    const savedUser = await UserService.addAndSave(user);
+    const savedUser = await UserService.addUser(user);
     res.send(savedUser);
 });
 

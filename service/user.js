@@ -146,7 +146,7 @@ exports.updateUser = async function (user) {
     return await UserProxy.update(user);
 };
 
-exports.addAndSave = async function (user) {
+exports.addUser = async function (user) {
     const loginName = trim(user.loginname);
 
     if (!loginName) {
@@ -175,7 +175,7 @@ exports.addAndSave = async function (user) {
     user.pass = initHashedPass;
     user.salt = salt;
 
-    return await UserProxy.newAndSave(user);
+    return await UserProxy.addUser(user);
 }
 
 

@@ -28,5 +28,5 @@ exports.addRole = async function (role) {
         throw new ServiceError(message.roleNameCanNotBeNull);
     }
 
-    return await RoleProxy.newAndSave(role);
+    return await RoleProxy.addRole(role);
 };

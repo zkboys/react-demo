@@ -42,7 +42,7 @@ exports.getUsersByNames = function (names) {
     return UserModel.find({loginname: {$in: names}}).lean();
 };
 
-exports.newAndSave = function (user) {
+exports.addUser = function (user) {
     return new UserModel(user).save();
 };
 
