@@ -97,8 +97,7 @@ class NavBar extends Component {
                         style={{display: sidebarMode === 'inline' && !hidden ? 'block' : 'none'}}
                         openKeys={openKeys}
                         selectedKeys={[selectedKeys]}
-                        onOpen={this.onToggle}
-                        onClose={this.onToggle}
+                        onOpenChange={this.onToggle}
                         mode={sidebarMode}
                     >
                         {this.renderMenus()}

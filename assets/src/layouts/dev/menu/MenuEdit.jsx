@@ -100,9 +100,9 @@ class MenuEdit extends Component {
     };
 
     render() {
-        let {form: {getFieldProps}, menu, showButtons, formItemLayout} = this.props;
+        let {form: {getFieldDecorator}, menu, showButtons, formItemLayout} = this.props;
 
-        const keyProps = getFieldProps('key', {
+        const keyDecorator = getFieldDecorator('key', {
             initialValue: menu.key,
             rules: [
                 {required: true, message: 'key 不能为空！'},
@@ -111,18 +111,18 @@ class MenuEdit extends Component {
             onChange: this.handleChange,
         });
 
-        const textProps = getFieldProps('text', {
+        const textDecorator = getFieldDecorator('text', {
             initialValue: menu.text,
             rules: [
                 {required: true, min: 2, message: '标题至少为 2 个字符'},
             ],
             onChange: this.handleChange,
         });
-        const pathProps = getFieldProps('path', {
+        const pathDecorator = getFieldDecorator('path', {
             initialValue: menu.path,
             onChange: this.handleChange,
         });
-        const iconProps = getFieldProps('icon', {
+        const iconDecorator = getFieldDecorator('icon', {
             initialValue: menu.icon,
             onChange: this.handleChange,
         });
@@ -133,40 +133,36 @@ class MenuEdit extends Component {
                     label="key："
                     hasFeedback
                 >
-                    <Input
-                        {...keyProps}
-                        placeholder="唯一不可重复。"
-                    />
+                    {keyDecorator(
+                        <Input placeholder="唯一不可重复。"/>
+                    )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="名称："
                     hasFeedback
                 >
-                    <Input
-                        {...textProps}
-                        placeholder="请输入组织名称"
-                    />
+                    {textDecorator(
+                        <Input placeholder="请输入组织名称"/>
+                    )}
                 </FormItem>
 
                 <FormItem
                     {...formItemLayout}
                     label="路径："
                     hasFeedback>
-                    <Input
-                        {...pathProps}
-                        placeholder="请输入url"
-                    />
+                    {pathDecorator(
+                        <Input placeholder="请输入url"/>
+                    )}
                 </FormItem>
 
                 <FormItem
                     {...formItemLayout}
                     label="图标："
                     hasFeedback>
-                    <Input
-                        {...iconProps}
-                        placeholder="请输入图标"
-                    />
+                    {iconDecorator(
+                        <Input placeholder="请输入图标"/>
+                    )}
                 </FormItem>
                 {
                     showButtons ?

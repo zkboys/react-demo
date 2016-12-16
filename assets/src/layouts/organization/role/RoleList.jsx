@@ -136,14 +136,16 @@ export class RoleList extends Component {
     }
 
     render() {
-        const {gettingRoles, form: {getFieldProps}, rolesByParams: {results: roles, totalCount}, currentPage, pageSize, user} = this.props;
+        const {gettingRoles, form: {getFieldDecorator}, rolesByParams: {results: roles, totalCount}, currentPage, pageSize, user} = this.props;
         const showAddBtn = user && user.permissions && user.permissions.indexOf('role-add') > -1;
         return (
             <div className="organization-role">
                 <div className="query-bar">
                     <Form inline onSubmit={this.handleSubmit}>
                         <FormItem label="角色名">
-                            <Input placeholder="请输入角色名" {...getFieldProps('name')}/>
+                            {getFieldDecorator('name')(
+                                <Input placeholder="请输入角色名"/>
+                            )}
                         </FormItem>
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form>

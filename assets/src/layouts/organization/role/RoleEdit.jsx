@@ -160,7 +160,7 @@ class RoleEdit extends Component {
 
     render() {
         let {
-            form: {getFieldProps, getFieldValue},
+            form: {getFieldDecorator, getFieldValue},
             permissionTreeData,
             formItemLayout,
             role,
@@ -177,7 +177,7 @@ class RoleEdit extends Component {
             ignoreValues.push(role.name);
         }
 
-        const nameProps = getFieldProps('name', {
+        const nameDecorator = getFieldDecorator('name', {
             initialValue: role.name,
             rules: [
                 ValidationRule.required('角色名'),
@@ -185,8 +185,8 @@ class RoleEdit extends Component {
             ],
         });
 
-        const descriptionProps = getFieldProps('description', {initialValue: role.description});
-        const permissionsProps = getFieldProps('permissions', {
+        const descriptionDecorator = getFieldDecorator('description', {initialValue: role.description});
+        const permissionsDecorator = getFieldDecorator('permissions', {
             initialValue: this.getTreeCheckedKeys(),
         });
 
@@ -205,31 +205,30 @@ class RoleEdit extends Component {
                         label="角色名："
                         hasFeedback
                     >
-                        <Input
-                            {...nameProps}
-                            placeholder="请输入角色名"
-                        />
+                        {nameDecorator(
+                            <Input placeholder="请输入角色名"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="描述："
                         hasFeedback
                     >
-                        <Input
-                            type="textarea"
-                            {...descriptionProps}
-                            placeholder="描述"
-                        />
+                        {descriptionDecorator(
+                            <Input
+                                type="textarea"
+                                placeholder="描述"
+                            />
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="选择权限："
                         hasFeedback
                     >
-                        <Input
-                            type="hidden"
-                            {...permissionsProps}
-                        />
+                        {permissionsDecorator(
+                            <Input type="hidden"/>
+                        )}
                         <Tree
                             checkable
                             defaultExpandedKeys={keys}

@@ -71,9 +71,9 @@ class MenuFunctionFrom extends Component {
     };
 
     render() {
-        const {form: {getFieldProps}, fun} = this.props;
+        const {form: {getFieldDecorator}, fun} = this.props;
 
-        const keyProps = getFieldProps('key', {
+        const keyDecorator = getFieldDecorator('key', {
             initialValue: fun.key,
             rules: [
                 {required: true, message: 'key 不能为空！'},
@@ -81,13 +81,13 @@ class MenuFunctionFrom extends Component {
             ],
         });
 
-        const nameProps = getFieldProps('name', {
+        const nameDecorator = getFieldDecorator('name', {
             initialValue: fun.name,
             rules: [
                 {required: true, message: '名称 不能为空！'},
             ],
         });
-        const descriptionProps = getFieldProps('description', {
+        const descriptionDecorator = getFieldDecorator('description', {
             initialValue: fun.description,
             onChange: this.handleChange,
         });
@@ -102,30 +102,27 @@ class MenuFunctionFrom extends Component {
                     label="key："
                     hasFeedback
                 >
-                    <Input
-                        {...keyProps}
-                        placeholder="唯一不可重复。"
-                    />
+                    {keyDecorator(
+                        <Input placeholder="唯一不可重复。"/>
+                    )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="名称："
                     hasFeedback
                 >
-                    <Input
-                        {...nameProps}
-                        placeholder="请输入组织名称"
-                    />
+                    {nameDecorator(
+                        <Input placeholder="请输入组织名称"/>
+                    )}
                 </FormItem>
 
                 <FormItem
                     {...formItemLayout}
                     label="描述："
                     hasFeedback>
-                    <Input
-                        {...descriptionProps}
-                        placeholder="请输入描述"
-                    />
+                    {descriptionDecorator(
+                        <Input placeholder="请输入描述"/>
+                    )}
                 </FormItem>
                 <FormItem wrapperCol={{span: 19, offset: 5}}>
                     <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>

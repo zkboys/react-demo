@@ -98,15 +98,15 @@ class UserEdit extends Component {
     }
 
     render() {
-        const {form: {getFieldProps}, user, savingOrUpdatingUser, showUserEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
+        const {form: {getFieldDecorator}, user, savingOrUpdatingUser, showUserEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
         let ignoreValues = [];
 
         if (user._id) { // _id 存在，修改操作。
             ignoreValues.push(user.loginname);
         }
 
-        const nameProps = getFieldProps('name', {initialValue: user.name});
-        const loginnameProps = getFieldProps('loginname', {
+        const nameDecorator = getFieldDecorator('name', {initialValue: user.name});
+        const loginNameDecorator = getFieldDecorator('loginname', {
             initialValue: user.loginname,
             rules: [
                 ValidationRule.required('登录名'),
@@ -114,37 +114,37 @@ class UserEdit extends Component {
                 ValidationRule.checkLoginNameExist(ignoreValues),
             ],
         });
-        const emailProps = getFieldProps('email', {
+        const emailDecorator = getFieldDecorator('email', {
             initialValue: user.email,
             rules: [
                 ValidationRule.email(),
             ],
         });
-        const mobileProps = getFieldProps('mobile', {
+        const mobileDecorator = getFieldDecorator('mobile', {
             initialValue: user.mobile,
             rules: [
                 ValidationRule.mobile(),
             ],
         });
-        const genderProps = getFieldProps('gender', {
+        const genderDecorator = getFieldDecorator('gender', {
             initialValue: user.gender,
             rules: [],
         });
-        const positionProps = getFieldProps('position', {
+        const positionDecorator = getFieldDecorator('position', {
             initialValue: user.position,
             rules: [],
         });
-        const roleProps = getFieldProps('role_id', {
+        const roleDecorator = getFieldDecorator('role_id', {
             initialValue: user.role_id,
             rules: [
                 ValidationRule.required('角色'),
             ],
         });
-        const orgProps = getFieldProps('org_key', {
+        const orgDecorator = getFieldDecorator('org_key', {
             initialValue: user.org_key,
             rules: [],
         });
-        const isLockedProps = getFieldProps('is_locked', {
+        const isLockedDecorator = getFieldDecorator('is_locked', {
             valuePropName: 'checked',
             initialValue: user.is_locked,
             rules: [],
@@ -169,10 +169,9 @@ class UserEdit extends Component {
                                 label="登录名："
                                 hasFeedback
                             >
-                                <Input
-                                    {...loginnameProps}
-                                    placeholder="请输入登录名"
-                                />
+                                {loginNameDecorator(
+                                    <Input placeholder="请输入登录名"/>
+                                )}
                             </FormItem>
                         </Col>
                         <Col span={12}>
@@ -182,10 +181,9 @@ class UserEdit extends Component {
                                 label="用户名："
                                 hasFeedback
                             >
-                                <Input
-                                    {...nameProps}
-                                    placeholder="请输入用户名"
-                                />
+                                {nameDecorator(
+                                    <Input placeholder="请输入用户名"/>
+                                )}
                             </FormItem>
                         </Col>
                     </Row>
@@ -197,10 +195,9 @@ class UserEdit extends Component {
                                 label="邮箱："
                                 hasFeedback
                             >
-                                <Input
-                                    {...emailProps}
-                                    placeholder="请输入邮箱"
-                                />
+                                {emailDecorator(
+                                    <Input placeholder="请输入邮箱"/>
+                                )}
                             </FormItem>
                         </Col>
                         <Col span={12}>
@@ -210,67 +207,71 @@ class UserEdit extends Component {
                                 label="电话："
                                 hasFeedback
                             >
-                                <Input
-                                    {...mobileProps}
-                                    placeholder="请输入电话"
-                                />
+                                {mobileDecorator(
+                                    <Input placeholder="请输入电话"/>
+                                )}
                             </FormItem>
                         </Col>
                     </Row>
                     <FormItem
                         {...formItemLayout}
                         label="性别：">
-                        <RadioGroup {...genderProps}>
-                            <Radio value="male">男</Radio>
-                            <Radio value="female">女</Radio>
-                        </RadioGroup>
+                        {genderDecorator(
+                            <RadioGroup>
+                                <Radio value="male">男</Radio>
+                                <Radio value="female">女</Radio>
+                            </RadioGroup>
+                        )}
                         <span><Icon type="info-circle-o"/> 暂不支持其它性别</span>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="所属部门：">
-                        <TreeSelect
-                            dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
-                            placeholder="请选择部门"
-                            allowClear
-                            treeDefaultExpandAll
-                            treeData={organizationsTreeData}
-                            {...orgProps}
-                        />
+                        {orgDecorator(
+                            <TreeSelect
+                                dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
+                                placeholder="请选择部门"
+                                allowClear
+                                treeDefaultExpandAll
+                                treeData={organizationsTreeData}
+                            />
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="职位：">
-                        <Input
-                            {...positionProps}
-                            placeholder="请输入职位"
-                        />
+                        {positionDecorator(
+                            <Input placeholder="请输入职位"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="角色：">
-                        <Select
-                            showSearch
-                            optionFilterProp="children"
-                            notFoundContent="无法找到"
-                            {...roleProps}
-                            placeholder="请选择角色"
-                        >
-                            {roles.map(r => {
-                                return (
-                                    <Option key={r._id} value={r._id}>{r.name}</Option>
-                                );
-                            })}
-                        </Select>
+                        {roleDecorator(
+                            <Select
+                                showSearch
+                                optionFilterProp="children"
+                                notFoundContent="无法找到"
+                                placeholder="请选择角色"
+                            >
+                                {roles.map(r => {
+                                    return (
+                                        <Option key={r._id} value={r._id}>{r.name}</Option>
+                                    );
+                                })}
+                            </Select>
+                        )}
+
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="锁定：">
-                        <Switch
-                            {...isLockedProps}
-                            checkedChildren="是"
-                            unCheckedChildren="否"
-                        />
+                        {isLockedDecorator(
+                            <Switch
+                                checkedChildren="是"
+                                unCheckedChildren="否"
+                            />
+                        )}
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>
                         <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>

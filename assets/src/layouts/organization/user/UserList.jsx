@@ -231,20 +231,26 @@ export class UserList extends Component {
     }
 
     render() {
-        const {gettingUsers, form: {getFieldProps}, users: {results: users, totalCount}, currentPage, pageSize, currentUser} = this.props;
+        const {gettingUsers, form: {getFieldDecorator}, users: {results: users, totalCount}, currentPage, pageSize, currentUser} = this.props;
         const showAddBtn = currentUser && currentUser.permissions && currentUser.permissions.indexOf('user-add') > -1;
         return (
             <div className="organization-user">
                 <div className="query-bar">
                     <Form inline onSubmit={this.handleSubmit}>
                         <FormItem label="登录名">
-                            <Input placeholder="请输入登录名" {...getFieldProps('loginname')}/>
+                            {getFieldDecorator('loginname')(
+                                <Input placeholder="请输入登录名"/>
+                            )}
                         </FormItem>
                         <FormItem label="用户名">
-                            <Input placeholder="请输入用户名" {...getFieldProps('name')}/>
+                            {getFieldDecorator('name')(
+                                <Input placeholder="请输入用户名"/>
+                            )}
                         </FormItem>
                         <FormItem label="电话">
-                            <Input placeholder="请输入用户名" {...getFieldProps('mobile')}/>
+                            {getFieldDecorator('mobile')(
+                                <Input placeholder="请输入用户名"/>
+                            )}
                         </FormItem>
                         <Button type="primary" htmlType="submit">查询</Button>
                     </Form>

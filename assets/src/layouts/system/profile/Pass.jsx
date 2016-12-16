@@ -58,19 +58,19 @@ export class Pass extends Component {
     }
 
     render() {
-        const {loading, form: {getFieldProps}} = this.props;
-        const OrPasswdProps = getFieldProps('orPass', {
+        const {loading, form: {getFieldDecorator}} = this.props;
+        const OrPasswdDecorator = getFieldDecorator('orPass', {
             rules: [
                 {required: true, whitespace: true, message: '请填写原密码'},
             ],
         });
-        const passwdProps = getFieldProps('pass', {
+        const newPassDecorator = getFieldDecorator('pass', {
             rules: [
                 {required: true, whitespace: true, message: '请填写密码'},
                 {validator: this.checkPass},
             ],
         });
-        const rePasswdProps = getFieldProps('rePass', {
+        const newPassRepeatDecorator = getFieldDecorator('rePass', {
             rules: [
                 {
                     required: true,
@@ -94,43 +94,46 @@ export class Pass extends Component {
                         {...formItemLayout}
                         label="原密码："
                     >
-                        <Input
-                            {...OrPasswdProps}
-                            type="password"
-                            autoComplete="off"
-                            onContextMenu={noop}
-                            onPaste={noop}
-                            onCopy={noop}
-                            onCut={noop}
-                        />
+                        {OrPasswdDecorator(
+                            <Input
+                                type="password"
+                                autoComplete="off"
+                                onContextMenu={noop}
+                                onPaste={noop}
+                                onCopy={noop}
+                                onCut={noop}
+                            />
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="新密码："
                     >
-                        <Input
-                            {...passwdProps}
-                            type="password"
-                            autoComplete="off"
-                            onContextMenu={noop}
-                            onPaste={noop}
-                            onCopy={noop}
-                            onCut={noop}
-                        />
+                        {newPassDecorator(
+                            <Input
+                                type="password"
+                                autoComplete="off"
+                                onContextMenu={noop}
+                                onPaste={noop}
+                                onCopy={noop}
+                                onCut={noop}
+                            />
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="确认密码："
                     >
-                        <Input
-                            {...rePasswdProps}
-                            type="password"
-                            autoComplete="off"
-                            onContextMenu={noop}
-                            onPaste={noop}
-                            onCopy={noop}
-                            onCut={noop}
-                        />
+                        {newPassRepeatDecorator(
+                            <Input
+                                type="password"
+                                autoComplete="off"
+                                onContextMenu={noop}
+                                onPaste={noop}
+                                onCopy={noop}
+                                onCut={noop}
+                            />
+                        )}
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>
                         <Button type="ghost" style={{marginRight: 8}} htmlType="reset">重置</Button>

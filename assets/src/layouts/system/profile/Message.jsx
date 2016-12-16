@@ -48,22 +48,22 @@ export class Message extends Component {
     }
 
     render() {
-        const {user, loading, form: {getFieldProps}} = this.props;
-        const idProps = getFieldProps('_id', {initialValue: user._id});
-        const nameProps = getFieldProps('name', {initialValue: user.name});
-        const emailProps = getFieldProps('email', {
+        const {user, loading, form: {getFieldDecorator}} = this.props;
+        const idDecorator = getFieldDecorator('_id', {initialValue: user._id});
+        const nameDecorator = getFieldDecorator('name', {initialValue: user.name});
+        const emailDecorator = getFieldDecorator('email', {
             initialValue: user.email,
             rules: [
                 ValidationRule.email(),
             ],
         });
-        const mobileProps = getFieldProps('mobile', {
+        const mobileDecorator = getFieldDecorator('mobile', {
             initialValue: user.mobile,
             rules: [
                 ValidationRule.mobile(),
             ],
         });
-        const genderProps = getFieldProps('gender', {
+        const genderDecorator = getFieldDecorator('gender', {
             initialValue: user.gender,
             rules: [],
         });
@@ -81,48 +81,46 @@ export class Message extends Component {
                         style={{display: 'none'}}
                         hasFeedback
                     >
-                        <Input
-                            {...idProps}
-                            placeholder="请输入登录名"
-                        />
+                        {idDecorator(
+                            <Input placeholder="请输入登录名"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="用户名："
                         hasFeedback
                     >
-                        <Input
-                            {...nameProps}
-                            placeholder="请输入用户名"
-                        />
+                        {nameDecorator(
+                            <Input placeholder="请输入用户名"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="邮箱："
                         hasFeedback
                     >
-                        <Input
-                            {...emailProps}
-                            placeholder="请输入邮箱"
-                        />
+                        {emailDecorator(
+                            <Input placeholder="请输入邮箱"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="电话："
                         hasFeedback
                     >
-                        <Input
-                            {...mobileProps}
-                            placeholder="请输入电话"
-                        />
+                        {mobileDecorator(
+                            <Input placeholder="请输入电话"/>
+                        )}
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="性别：">
-                        <RadioGroup {...genderProps}>
-                            <Radio value="male">男</Radio>
-                            <Radio value="female">女</Radio>
-                        </RadioGroup>
+                        {genderDecorator(
+                            <RadioGroup>
+                                <Radio value="male">男</Radio>
+                                <Radio value="female">女</Radio>
+                            </RadioGroup>
+                        )}
                         <span><Icon type="info-circle-o"/> 暂不支持其它性别</span>
                     </FormItem>
                     <FormItem wrapperCol={{span: 12, offset: 7}}>

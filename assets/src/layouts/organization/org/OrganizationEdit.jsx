@@ -80,9 +80,9 @@ class OrganizationEdit extends Component {
     }
 
     render() {
-        let {form: {getFieldProps}, organization, showButtons, formItemLayout} = this.props;
+        let {form: {getFieldDecorator}, organization, showButtons, formItemLayout} = this.props;
 
-        const keyProps = getFieldProps('key', {
+        const keyDecorator = getFieldDecorator('key', {
             initialValue: organization.key,
             rules: [
                 {required: true, message: 'key 不能为空！'},
@@ -90,18 +90,18 @@ class OrganizationEdit extends Component {
             onChange: this.handleChange,
         });
 
-        const textProps = getFieldProps('text', {
+        const textDecorator = getFieldDecorator('text', {
             initialValue: organization.text,
             rules: [
                 {required: true, min: 2, message: '标题至少为 2 个字符'},
             ],
             onChange: this.handleChange,
         });
-        const descriptionProps = getFieldProps('description', {
+        const descriptionDecorator = getFieldDecorator('description', {
             initialValue: organization.description,
             onChange: this.handleChange,
         });
-        const remarkProps = getFieldProps('remark', {
+        const remarkDecorator = getFieldDecorator('remark', {
             initialValue: organization.remark,
             onChange: this.handleChange,
         });
@@ -113,40 +113,38 @@ class OrganizationEdit extends Component {
                     hasFeedback
                     style={{display: 'none'}}
                 >
-                    <Input
-                        {...keyProps}
-                        placeholder="唯一不可重复。"
-                    />
+                    {keyDecorator(
+                        <Input placeholder="唯一不可重复。"/>
+                    )}
+
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="名称："
                     hasFeedback
                 >
-                    <Input
-                        {...textProps}
-                        placeholder="请输入组织名称"
-                    />
+                    {textDecorator(
+                        <Input placeholder="请输入组织名称"/>
+                    )}
+
                 </FormItem>
 
                 <FormItem
                     {...formItemLayout}
                     label="描述："
                     hasFeedback>
-                    <Input
-                        {...descriptionProps}
-                        placeholder="请输入组织描述"
-                    />
+                    {descriptionDecorator(
+                        <Input placeholder="请输入组织描述"/>
+                    )}
                 </FormItem>
 
                 <FormItem
                     {...formItemLayout}
                     label="备注："
                     hasFeedback>
-                    <Input
-                        {...remarkProps}
-                        placeholder="请输入备注"
-                    />
+                    {remarkDecorator(
+                        <Input placeholder="请输入备注"/>
+                    )}
                 </FormItem>
                 {
                     showButtons ?
