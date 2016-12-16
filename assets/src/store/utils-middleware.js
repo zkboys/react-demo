@@ -14,9 +14,7 @@ export default function utilsMiddleware({dispatch}) {
             let text = autoTipError;
             if (payload.type === 'http') {
                 if (text === '未知系统错误') {
-                    text = (payload.body && payload.body.message)
-                        || (payload.body && payload.body.error && payload.error.message)
-                        || autoTipError;
+                    text = (payload.body && payload.body.message) || autoTipError;
                 }
 
                 dispatchToast({

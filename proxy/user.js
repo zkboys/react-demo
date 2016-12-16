@@ -9,6 +9,16 @@ exports.getUsersByIds = function (ids) {
     return UserModel.find({'_id': {'$in': ids}}).lean();
 };
 
+exports.getUsersByPage = function (currentPage = 1, pageSize = 10, queries = {}) {
+    const options = {skip: (currentPage - 1) * pageSize, limit: pageSize, sort: '-create_at'};
+    const query = {};
+    Object.keys(queries).forEach(v=> {
+        query[v] = new RegExp(queries[v]);
+    });
+    query.is_deleted = false;
+    return UserModel.find(query, '', options).lean();
+}
+
 exports.getUsersByQuery = function (query, opt) {
     if (query.is_deleted === undefined) {
         query.is_deleted = false;
@@ -16,7 +26,12 @@ exports.getUsersByQuery = function (query, opt) {
     return UserModel.find(query, '', opt).lean();
 };
 
-exports.getUsersCountByQuery = function (query) {
+exports.getUsersCountByQuery = function (queries = {}) {
+    const query = {};
+    Object.keys(queries).forEach(v=> {
+        query[v] = new RegExp(queries[v]);
+    });
+
     if (query.is_deleted === undefined) {
         query.is_deleted = false;
     }
