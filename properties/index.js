@@ -16,4 +16,6 @@ exports.errorMessages = {
     loginNamePassInvalid: [3001, '用户名或者密码错误'],
     userIsLocked: [3004, '您已经被管理员屏蔽，如有疑问，请与管理员联系'],
     userIsNotExisted: [3005, '用户不存在'],
+
+    roleNameCanNotBeNull: [4000, '角色名不能为空'],
 }

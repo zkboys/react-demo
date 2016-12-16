@@ -1,15 +1,15 @@
 const controller = require('./controller-utils').controller;
-const userService = require('../service/user');
+const UserService = require('../service/user');
 
 exports.addAndSave = controller(async function (req, res, next) {
     const user = req.body;
-    const savedUser = await userService.addAndSave(user);
+    const savedUser = await UserService.addAndSave(user);
     res.send(savedUser);
 });
 
 exports.getById = controller(async function (req, res, next) {
     const userId = req.params.id;
-    const user = await userService.getUserById(userId);
+    const user = await UserService.getUserById(userId);
     res.send(user);
 });
 
@@ -24,7 +24,7 @@ exports.getByPage = controller(async function (req, res, next) {
         }
     });
 
-    const {users: results, totalCount} = await userService.getByPage(currentPage, pageSize, queries);
+    const {users: results, totalCount} = await UserService.getByPage(currentPage, pageSize, queries);
 
     res.send({
         results,
@@ -34,26 +34,26 @@ exports.getByPage = controller(async function (req, res, next) {
 
 exports.getByLoginNameFromAll = controller(async function (req, res, next) {
     const loginName = req.params.loginname;
-    const user = await userService.getUserByLoginNameFromAllUsers(loginName);
+    const user = await UserService.getUserByLoginNameFromAllUsers(loginName);
     res.send(user || false);
 });
 
 exports.delete = controller(async function (req, res, next) {
     const id = req.body.id;
-    await userService.deleteUserById(id);
+    await UserService.deleteUserById(id);
     res.sendSuccess();
 });
 
 exports.toggleLock = controller(async function (req, res, next) {
     const id = req.body.id;
     const isLocked = req.body.isLocked;
-    const user = await userService.toggleUserLock(id, isLocked);
+    const user = await UserService.toggleUserLock(id, isLocked);
     res.send(user);
 });
 
 exports.update = controller(async function (req, res, next) {
     const user = req.body;
-    const updatedUser = await userService.updateUser(user);
+    const updatedUser = await UserService.updateUser(user);
     res.send(updatedUser);
 });
 
@@ -64,12 +64,12 @@ exports.updatePass = controller(async function (req, res, next) {
     const currentLoginUser = req.session.user;
     const userId = currentLoginUser._id;
 
-    await userService.updatePass(userId, oldPass, newPass, newPassRepeat);
+    await UserService.updatePass(userId, oldPass, newPass, newPassRepeat);
     res.sendSuccess();
 });
 
 exports.resetPass = controller(async function (req, res, next) {
     const userId = req.body.id;
-    await userService.resetUserPass(userId);
+    await UserService.resetUserPass(userId);
     res.sendSuccess();
 });

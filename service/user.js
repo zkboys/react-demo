@@ -160,7 +160,7 @@ exports.addAndSave = async function (user) {
     if (!tools.validateId(loginName)) {
         throw new ServiceError(message.loginNameInvalid);
     }
-
+    // TODO 对其他字段进行校验
     const initPass = loginName[0] + 123456;
     const existedUser = await UserProxy.getUserByLoginNameFromAllUsers(loginName);
 

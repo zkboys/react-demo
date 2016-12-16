@@ -1,10 +1,6 @@
-const uuid = require('uuid');
 const controller = require('./controller-utils').controller;
-
-const tools = require('../common/tools');
 const config = require('../config');
 const authMiddleWare = require('../middlewares/auth');
-
 const userService = require('../service/user');
 
 exports.login = controller(async function (req, res, next) {

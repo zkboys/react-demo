@@ -59,9 +59,9 @@ export default {
                     return callback();
                 }
                 Request
-                    .get(`/organization/users/loginname/${value}`)
+                    .get(`/organization/roles/name/${value}`)
                     .then(data => {
-                        if (data && value === data.loginname) {
+                        if (data && value === data.name) {
                             return callback([new Error('抱歉，该角色名已被占用！')]);
                         }
                         callback();

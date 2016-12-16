@@ -51,6 +51,7 @@ router.put('/api/organization/users/toggle_lock', userRequired, permission('user
 // 角色
 router.get('/api/organization/roles', userRequired, /* permission('role-search'), */role.getByPage); // 这里不要添加权限限制，也不会产生安全性问题，而且用户相关会用到这个接口。
 router.get('/api/organization/roles/:id', userRequired, role.getById);
+router.get('/api/organization/roles/name/:name', userRequired, role.getByRoleNameFromAll);
 router.post('/api/organization/roles', userRequired, permission('role-add'), role.addAndSave);
 router.put('/api/organization/roles', userRequired, permission('role-update'), role.update);
 router.delete('/api/organization/roles', userRequired, permission('role-delete'), role.delete);

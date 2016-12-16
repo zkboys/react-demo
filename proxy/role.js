@@ -9,6 +9,33 @@ exports.getRoleById = function (id) {
     return RoleModel.findOne({_id: id}).lean();
 };
 
+
+exports.getRolesByPage = function (currentPage = 1, pageSize = 10, queries = {}) {
+    const options = {skip: (currentPage - 1) * pageSize, limit: pageSize, sort: '-create_at'};
+    const query = {};
+    Object.keys(queries).forEach(v=> {
+        query[v] = new RegExp(queries[v]);
+    });
+    query.is_deleted = false;
+    return RoleModel.find(query, '', options).lean();
+}
+
+exports.getRolesCountByQuery = function (queries = {}) {
+    const query = {};
+    Object.keys(queries).forEach(v=> {
+        query[v] = new RegExp(queries[v]);
+    });
+
+    if (query.is_deleted === undefined) {
+        query.is_deleted = false;
+    }
+    return RoleModel.count(query);
+};
+
+exports.getRoleByNameFromAllRoles = function (roleName) {
+    return RoleModel.findOne({'name': new RegExp('^' + roleName + '$', "i")}).lean();
+}
+
 /**
  * 根据关键字，获取一组数据
  * @param query
@@ -21,18 +48,6 @@ exports.getRolesByQuery = function (query, opt) {
     }
     return RoleModel.find(query, '', opt).lean();
 };
-/**
- * 根据关键字，获取数量
- * @param query
- * @returns {Query|*}
- */
-exports.getRolesCountByQuery = function (query) {
-    if (query.is_deleted === undefined) {
-        query.is_deleted = false;
-    }
-    return RoleModel.count(query);
-};
-
 /**
  * 修改
  * @param data
