@@ -6,37 +6,86 @@ const RoleProxy = require('../proxy/role');
 const MenuProxy = require('../proxy/menu');
 
 const tools = require('../common/tools');
+const ServiceError = require('./service-error');
+const message = require('../properties').errorMessages;
 
 const trim = _.trim;
-
-
-exports.login = async function (loginName, pass) {
+exports.getUserByLoginNameAndPass = async function (loginName, pass) {
     loginName = trim(loginName);
     pass = trim(pass);
 
     if (!loginName || !pass) {
-        throw new Error('登录名或者密码不能为空');
+        throw new ServiceError(message.loginNamePassCanNotBeNull);
     }
 
     const user = await UserProxy.getUserByLoginName(loginName);
 
     if (!user) {
-        throw new Error('用户名或密码错误');
+        throw new ServiceError(message.loginNamePassInvalid);
     }
 
     if (user.is_locked) {
-        throw new Error('您已经被管理员屏蔽，如有疑问，请与管理员联系');
+        throw new ServiceError(message.userIsLocked);
     }
 
     const hashedPass = user.pass;
     const isPassOk = await tools.bcompare(pass + user.salt, hashedPass);
 
     if (!isPassOk) {
-        throw new Error('用户名或密码错误');
+        throw new ServiceError(message.loginNamePassInvalid);
     }
-    
-    return getSafeUser(user);
+
+    for (let p in user) {
+        console.log(p);
+    }
+    return user;
 };
+/**
+ * 更新用户密码
+ * @param userId
+ * @param oldPass
+ * @param newPass
+ * @param newPassRepeat
+ * @returns {*|Object|Query|Query|*}
+ */
+exports.updatePass = async function (userId, oldPass, newPass, newPassRepeat) {
+    newPass = trim(newPass);
+    newPassRepeat = trim(newPassRepeat);
+
+    if (!oldPass) {
+        throw new ServiceError(message.oldPassCanNotBeNull);
+    }
+
+    if (!newPass) {
+        throw new ServiceError(message.newPassCanNotBeNull);
+    }
+
+    if (!newPassRepeat) {
+        throw new ServiceError(message.newPassRepeatCanNotBeNull);
+    }
+
+    if (newPass !== newPassRepeat) {
+        throw new ServiceError(message.towPassIsDifferent);
+    }
+
+    const user = await UserProxy.getUserById(userId);
+
+    if (!user) {
+        throw new ServiceError(message.userIsNotExisted);
+    }
+
+    const isOldPassValid = await tools.bcompare(oldPass + user.salt, user.pass);
+
+    if (!isOldPassValid) {
+        throw new ServiceError(message.oldPassInvalid);
+    }
+
+    user.pass = await tools.bhash(newPass + user.salt);
+    user.is_first_login = false; // 修改密码之后，就不是第一次登录了
+
+    return await UserProxy.update(user);
+
+}
 
 exports.getUserPermissions = async function (user) {
     const role = await RoleProxy.getRoleById(user.role_id);
@@ -51,17 +100,3 @@ exports.getUserPermissions = async function (user) {
 exports.getUserMenus = async function (user) {
     return await MenuProxy.getMenusByUser(user);
 };
-
-function getSafeUser(user) {
-    return {
-        _id: user._id,
-        permissions: user.permissions || [],
-        name: user.name,
-        loginname: user.loginname,
-        email: user.email,
-        avatar: user.avatar,
-        mobile: user.mobile,
-        gender: user.gender,
-        is_first_login: user.is_first_login,
-    };
-}

@@ -6,7 +6,7 @@ var RoleModel = models.Role;
  * @returns {*|Query}
  */
 exports.getRoleById = function (id) {
-    return RoleModel.findOne({_id: id});
+    return RoleModel.findOne({_id: id}).lean();
 };
 
 /**
@@ -19,7 +19,7 @@ exports.getRolesByQuery = function (query, opt) {
     if (query.is_deleted === undefined) {
         query.is_deleted = false;
     }
-    return RoleModel.find(query, '', opt);
+    return RoleModel.find(query, '', opt).lean();
 };
 /**
  * 根据关键字，获取数量
@@ -40,7 +40,7 @@ exports.getRolesCountByQuery = function (query) {
  */
 exports.update = function (data) {
     RoleModel.update_at = new Date();
-    return RoleModel.findOneAndUpdate({_id: data._id}, data)
+    return RoleModel.findOneAndUpdate({_id: data._id}, data).lean()
 };
 
 /**
@@ -49,7 +49,7 @@ exports.update = function (data) {
  * @returns {Query|*}
  */
 exports.delete = function (id) {
-    return RoleModel.findOneAndUpdate({_id: id}, {is_deleted: true, update_at: new Date()})
+    return RoleModel.findOneAndUpdate({_id: id}, {is_deleted: true, update_at: new Date()}).lean()
 };
 
 /**

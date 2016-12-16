@@ -7,4 +7,9 @@ var RoleSchema = new Schema({
     description: {type: String},
 });
 
+RoleSchema.pre('save', function (next) {
+    this.update_at = new Date();
+    next();
+});
+
 mongoose.model('Role', RoleSchema);

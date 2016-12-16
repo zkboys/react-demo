@@ -6,7 +6,7 @@ const MenuModel = require('../models').Menu;
  * @returns {Query|T|*}
  */
 exports.getAllMenus = function () {
-    return MenuModel.find();
+    return MenuModel.find().lean();
 };
 /**
  * 跟新所有菜单
@@ -26,9 +26,9 @@ exports.updateAllMenus = function (newMenu) {
  */
 exports.getMenusByUser = function (user) {
     if (user.loginname === config.admin_name) { // 登录名为admin的用户拥有所有权限
-        return MenuModel.find({});
+        return MenuModel.find({}).lean();
     } else {
-        return MenuModel.find({'key': {'$in': user.permissions}});
+        return MenuModel.find({'key': {'$in': user.permissions}}).lean();
     }
 
 };

@@ -23,8 +23,8 @@ exports.resExtend = function (req, res, next) {
             return res.status(400).send({error: null, message: options});
         }
 
-        if (options instanceof Error) {
-            return res.status(400).send({error: null, message: options.message});
+        if (options instanceof Error && options.type === 'service') {
+            return res.status(400).send({error: options, message: options.message});
         }
 
         const error = options.error;

@@ -5,7 +5,7 @@ var OrganizationModel = require('../models').Organization;
  * @returns {T|*|Query}
  */
 exports.getAllOrganizations = function () {
-    return OrganizationModel.find();
+    return OrganizationModel.find().lean();
 };
 /**
  * 更新全部

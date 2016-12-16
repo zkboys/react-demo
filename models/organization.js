@@ -9,4 +9,8 @@ var OrganizationSchema = new Schema({
     remark: {type: String},
 });
 OrganizationSchema.index({key: 1}, {unique: true});
+OrganizationSchema.pre('save', function (next) {
+    this.update_at = new Date();
+    next();
+});
 mongoose.model('Organization', OrganizationSchema);

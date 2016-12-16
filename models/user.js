@@ -27,4 +27,5 @@ UserSchema.pre('save', function (next) {
     this.update_at = new Date();
     next();
 });
+
 mongoose.model('User', UserSchema);
