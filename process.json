@@ -1,12 +1,12 @@
 {
   "apps": [
     {
-      "name": "app-3000",
+      "name": "app-3080",
       "script": "app.js",
       "node_args": "--harmony",
       "env": {
         "NODE_ENV": "production",
-        "PORT":3000
+        "PORT":3080
       },
       "watch": true,
       "log_date_format": "YYYY-MM-DD HH:mm Z"
