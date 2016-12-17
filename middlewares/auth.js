@@ -1,6 +1,6 @@
 const config = require('../config');
-const UserProxy = require('../proxy/User');
-const RoleProxy = require('../proxy/Role');
+const UserProxy = require('../proxy/user');
+const RoleProxy = require('../proxy/role');
 
 /**
  * 需要登录
