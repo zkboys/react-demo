@@ -1,4 +1,4 @@
-const OrganizationProxy = require('../proxy/Organization');
+const OrganizationProxy = require('../proxy/organization');
 
 exports.getAllOrganizations = async function () {
     return await OrganizationProxy.getAllOrganizations();
