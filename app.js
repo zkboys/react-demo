@@ -1,55 +1,55 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var csurf = require('csurf');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const csurf = require('csurf');
 
 /*
  * 响应时间中间价，会增加一个X-Response-Time头
  * https://github.com/expressjs/response-time
  * */
-var responseTime = require('response-time');
+const responseTime = require('response-time');
 
 /*
  * Helmet是一系列帮助增强Node.JS之Express/Connect等Javascript Web应用安全的中间件。
  * 一些著名的对Web攻击有XSS跨站脚本， 脚本注入 clickjacking 以及各种非安全的请求等对Node.js的Web应用构成各种威胁，使用Helmet能帮助你的应用避免这些攻击。
  * https://github.com/helmetjs/helmet
  * */
-var helmet = require('helmet');
+const helmet = require('helmet');
 
 /*
  * Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it.
  * https://github.com/expressjs/method-override
  * */
-var methodOverride = require('method-override');
+const methodOverride = require('method-override');
 
 /*
  *  Node.js compression middleware.
  * https://github.com/expressjs/compression
  * */
-var compress = require('compression');
+const compress = require('compression');
 
-var RedisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis')(session);
 
 require('./models'); // 链接数据库，装载models
 
 // 自定义 权限验证相关中间件
-var auth = require('./middlewares/auth');
+const auth = require('./middlewares/auth');
 
-var requestLog = require('./middlewares/request_log');
-var renderLog = require('./middlewares/render_log');
+const requestLog = require('./middlewares/request_log');
+const renderLog = require('./middlewares/render_log');
 
 // 对res进行扩展方法
-var resExtend = require('./middlewares/res-extend');
+const resExtend = require('./middlewares/res-extend');
 
-var routes = require('./routes/index');
+const routes = require('./routes/index');
 
-var config = require('./config');
-var logger = require('./common/logger');
+const config = require('./config');
+const logger = require('./common/logger');
 
-var app = express();
+const app = express();
 // html 文件
 app.set('views', path.join(__dirname, 'public'));
 // app.set('view engine', 'ejs');

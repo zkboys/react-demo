@@ -1,4 +1,4 @@
-var OrganizationModel = require('../models').Organization;
+const OrganizationModel = require('../models').Organization;
 
 /**
  * 获取所有组织架构数据

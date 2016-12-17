@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var RoleSchema = new Schema({
+const RoleSchema = new Schema({
     name: {type: String},
     permissions: {type: Array},
     description: {type: String},

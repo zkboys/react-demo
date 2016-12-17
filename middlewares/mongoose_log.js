@@ -1,14 +1,14 @@
-var mongoose = require('mongoose');
-var logger = require('../common/logger');
-var config = require('../config');
+const mongoose = require('mongoose');
+const logger = require('../common/logger');
+const config = require('../config');
 
 if (config.debug) {
-    var traceMQuery = function (method, info, query) {
+    const traceMQuery = function (method, info, query) {
         return function (err, result, millis) {
             if (err) {
                 logger.error('traceMQuery error:', err)
             }
-            var infos = [];
+            const infos = [];
             infos.push(query._collection.collection.name + "." + method.blue);
             infos.push(JSON.stringify(info));
             infos.push((millis + 'ms').green);

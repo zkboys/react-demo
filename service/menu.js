@@ -1,4 +1,4 @@
-var MenuProxy = require('../proxy/Menu');
+const MenuProxy = require('../proxy/Menu');
 
 exports.getAllMenus = async function () {
     return await MenuProxy.getAllMenus();

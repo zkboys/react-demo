@@ -1,13 +1,13 @@
 const OrganizationService = require('../service/organization');
-const controller = require('./controller-utils').controller;
+const controllerDecorator = require('./controller-decorator');
 
-exports.getAll = controller(async function (req, res, next) {
+exports.getAll = controllerDecorator(async function (req, res, next) {
     const organizations = await OrganizationService.getAllOrganizations();
     res.send(organizations);
 });
 
-exports.updateAll = controller(async function (req, res, next) {
-    var organizations = req.body.organizations;
+exports.updateAll = controllerDecorator(async function (req, res, next) {
+    const organizations = req.body.organizations;
     await OrganizationService.updateAllOrganizations(organizations);
     res.sendSuccess();
 });

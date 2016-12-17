@@ -1,4 +1,4 @@
-exports.controller = function (controllerFunction) {
+exports = module.exports = function (controllerFunction) {
     return async function (req, res, next) {
         try {
             await controllerFunction(req, res, next);

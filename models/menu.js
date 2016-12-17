@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-var MenuSchema = new Schema({
+const MenuSchema = new Schema({
     key: {type: String},
     parentKey: {type: String},
     order: {type: Number},

@@ -1,6 +1,6 @@
-var config = require('../config');
-var UserProxy = require('../proxy/User');
-var RoleProxy = require('../proxy/Role');
+const config = require('../config');
+const UserProxy = require('../proxy/User');
+const RoleProxy = require('../proxy/Role');
 
 /**
  * 需要登录
@@ -42,8 +42,8 @@ exports.blockUser = function () {
  * @param res
  */
 exports.generateUserCookie = function (user, res) {
-    var auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
-    var opts = {
+    const auth_token = user._id + '$$$$'; // 以后可能会存储更多信息，用 $$$$ 来分隔
+    const opts = {
         path: '/',
         maxAge: 1000 * 60 * 60 * 24 * 30,
         signed: true,
@@ -59,7 +59,7 @@ exports.authUser = async function (req, res, next) {
 
     // debug模式下创建虚拟用户
     if (config.debug && req.cookies['mock_user']) {
-        var mockUser = JSON.parse(req.cookies['mock_user']);
+        const mockUser = JSON.parse(req.cookies['mock_user']);
         req.session.user = mockUser;
         return next();
     }
@@ -77,12 +77,12 @@ exports.authUser = async function (req, res, next) {
         return next();
     }
 
-    var auth_token = req.signedCookies[config.auth_cookie_name];
+    const auth_token = req.signedCookies[config.auth_cookie_name];
     if (!auth_token) {
         return next();
     }
-    var auth = auth_token.split('$$$$');
-    var user_id = auth[0];
+    const auth = auth_token.split('$$$$');
+    const user_id = auth[0];
     if (!user_id || user_id === 'undefined') {
         return next();
     }

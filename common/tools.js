@@ -1,5 +1,5 @@
-var bcrypt = require('bcryptjs');
-var moment = require('moment');
+const bcrypt = require('bcryptjs');
+const moment = require('moment');
 
 moment.locale('zh-cn'); // 使用中文
 

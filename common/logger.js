@@ -1,9 +1,9 @@
-var config = require('../config');
+const config = require('../config');
 
-var env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || "development";
 
 
-var log4js = require('log4js');
+const log4js = require('log4js');
 log4js.configure({
     appenders: [
         {type: 'console'},
@@ -11,7 +11,7 @@ log4js.configure({
     ]
 });
 
-var logger = log4js.getLogger('cheese');
+const logger = log4js.getLogger('cheese');
 logger.setLevel(config.debug && env !== 'test' ? 'DEBUG' : 'ERROR');
 
 module.exports = logger;

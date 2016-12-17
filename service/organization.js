@@ -6,4 +6,4 @@ exports.getAllOrganizations = async function () {
 
 exports.updateAllOrganizations = async function (organizations) {
     return await OrganizationProxy.updateAllOrganizations(organizations)
-}
+};

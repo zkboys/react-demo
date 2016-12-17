@@ -1,6 +1,6 @@
-var logger = require('../common/logger');
+const logger = require('../common/logger');
 
-var ignore = /^\/(public|agent)/;
+const ignore = /^\/(public|agent)/;
 
 exports = module.exports = function (req, res, next) {
     // Assets do not out log.
@@ -9,11 +9,11 @@ exports = module.exports = function (req, res, next) {
         return;
     }
 
-    var t = new Date();
+    const t = new Date();
     logger.info('\n\nStarted', t.toISOString(), req.method, req.url, req.ip);
 
     res.on('finish', function () {
-        var duration = ((new Date()) - t);
+        const duration = ((new Date()) - t);
 
         logger.info('Completed', res.statusCode, ('(' + duration + 'ms)').green);
     });

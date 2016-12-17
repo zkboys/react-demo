@@ -1,5 +1,5 @@
-var models = require('../models');
-var RoleModel = models.Role;
+const models = require('../models');
+const RoleModel = models.Role;
 /**
  * 根据id获取数据
  * @param id

@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var config = require('../config');
-var logger = require('../common/logger');
-var BaseModel = require("./base_model");
+const mongoose = require('mongoose');
+const config = require('../config');
+const logger = require('../common/logger');
+const BaseModel = require("./base_model");
 
 mongoose.connect(config.db, {
     server: {poolSize: 20}

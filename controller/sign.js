@@ -1,9 +1,9 @@
-const controller = require('./controller-utils').controller;
+const controllerDecorator = require('./controller-decorator');
 const config = require('../config');
 const authMiddleWare = require('../middlewares/auth');
 const userService = require('../service/user');
 
-exports.login = controller(async function (req, res, next) {
+exports.login = controllerDecorator(async function (req, res, next) {
     const loginName = req.body.name;
     const pass = req.body.pass;
 
@@ -18,7 +18,7 @@ exports.login = controller(async function (req, res, next) {
     res.send({refer, user, menus});
 });
 
-exports.firstLogin = controller(async function (req, res, next) {
+exports.firstLogin = controllerDecorator(async function (req, res, next) {
     const currentLoginUser = req.session.user;
     const userId = currentLoginUser._id;
     const oldPass = currentLoginUser.pass;
@@ -36,7 +36,7 @@ exports.firstLogin = controller(async function (req, res, next) {
 
 });
 
-exports.signout = controller(function (req, res, next) {
+exports.signout = controllerDecorator(function (req, res, next) {
     req.session.destroy();
     res.clearCookie(config.auth_cookie_name, {path: '/'});
     res.sendSuccess();

@@ -1,5 +1,5 @@
-var models = require('../models');
-var UserModel = models.User;
+const models = require('../models');
+const UserModel = models.User;
 
 exports.getUserById = function (id) {
     return UserModel.findOne({_id: id}).lean().lean();
