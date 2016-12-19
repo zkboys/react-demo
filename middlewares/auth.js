@@ -56,7 +56,6 @@ exports.generateUserCookie = function (user, res) {
 exports.authUser = async function (req, res, next) {
     // Ensure current_user always has defined.
     res.locals.current_user = null;
-
     // debug模式下创建虚拟用户
     if (config.debug && req.cookies['mock_user']) {
         const mockUser = JSON.parse(req.cookies['mock_user']);

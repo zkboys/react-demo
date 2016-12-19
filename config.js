@@ -1,4 +1,4 @@
-const isDebug = process.env.NODE_ENV === 'development';
+const isDebug = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 const config = {
     debug: isDebug,

@@ -15,7 +15,7 @@ exports.getById = controllerDecorator(async function (req, res, next) {
 
 exports.getByPage = controllerDecorator(async function (req, res, next) {
     const currentPage = parseInt(req.query.currentPage, 10) || 1;
-    const pageSize = Number(req.query.pageSize);
+    const pageSize = Number(req.query.pageSize || 10);
     const queries = {};
     ['loginname', 'name', 'mobile'].forEach(v => {
         const value = req.query[v];
