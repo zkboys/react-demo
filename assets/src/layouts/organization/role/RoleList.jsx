@@ -5,6 +5,7 @@ import Operator from '../../../components/Operator';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
 import connectComponent from '../../../utils/connectComponent';
 import * as RoleEdit from './RoleEdit';
+import QueryBar from '../../../components/QueryBar';
 
 const FormItem = Form.Item;
 const RoleEditModal = connectComponent(RoleEdit);
@@ -140,16 +141,18 @@ export class RoleList extends Component {
         const showAddBtn = user && user.permissions && user.permissions.indexOf('role-add') > -1;
         return (
             <div className="organization-role">
-                <div className="query-bar">
+                <QueryBar>
                     <Form inline onSubmit={this.handleSubmit}>
                         <FormItem label="角色名">
                             {getFieldDecorator('name')(
                                 <Input placeholder="请输入角色名"/>
                             )}
                         </FormItem>
-                        <Button type="primary" htmlType="submit">查询</Button>
+                        <FormItem>
+                            <Button type="primary" htmlType="submit">查询</Button>
+                        </FormItem>
                     </Form>
-                </div>
+                </QueryBar>
                 <div className="tool-bar">
                     {
                         showAddBtn ?

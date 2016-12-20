@@ -5,6 +5,7 @@ import Operator from '../../../components/Operator';
 import PaginationComponent from '../../../components/pagination/PaginationComponent';
 import connectComponent from '../../../utils/connectComponent';
 import * as UserEdit from './UserEdit';
+import QueryBar from '../../../components/QueryBar';
 
 const FormItem = Form.Item;
 const UserEditModal = connectComponent(UserEdit);
@@ -235,7 +236,7 @@ export class UserList extends Component {
         const showAddBtn = currentUser && currentUser.permissions && currentUser.permissions.indexOf('user-add') > -1;
         return (
             <div className="organization-user">
-                <div className="query-bar">
+                <QueryBar>
                     <Form inline onSubmit={this.handleSubmit}>
                         <FormItem label="登录名">
                             {getFieldDecorator('loginname')(
@@ -252,9 +253,11 @@ export class UserList extends Component {
                                 <Input placeholder="请输入用户名"/>
                             )}
                         </FormItem>
-                        <Button type="primary" htmlType="submit">查询</Button>
+                        <FormItem>
+                            <Button type="primary" htmlType="submit">查询</Button>
+                        </FormItem>
                     </Form>
-                </div>
+                </QueryBar>
                 <div className="tool-bar">
                     {
                         showAddBtn ?

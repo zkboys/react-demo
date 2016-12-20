@@ -201,7 +201,10 @@ export function getRandomNum(min, max) {
  * @param className
  */
 export function removeClass(selector, className) {
-    const dom = document.querySelector(selector);
+    let dom = selector;
+    if (typeof selector === 'string') {
+        dom = document.querySelector(selector);
+    }
     if (!dom) return;
     let domClass = dom.className;
     if (domClass) {

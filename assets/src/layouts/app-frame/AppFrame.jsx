@@ -8,6 +8,8 @@ import Header from './Header';
 import PageHeader from './PageHeader';
 import PubSubMsg from '../../utils/pubsubmsg';
 
+import {removeClass} from '../../utils';
+
 export class LayoutComponent extends Component {
     state = {
         loading: false,
@@ -54,6 +56,13 @@ export class LayoutComponent extends Component {
         actions.getMenus();
         actions.getCurrentUser();
         actions.getStateFromStorage();
+        // 进入之后，去掉动画class（去掉transform属性），否者内部fixed元素将失效（webkit的bug？）
+        this.content.addEventListener("webkitAnimationEnd", () => {
+            const {pageStatus} = this.props;
+            if (pageStatus === 'entered') {
+                removeClass(this.content, pageStatus);
+            }
+        })
     }
 
     render() {
@@ -134,7 +143,7 @@ export class LayoutComponent extends Component {
                         null
                 }
 
-                <div className={appContentClassName}>
+                <div className={appContentClassName} ref={(node) => this.content = node}>
                     {
                         !pageHeaderFixed ?
                             <PageHeader

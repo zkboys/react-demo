@@ -20,6 +20,10 @@ export class LayoutComponent extends Component {
         setTimeout(() => {
             document.querySelector('.page-header').style.backgroundColor = '#fff';
         }, 1300);
+        setTimeout(() => {
+            Utils.removeClass('.page-header', 'entered');
+            Utils.removeClass('.app-content', 'entered');
+        }, 600);
     }
 
     handlePageAnimationTypeChange = (e) => {
@@ -45,12 +49,18 @@ export class LayoutComponent extends Component {
             Utils.removeClass('.page-header', 'leaving');
             Utils.addClass('.page-header', 'entered');
         }, 300);
+
+        setTimeout(() => {
+            Utils.removeClass('.page-header', 'entered');
+            Utils.removeClass('.app-content', 'entered');
+        }, 600);
     }
 
     render() {
         let {
             usePageWitchAnimation,
             pageHeaderFixed,
+            queryBarFixed,
             pageAnimationType,
             randomPageAnimation,
         } = this.props;
@@ -81,6 +91,18 @@ export class LayoutComponent extends Component {
 
                     <FormItem
                         {...formItemLayout}
+                        label="固定查询条件："
+                    >
+                        <Switch
+                            checkedChildren="是"
+                            unCheckedChildren="否"
+                            checked={queryBarFixed}
+                            onChange={checked => this.props.actions.setSettings({queryBarFixed: checked})}
+                        />
+                    </FormItem>
+
+                    <FormItem
+                        {...formItemLayout}
                         label="页面过场动画："
                     >
                         <Switch
@@ -90,7 +112,8 @@ export class LayoutComponent extends Component {
                             checked={usePageWitchAnimation}
                             onChange={checked => this.props.actions.setSettings({usePageWitchAnimation: checked})}
                         />
-                        <div className="page-animation-type" style={{display: usePageWitchAnimation ? 'inline-block' : 'none'}}>
+                        <div className="page-animation-type"
+                             style={{display: usePageWitchAnimation ? 'inline-block' : 'none'}}>
                             <RadioGroup
                                 onChange={this.handlePageAnimationTypeChange}
                                 value={pageAnimationType}

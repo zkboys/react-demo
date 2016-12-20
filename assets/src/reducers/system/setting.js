@@ -5,6 +5,7 @@ let initialState = {
     isSidebarCollapsed: false,
     usePageWitchAnimation: false,
     pageHeaderFixed: true,
+    queryBarFixed: true,
     pageAnimationType: 'right',
     randomPageAnimation: false,
 };
