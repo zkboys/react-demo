@@ -6,9 +6,9 @@
 1. [node > 7.x](https://nodejs.org/en/)
 2. [pm2](http://pm2.keymetrics.io/) 
 ```
-npm install
+yarn install
 
-npm install pm2@latest -g
+yarn add pm2@latest -g
 
 npm run pro 
 
