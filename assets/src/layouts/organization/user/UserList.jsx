@@ -237,7 +237,7 @@ export class UserList extends Component {
         return (
             <div className="organization-user">
                 <QueryBar>
-                    <Form inline onSubmit={this.handleSubmit}>
+                    <Form layout="inline" onSubmit={this.handleSubmit}>
                         <FormItem label="登录名">
                             {getFieldDecorator('loginname')(
                                 <Input placeholder="请输入登录名"/>

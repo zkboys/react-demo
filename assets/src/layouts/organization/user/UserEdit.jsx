@@ -160,7 +160,7 @@ class UserEdit extends Component {
                 footer=""
                 onCancel={this.handleModalCancel}
             >
-                <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
+                <Form layout="horizontal" onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <Row>
                         <Col span={12}>
                             <FormItem

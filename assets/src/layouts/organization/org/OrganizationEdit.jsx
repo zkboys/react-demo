@@ -106,7 +106,7 @@ class OrganizationEdit extends Component {
             onChange: this.handleChange,
         });
         return (
-            <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
+            <Form layout="horizontal" onSubmit={this.handleSubmit} onReset={this.handleReset}>
                 <FormItem
                     {...formItemLayout}
                     label="key："

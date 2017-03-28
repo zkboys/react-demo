@@ -20,7 +20,7 @@ export class LayoutComponent extends Component {
                 <Button
                     type="primary"
                     className="error-btn"
-                    onClick={this.props.history.goBack}
+                    onClick={this.props.router.goBack}
                 >
                     返回上一级
                 </Button>

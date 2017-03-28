@@ -142,7 +142,7 @@ export class RoleList extends Component {
         return (
             <div className="organization-role">
                 <QueryBar>
-                    <Form inline onSubmit={this.handleSubmit}>
+                    <Form layout="inline" onSubmit={this.handleSubmit}>
                         <FormItem label="角色名">
                             {getFieldDecorator('name')(
                                 <Input placeholder="请输入角色名"/>

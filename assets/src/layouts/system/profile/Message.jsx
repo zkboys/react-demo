@@ -74,7 +74,7 @@ export class Message extends Component {
 
         return (
             <div className="system-profile-message">
-                <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
+                <Form layout="horizontal" onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <FormItem
                         {...formItemLayout}
                         label="用户id："

@@ -73,10 +73,9 @@ export class LayoutComponent extends Component {
             labelCol: {span: 3},
             wrapperCol: {span: 21},
         };
-
         return (
             <div className="system-setting">
-                <Form horizontal>
+                <Form layout="horizontal">
                     <FormItem
                         {...formItemLayout}
                         label="固定页面头部："

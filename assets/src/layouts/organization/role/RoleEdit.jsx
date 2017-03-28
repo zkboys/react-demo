@@ -198,7 +198,7 @@ class RoleEdit extends Component {
                 footer=""
                 onCancel={this.handleModalCancel}
             >
-                <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
+                <Form layout="horizontal" onSubmit={this.handleSubmit} onReset={this.handleReset}>
 
                     <FormItem
                         {...formItemLayout}

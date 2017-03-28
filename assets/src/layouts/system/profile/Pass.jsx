@@ -89,7 +89,7 @@ export class Pass extends Component {
 
         return (
             <div className="system-profile-pass">
-                <Form horizontal onSubmit={this.handleSubmit} onReset={this.handleReset}>
+                <Form layout="horizontal" onSubmit={this.handleSubmit} onReset={this.handleReset}>
                     <FormItem
                         {...formItemLayout}
                         label="原密码："
