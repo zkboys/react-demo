@@ -59,7 +59,7 @@ export class Pass extends Component {
 
     render() {
         const {loading, form: {getFieldDecorator}} = this.props;
-        const OrPasswdDecorator = getFieldDecorator('orPass', {
+        const orPasswdDecorator = getFieldDecorator('orPass', {
             rules: [
                 {required: true, whitespace: true, message: '请填写原密码'},
             ],
@@ -94,7 +94,7 @@ export class Pass extends Component {
                         {...formItemLayout}
                         label="原密码："
                     >
-                        {OrPasswdDecorator(
+                        {orPasswdDecorator(
                             <Input
                                 type="password"
                                 autoComplete="off"

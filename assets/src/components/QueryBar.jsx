@@ -14,6 +14,7 @@ class UserAvatar extends React.Component {
         const pageHeader = document.querySelector('.page-header');
         const appHeaderHeight = appHeader.offsetHeight;
         const pageHeaderHeight = pageHeader.offsetHeight;
+        /* eslint-disable */
         this.setState({
             appHeaderHeight,
             pageHeaderHeight,

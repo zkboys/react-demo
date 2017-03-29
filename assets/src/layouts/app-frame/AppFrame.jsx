@@ -57,12 +57,12 @@ export class LayoutComponent extends Component {
         actions.getCurrentUser();
         actions.getStateFromStorage();
         // 进入之后，去掉动画class（去掉transform属性），否者内部fixed元素将失效（webkit的bug？）
-        this.content.addEventListener("webkitAnimationEnd", () => {
+        this.content.addEventListener('webkitAnimationEnd', () => {
             const {pageStatus} = this.props;
             if (pageStatus === 'entered') {
                 removeClass(this.content, pageStatus);
             }
-        })
+        });
     }
 
     render() {

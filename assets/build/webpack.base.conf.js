@@ -42,10 +42,10 @@ module.exports = {
     module: {
         preLoaders: [
             {
-                test: /\.js(x)*$^[routes.js]/,
+                test: /\.js(x)*$/,
                 loader: 'eslint',
                 include: projectRoot,
-                exclude: /node_modules/
+                exclude: /(node_modules|routes.js)/
             },
             {
                 test: /routes\.js$/,

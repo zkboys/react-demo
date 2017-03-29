@@ -345,7 +345,12 @@ class Menu extends Component {
                         </Col>
                         <Col span={8}>
                             <div className="menu-tool-bar" style={{marginBottom: 16}}>
-                                <Popover placement="rightBottom" title="添加内部功能" content={<MenuFunctionForm menusTreeData={menusTreeData} onSubmit={this.handleAddFunctionSubmit}/>} trigger="click">
+                                <Popover
+                                    placement="rightBottom" title="添加内部功能"
+                                    content={<MenuFunctionForm
+                                        menusTreeData={menusTreeData}
+                                        onSubmit={this.handleAddFunctionSubmit}/>}
+                                    trigger="click">
                                     <Button
                                         disabled={disableAddFun}
                                         type="primary"
@@ -356,37 +361,37 @@ class Menu extends Component {
                             </div>
                             <Table
                                 pagination={false}
-                                columns={
-                                    [
-                                        {
-                                            title: 'key',
-                                            dataIndex: 'key',
-                                            key: 'key',
+                                columns={[
+                                    {
+                                        title: 'key',
+                                        dataIndex: 'key',
+                                        key: 'key',
+                                    },
+                                    {
+                                        title: '名称',
+                                        dataIndex: 'name',
+                                        key: 'name',
+                                    },
+                                    {
+                                        title: '描述',
+                                        dataIndex: 'description',
+                                        key: 'description',
+                                    },
+                                    {
+                                        title: '操作',
+                                        key: 'operator',
+                                        render: (text, record) => {
+                                            const key = record.key;
+                                            return (
+                                                <Popconfirm
+                                                    placement="topRight" title={`您确定要删除“${record.name}”？`}
+                                                    onConfirm={() => this.handleFunctionDelete(key)}>
+                                                    <a href="###">删除</a>
+                                                </Popconfirm>
+                                            );
                                         },
-                                        {
-                                            title: '名称',
-                                            dataIndex: 'name',
-                                            key: 'name',
-                                        },
-                                        {
-                                            title: '描述',
-                                            dataIndex: 'description',
-                                            key: 'description',
-                                        },
-                                        {
-                                            title: '操作',
-                                            key: 'operator',
-                                            render: (text, record) => {
-                                                const key = record.key;
-                                                return (
-                                                    <Popconfirm placement="topRight" title={`您确定要删除“${record.name}”？`} onConfirm={() => this.handleFunctionDelete(key)}>
-                                                        <a href="###">删除</a>
-                                                    </Popconfirm>
-                                                );
-                                            },
-                                        },
-                                    ]
-                                }
+                                    },
+                                ]}
                                 dataSource={functions}
                             />
                         </Col>

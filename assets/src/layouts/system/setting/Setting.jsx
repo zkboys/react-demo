@@ -111,8 +111,9 @@ export class LayoutComponent extends Component {
                             checked={usePageWitchAnimation}
                             onChange={checked => this.props.actions.setSettings({usePageWitchAnimation: checked})}
                         />
-                        <div className="page-animation-type"
-                             style={{display: usePageWitchAnimation ? 'inline-block' : 'none'}}>
+                        <div
+                            className="page-animation-type"
+                            style={{display: usePageWitchAnimation ? 'inline-block' : 'none'}}>
                             <RadioGroup
                                 onChange={this.handlePageAnimationTypeChange}
                                 value={pageAnimationType}
