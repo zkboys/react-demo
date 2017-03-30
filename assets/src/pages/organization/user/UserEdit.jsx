@@ -81,9 +81,9 @@ class UserEdit extends Component {
             if (errors) {
                 return;
             }
-            let id = user && user._id;
+            let id = user && user.id;
             if (id) {
-                values._id = id;
+                values.id = id;
                 actions.updateUser(values, () => {
                     actions.hideUserEditModal();
                     this.handleReset();
@@ -101,7 +101,7 @@ class UserEdit extends Component {
         const {form: {getFieldDecorator}, user, savingOrUpdatingUser, showUserEditModal, editModalTitle, organizationsTreeData, roles} = this.props;
         let ignoreValues = [];
 
-        if (user._id) { // _id 存在，修改操作。
+        if (user.id) { // id 存在，修改操作。
             ignoreValues.push(user.loginname);
         }
 
@@ -256,7 +256,7 @@ class UserEdit extends Component {
                             >
                                 {roles.map(r => {
                                     return (
-                                        <Option key={r._id} value={r._id}>{r.name}</Option>
+                                        <Option key={r.id} value={r.id}>{r.name}</Option>
                                     );
                                 })}
                             </Select>

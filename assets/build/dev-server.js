@@ -13,6 +13,9 @@ var port = process.env.PORT || config.dev.port
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
 
+// 生成路由并监控路由改变
+require('./generate-routes.js').watchAllRoutes();
+
 var app = express()
 var compiler = webpack(webpackConfig)
 

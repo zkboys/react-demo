@@ -1,9 +1,10 @@
 import {createAction} from 'redux-actions';
 import * as types from '../../constants/actionTypes';
 import * as userService from '../../services/organization/user';
+import * as request from '../../commons/request';
 
 export const getUsersByParams = createAction(types.GET_USERS_BY_PARAMS,
-    async(params) => await userService.getUsersByParams(params),
+    (params) => request.get('/organization/users', params),
     (params, resolved, rejected) => {
         return {
             params,

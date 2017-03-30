@@ -20,7 +20,7 @@ module.exports = {
     cache: true,
     entry: {
         app: './src/App.jsx',
-        signIn: './src/layouts/sign-in/sign-in.js'
+        signIn: './src/pages/sign-in/sign-in.js'
     },
     output: {
         path: config.build.assetsRoot,

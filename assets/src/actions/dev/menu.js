@@ -1,9 +1,9 @@
 import {createAction} from 'redux-actions';
 import * as types from '../../constants/actionTypes';
-import * as menuService from '../../services/dev/menu';
+import * as request from '../../commons/request';
 
 export const getMenuTreeData = createAction(types.GET_MENU_TREE_DATA,
-    async() => await menuService.getAll(),
+    () => request.get('/system/menus'),
     (resolved, rejected) => {
         return {
             resolved,
@@ -15,7 +15,7 @@ export const setMenuTreeData = createAction(types.SET_MENU_TREE_DATA);
 export const undoMenu = createAction(types.UNDO_MENU);
 export const redoMenu = createAction(types.REDO_MENU);
 export const saveMenu = createAction(types.SAVE_MENU,
-    async(params) => await menuService.save(params),
+    (params) => request.post('/system/menus', params),
     (params, resolved, rejected) => {
         return {
             params,

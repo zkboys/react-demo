@@ -13,7 +13,7 @@ export const autoSetHeaderMenuStatus = createAction(types.AUTO_SET_HEADER_MENU_S
 export const autoSetPageHeaderStatus = createAction(types.AUTO_SET_PAGE_HEADER_STATUS, () => session.getItem('menus'));
 export const setPageHeaderStatus = createAction(types.SET_PAGE_HEADER_STATUS, (options) => {
     return new Promise((resolve) => { // 这样写为了解决一个bug，当时没做记录，忘记了。。。
-        setTimeout(() => resolve(options), 0);
+        setTimeout(() => resolve(options), 100);
     });
 });
 export const setPageStatus = createAction(types.SET_PAGE_STATUS);

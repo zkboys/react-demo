@@ -98,7 +98,7 @@ export class UserList extends Component {
             dataIndex: 'role_id',
             key: 'role',
             render: (text) => {
-                const role = this.props.roles.find(v => v._id === text);
+                const role = this.props.roles.find(v => v.id === text);
                 return (role && role.name) || '未指定';
             },
         },
@@ -108,7 +108,7 @@ export class UserList extends Component {
             key: 'is_locked',
             render: (text, record) => {
                 if (record.loginname === 'admin') return '';
-                const id = record._id;
+                const id = record.id;
                 const loading = this.props.switchingLock[id];
                 const loadingChildren = <Icon type="loading"/>;
                 let checkedChildren = '是';
@@ -140,7 +140,7 @@ export class UserList extends Component {
                     return '';
                 }
 
-                const id = record._id;
+                const id = record.id;
                 const items = [
                     {
                         loading: this.props.editingId === id,
@@ -268,7 +268,7 @@ export class UserList extends Component {
                 <Table
                     loading={gettingUsers}
                     size="middle"
-                    rowKey={(record) => record._id}
+                    rowKey={(record) => record.id}
                     columns={this.columns}
                     dataSource={users}
                     pagination={false}

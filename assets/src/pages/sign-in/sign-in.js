@@ -1,6 +1,12 @@
 import './sign-in.css';
 import * as Storage from '../../utils/storage';
-import * as requestService from '../../services/request';
+import * as requestService from '../../commons/request';
+
+import config from '../../configs';
+
+if (config.debug) {
+    require('../../mock/index');
+}
 
 let isFirstLogin = false;
 const loginButton = document.getElementById('login-btn');
@@ -100,12 +106,8 @@ function handleLogin() {
             location.href = refer;
         })
         .catch((err) => {
-            if (err && err.body) {
-                showError(err.body.message || (err.body.error && err.body.error.message));
-            } else {
-                showError();
-            }
-            // 出错清除loading状态，成功之后不清除状态，等待跳转。
+            // TODO 错误信息处理
+            showError(err.message);
             hideLoading();
         });
 }

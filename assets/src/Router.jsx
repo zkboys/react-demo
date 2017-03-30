@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Router, browserHistory} from 'react-router';
 import pageRouts from './all-routes';
-import * as AppFrame from './layouts/app-frame/AppFrame';
-import * as Home from './layouts/home/Home';
+import * as AppFrame from './pages/app-frame/AppFrame';
+import * as Home from './pages/home/Home';
 import connectComponent from './utils/connectComponent.js';
 import * as Utils from './utils';
 
@@ -10,16 +10,13 @@ import * as Utils from './utils';
 export class LayoutComponent extends Component {
     constructor(props) {
         super(props);
-
-        const {actions} = this.props;
-
         // 所有未截获请求，渲染Error404组件
         pageRouts.push(
             {
                 path: '*',
                 getComponent: (location, cb) => {
                     require.ensure([], (require) => {
-                        cb(null, connectComponent(require('./layouts/error/Error404')));
+                        cb(null, connectComponent(require('./pages/error/Error404')));
                     });
                 },
             }
@@ -49,17 +46,19 @@ export class LayoutComponent extends Component {
             childRoutes: pageRouts,
         };
 
-        browserHistory.listen(() => {
-            const {usePageWitchAnimation} = this.props;
+        browserHistory.listen(this.setPageStatus);
+    }
 
-            actions.autoSetSideBarStatus();
-            actions.autoSetHeaderMenuStatus();
-            actions.getMenus();
+    setPageStatus = () => {
+        const {actions, usePageWitchAnimation} = this.props;
 
-            if (!usePageWitchAnimation) {
-                actions.autoSetPageHeaderStatus();
-            }
-        });
+        actions.autoSetSideBarStatus();
+        actions.autoSetHeaderMenuStatus();
+        actions.getMenus();
+
+        if (!usePageWitchAnimation) {
+            actions.autoSetPageHeaderStatus();
+        }
     }
 
     onLeave = (prevState, oriOnLeave) => {
@@ -118,6 +117,10 @@ export class LayoutComponent extends Component {
         return (
             <RouteComponent {...props}/>
         );
+    }
+
+    componentDidMount() {
+        this.setPageStatus(); // 由于browserHistory.listen首次页面进入不触发，这里需要调用一次，处理页面菜单等选中状态
     }
 
     render() {

@@ -73,9 +73,9 @@ class RoleEdit extends Component {
             if (errors) {
                 return;
             }
-            let id = role && role._id;
+            let id = role && role.id;
             if (id) {
-                values._id = id;
+                values.id = id;
                 actions.updateRole(values, () => {
                     actions.hideRoleEditModal();
                     this.handleReset();
@@ -173,7 +173,7 @@ class RoleEdit extends Component {
             return g.key !== 'dev';
         });
         let ignoreValues = [];
-        if (role._id) { // _id 存在，修改操作。
+        if (role.id) { // id 存在，修改操作。
             ignoreValues.push(role.name);
         }
 

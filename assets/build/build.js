@@ -17,6 +17,9 @@ console.log(
 var spinner = ora('building for production...')
 spinner.start()
 
+// 生成路由
+require('./generate-routes.js').generateAllRoutes();
+
 var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
 rm('-rf', assetsPath)
 mkdir('-p', assetsPath)

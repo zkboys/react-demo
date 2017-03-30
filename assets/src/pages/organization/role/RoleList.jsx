@@ -56,7 +56,7 @@ export class RoleList extends Component {
                     return '';
                 }
 
-                const id = record._id;
+                const id = record.id;
                 const items = [
                     {
                         loading: this.props.editingId === id,
@@ -163,7 +163,7 @@ export class RoleList extends Component {
                 <Table
                     loading={gettingRoles}
                     size="middle"
-                    rowKey={(record) => record._id}
+                    rowKey={(record) => record.id}
                     columns={this.columns}
                     dataSource={roles}
                     pagination={false}
